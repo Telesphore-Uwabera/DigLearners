@@ -1,5 +1,4 @@
 import React from 'react'
-import React from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
 import Home from './pages/Home'
 import LessonsList from './pages/LessonsList'
