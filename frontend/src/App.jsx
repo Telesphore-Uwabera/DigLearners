@@ -85,7 +85,7 @@ function AppRoutes() {
 
       {/* Protected Routes - Role-based Dashboards */}
       <Route 
-        path="/dashboard" 
+        path="/dashboard/*" 
         element={
           <ProtectedRoute>
             {user?.role === 'learner' && <LearnerApp />}
@@ -93,40 +93,6 @@ function AppRoutes() {
             {user?.role === 'parent' && <ParentApp />}
             {user?.role === 'admin' && <AdminApp />}
             {!user && <Navigate to="/login" replace />}
-          </ProtectedRoute>
-        } 
-      />
-
-      {/* Role-specific routes */}
-      <Route 
-        path="/learner/*" 
-        element={
-          <ProtectedRoute allowedRoles={['learner']}>
-            <LearnerApp />
-          </ProtectedRoute>
-        } 
-      />
-      <Route 
-        path="/teacher/*" 
-        element={
-          <ProtectedRoute allowedRoles={['teacher', 'admin']}>
-            <TeacherApp />
-          </ProtectedRoute>
-        } 
-      />
-      <Route 
-        path="/parent/*" 
-        element={
-          <ProtectedRoute allowedRoles={['parent', 'admin']}>
-            <ParentApp />
-          </ProtectedRoute>
-        } 
-      />
-      <Route 
-        path="/admin/*" 
-        element={
-          <ProtectedRoute allowedRoles={['admin']}>
-            <AdminApp />
           </ProtectedRoute>
         } 
       />
