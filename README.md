@@ -83,6 +83,17 @@ This will start:
 - Backend API server on http://localhost:3001
 - Frontend development server on http://localhost:3000
 
+### Default Login Credentials
+
+The system comes with pre-configured test accounts:
+
+| Role | Email | Password | Access Level |
+|------|-------|----------|--------------|
+| **Admin** | `admin@diglearners.rw` | `admin123` | Full platform access, user management, content creation |
+| **Teacher** | `teacher@diglearners.rw` | `teacher123` | Class management, student oversight, lesson assignment |
+
+**Note**: These are default credentials for development/testing. In production, these should be changed or removed.
+
 ### Production Build
 
 ```bash
