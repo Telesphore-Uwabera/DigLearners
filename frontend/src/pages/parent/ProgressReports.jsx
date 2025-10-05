@@ -7,8 +7,15 @@ const ProgressReports = () => {
   const { t, currentLanguage } = useTranslation();
   const data = getProgressReportsData();
   const [selectedChild, setSelectedChild] = useState(data.children[0].id);
+  const [viewMode, setViewMode] = useState('overview'); // overview, subjects, weekly
 
   const currentChild = data.children.find(child => child.id === selectedChild);
+
+  const views = [
+    { key: 'overview', label: currentLanguage === 'rw' ? 'Incamake' : 'Overview' },
+    { key: 'subjects', label: currentLanguage === 'rw' ? 'Ibyiciro' : 'Subjects' },
+    { key: 'weekly', label: currentLanguage === 'rw' ? 'Icyumweru' : 'Weekly' }
+  ];
 
   return (
     <div className="dashboard-container">
@@ -43,8 +50,28 @@ const ProgressReports = () => {
                 onClick={() => setSelectedChild(child.id)}
               >
                 <span className="child-avatar">{child.avatar}</span>
-                <span className="child-name">{child.name}</span>
-                <span className="child-grade">{child.grade}</span>
+                <div className="child-info">
+                  <span className="child-name">{child.name}</span>
+                  <span className="child-grade">{child.grade}</span>
+                </div>
+                <div className="child-stats">
+                  <span>{child.overallProgress}% {currentLanguage === 'rw' ? 'imikurire' : 'progress'}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* View Mode Tabs */}
+        <div className="view-controls">
+          <div className="view-toggle">
+            {views.map((view) => (
+              <button
+                key={view.key}
+                className={`view-btn ${viewMode === view.key ? 'active' : ''}`}
+                onClick={() => setViewMode(view.key)}
+              >
+                {view.label}
               </button>
             ))}
           </div>
@@ -59,6 +86,9 @@ const ProgressReports = () => {
                 <div>
                   <h2>{currentChild.name}</h2>
                   <p>{currentChild.grade}</p>
+                  <p>
+                    {currentLanguage === 'rw' ? 'Imikurire Yose:' : 'Overall Progress:'} {currentChild.overallProgress}%
+                  </p>
                 </div>
               </div>
               <div className="overall-progress">
@@ -71,84 +101,154 @@ const ProgressReports = () => {
               </div>
             </div>
 
-            {/* Subject Progress */}
-            <div className="subjects-section">
-              <h3>
-                {currentLanguage === 'rw' ? 'Ibyiciro' : 'Subjects'}
-              </h3>
-              <div className="subjects-grid">
-                {currentChild.subjects.map((subject, index) => (
-                  <div key={index} className="subject-card">
-                    <div className="subject-header">
-                      <h4>{subject.name}</h4>
-                      <span className="subject-progress">{subject.progress}%</span>
-                    </div>
-                    <div className="progress-bar">
-                      <div 
-                        className="progress-fill" 
-                        style={{ width: `${subject.progress}%` }}
-                      ></div>
-                    </div>
-                    <div className="subject-stats">
-                      <span>
-                        {subject.lessonsCompleted}/{subject.totalLessons} {currentLanguage === 'rw' ? 'yarangije' : 'completed'}
-                      </span>
-                      <span>
-                        {currentLanguage === 'rw' ? 'Ikorwa ryanyuma:' : 'Last activity:'} {subject.lastActivity}
-                      </span>
+            {/* Overview Tab */}
+            {viewMode === 'overview' && (
+              <div className="overview-section">
+                <div className="overview-stats">
+                  <div className="stat-card">
+                    <div className="stat-icon">📚</div>
+                    <div className="stat-content">
+                      <h3>
+                        {currentChild.subjects.reduce((total, subject) => total + subject.lessonsCompleted, 0)}
+                      </h3>
+                      <p>
+                        {currentLanguage === 'rw' ? 'Amahugurwa Yarangije' : 'Lessons Completed'}
+                      </p>
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Weekly Progress Chart */}
-            <div className="weekly-progress">
-              <h3>
-                {currentLanguage === 'rw' ? 'Imikurire y\'Icyumweru' : 'Weekly Progress'}
-              </h3>
-              <div className="progress-chart">
-                {currentChild.weeklyProgress.map((week, index) => (
-                  <div key={index} className="week-bar">
-                    <div className="week-info">
-                      <span className="week-label">{week.week}</span>
-                      <span className="week-lessons">{week.lessons} {currentLanguage === 'rw' ? 'amahugurwa' : 'lessons'}</span>
-                      <span className="week-time">{week.time}</span>
-                    </div>
-                    <div className="week-progress-bar">
-                      <div 
-                        className="week-progress-fill" 
-                        style={{ width: `${(week.lessons / 5) * 100}%` }}
-                      ></div>
+                  <div className="stat-card">
+                    <div className="stat-icon">⏱️</div>
+                    <div className="stat-content">
+                      <h3>
+                        {currentChild.weeklyProgress.reduce((total, week) => {
+                          const time = week.time.split('h')[0];
+                          return total + parseInt(time);
+                        }, 0)}h
+                      </h3>
+                      <p>
+                        {currentLanguage === 'rw' ? 'Igihe cy\'Kwiga' : 'Learning Time'}
+                      </p>
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
+                  <div className="stat-card">
+                    <div className="stat-icon">📊</div>
+                    <div className="stat-content">
+                      <h3>
+                        {Math.round(currentChild.subjects.reduce((total, subject) => total + subject.averageScore, 0) / currentChild.subjects.length)}%
+                      </h3>
+                      <p>
+                        {currentLanguage === 'rw' ? 'Incamake Ryose' : 'Average Score'}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="stat-card">
+                    <div className="stat-icon">🎯</div>
+                    <div className="stat-content">
+                      <h3>{currentChild.subjects.length}</h3>
+                      <p>
+                        {currentLanguage === 'rw' ? 'Ibyiciro' : 'Subjects'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
 
-            {/* Strengths and Areas for Improvement */}
-            <div className="assessment-section">
-              <div className="strengths">
-                <h3>
-                  {currentLanguage === 'rw' ? 'Ubushobozi' : 'Strengths'}
-                </h3>
-                <ul>
-                  {currentChild.strengths.map((strength, index) => (
-                    <li key={index}>✅ {strength}</li>
-                  ))}
-                </ul>
+                <div className="strengths-improvements">
+                  <div className="strengths">
+                    <h3>
+                      {currentLanguage === 'rw' ? 'Ubushobozi' : 'Strengths'}
+                    </h3>
+                    <ul>
+                      {currentChild.strengths.map((strength, index) => (
+                        <li key={index}>✅ {strength}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="improvements">
+                    <h3>
+                      {currentLanguage === 'rw' ? 'Aho Gukura' : 'Areas for Improvement'}
+                    </h3>
+                    <ul>
+                      {currentChild.areasForImprovement.map((area, index) => (
+                        <li key={index}>📈 {area}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
-              <div className="improvements">
+            )}
+
+            {/* Subjects Tab */}
+            {viewMode === 'subjects' && (
+              <div className="subjects-section">
                 <h3>
-                  {currentLanguage === 'rw' ? 'Aho Gukura' : 'Areas for Improvement'}
+                  {currentLanguage === 'rw' ? 'Ibyiciro' : 'Subjects'}
                 </h3>
-                <ul>
-                  {currentChild.areasForImprovement.map((area, index) => (
-                    <li key={index}>📈 {area}</li>
+                <div className="subjects-grid">
+                  {currentChild.subjects.map((subject, index) => (
+                    <div key={index} className="subject-card">
+                      <div className="subject-header">
+                        <h4>{subject.name}</h4>
+                        <span className="subject-progress">{subject.progress}%</span>
+                      </div>
+                      <div className="progress-bar">
+                        <div 
+                          className="progress-fill" 
+                          style={{ width: `${subject.progress}%` }}
+                        ></div>
+                      </div>
+                      <div className="subject-stats">
+                        <div className="stat-item">
+                          <span className="stat-label">
+                            {currentLanguage === 'rw' ? 'Amahugurwa:' : 'Lessons:'}
+                          </span>
+                          <span className="stat-value">
+                            {subject.lessonsCompleted}/{subject.totalLessons} {currentLanguage === 'rw' ? 'yarangije' : 'completed'}
+                          </span>
+                        </div>
+                        <div className="stat-item">
+                          <span className="stat-label">
+                            {currentLanguage === 'rw' ? 'Incamake:' : 'Score:'}
+                          </span>
+                          <span className="stat-value">{subject.averageScore}%</span>
+                        </div>
+                        <div className="stat-item">
+                          <span className="stat-label">
+                            {currentLanguage === 'rw' ? 'Ikorwa ryanyuma:' : 'Last activity:'}
+                          </span>
+                          <span className="stat-value">{subject.lastActivity}</span>
+                        </div>
+                      </div>
+                    </div>
                   ))}
-                </ul>
+                </div>
               </div>
-            </div>
+            )}
+
+            {/* Weekly Tab */}
+            {viewMode === 'weekly' && (
+              <div className="weekly-progress">
+                <h3>
+                  {currentLanguage === 'rw' ? 'Imikurire y\'Icyumweru' : 'Weekly Progress'}
+                </h3>
+                <div className="progress-chart">
+                  {currentChild.weeklyProgress.map((week, index) => (
+                    <div key={index} className="week-bar">
+                      <div className="week-info">
+                        <span className="week-label">{week.week}</span>
+                        <span className="week-lessons">{week.lessons} {currentLanguage === 'rw' ? 'amahugurwa' : 'lessons'}</span>
+                        <span className="week-time">{week.time}</span>
+                      </div>
+                      <div className="week-progress-bar">
+                        <div 
+                          className="week-progress-fill" 
+                          style={{ width: `${(week.lessons / 5) * 100}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
 

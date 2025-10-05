@@ -8,6 +8,7 @@ const Achievements = () => {
   const data = getAchievementsData();
   const [selectedChild, setSelectedChild] = useState(data.children[0].id);
   const [filterCategory, setFilterCategory] = useState('all');
+  const [viewMode, setViewMode] = useState('recent'); // recent, all, earned
 
   const currentChild = data.children.find(child => child.id === selectedChild);
   
@@ -23,6 +24,22 @@ const Achievements = () => {
     { key: 'Milestone', label: currentLanguage === 'rw' ? 'Intsinzi' : 'Milestone' },
     { key: 'Skill', label: currentLanguage === 'rw' ? 'Ubuhanga' : 'Skill' }
   ];
+
+  const viewModes = [
+    { key: 'recent', label: currentLanguage === 'rw' ? 'Ryihariye' : 'Recent' },
+    { key: 'earned', label: currentLanguage === 'rw' ? 'Yarangije' : 'Earned' },
+    { key: 'all', label: currentLanguage === 'rw' ? 'Byose' : 'All' }
+  ];
+
+  const getDisplayBadges = () => {
+    if (viewMode === 'recent') {
+      return currentChild?.recentBadges || [];
+    } else if (viewMode === 'earned') {
+      return filteredBadges.filter(badge => badge.earned);
+    } else {
+      return filteredBadges;
+    }
+  };
 
   return (
     <div className="dashboard-container">
@@ -57,8 +74,28 @@ const Achievements = () => {
                 onClick={() => setSelectedChild(child.id)}
               >
                 <span className="child-avatar">{child.avatar}</span>
-                <span className="child-name">{child.name}</span>
-                <span className="child-badges">{child.totalBadges} {currentLanguage === 'rw' ? 'ibyubahiro' : 'badges'}</span>
+                <div className="child-info">
+                  <span className="child-name">{child.name}</span>
+                  <span className="child-grade">{child.grade}</span>
+                </div>
+                <div className="child-stats">
+                  <span>{child.totalBadges} {currentLanguage === 'rw' ? 'ibyubahiro' : 'badges'}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* View Mode Tabs */}
+        <div className="view-controls">
+          <div className="view-toggle">
+            {viewModes.map((mode) => (
+              <button
+                key={mode.key}
+                className={`view-btn ${viewMode === mode.key ? 'active' : ''}`}
+                onClick={() => setViewMode(mode.key)}
+              >
+                {mode.label}
               </button>
             ))}
           </div>
@@ -90,6 +127,7 @@ const Achievements = () => {
                 <div className="child-avatar-large">{currentChild.avatar}</div>
                 <div>
                   <h2>{currentChild.name}</h2>
+                  <p>{currentChild.grade}</p>
                   <p>{currentChild.totalBadges} {currentLanguage === 'rw' ? 'ibyubahiro byose' : 'total badges'}</p>
                 </div>
               </div>
@@ -106,42 +144,32 @@ const Achievements = () => {
                     {currentLanguage === 'rw' ? 'Ryihariye' : 'Recent'}
                   </span>
                 </div>
+                <div className="summary-stat">
+                  <span className="stat-number">
+                    {Math.round((currentChild.allBadges.filter(badge => badge.earned).length / currentChild.allBadges.length) * 100)}%
+                  </span>
+                  <span className="stat-label">
+                    {currentLanguage === 'rw' ? 'Imikurire' : 'Progress'}
+                  </span>
+                </div>
               </div>
             </div>
 
-            {/* Recent Badges */}
-            <div className="recent-badges">
+            {/* Badges Display */}
+            <div className="badges-display">
               <h3>
-                {currentLanguage === 'rw' ? 'Ibyubahiro Ryihariye' : 'Recent Badges'}
+                {viewMode === 'recent' && (currentLanguage === 'rw' ? 'Ibyubahiro Ryihariye' : 'Recent Badges')}
+                {viewMode === 'earned' && (currentLanguage === 'rw' ? 'Ibyubahiro Yarangije' : 'Earned Badges')}
+                {viewMode === 'all' && (currentLanguage === 'rw' ? 'Ibyubahiro Byose' : 'All Badges')}
               </h3>
               <div className="badges-grid">
-                {currentChild.recentBadges.map((badge) => (
-                  <div key={badge.id} className="badge-card recent">
+                {getDisplayBadges().map((badge) => (
+                  <div key={badge.id} className={`badge-card ${badge.earned ? 'earned' : 'not-earned'} ${badge.earned && badge.date ? 'recent' : ''}`}>
                     <div className="badge-icon">{badge.icon}</div>
                     <div className="badge-content">
                       <h4>{badge.title}</h4>
                       <p>{badge.description}</p>
-                      <span className="badge-date">{badge.date}</span>
-                    </div>
-                    <div className="badge-category">{badge.category}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* All Badges */}
-            <div className="all-badges">
-              <h3>
-                {currentLanguage === 'rw' ? 'Ibyubahiro Byose' : 'All Badges'}
-              </h3>
-              <div className="badges-grid">
-                {filteredBadges.map((badge) => (
-                  <div key={badge.id} className={`badge-card ${badge.earned ? 'earned' : 'not-earned'}`}>
-                    <div className="badge-icon">{badge.icon}</div>
-                    <div className="badge-content">
-                      <h4>{badge.title}</h4>
-                      <p>{badge.description}</p>
-                      {badge.earned && (
+                      {badge.earned && badge.date && (
                         <span className="badge-date">{badge.date}</span>
                       )}
                     </div>
@@ -151,6 +179,38 @@ const Achievements = () => {
                     )}
                   </div>
                 ))}
+              </div>
+            </div>
+
+            {/* Category Breakdown */}
+            <div className="category-breakdown">
+              <h3>
+                {currentLanguage === 'rw' ? 'Ibyiciro by\'Ibyubahiro' : 'Badge Categories'}
+              </h3>
+              <div className="category-stats">
+                {categories.slice(1).map((category) => {
+                  const categoryBadges = currentChild.allBadges.filter(badge => badge.category === category.key);
+                  const earnedBadges = categoryBadges.filter(badge => badge.earned);
+                  return (
+                    <div key={category.key} className="category-stat">
+                      <div className="category-header">
+                        <h4>{category.label}</h4>
+                        <span className="category-count">{earnedBadges.length}/{categoryBadges.length}</span>
+                      </div>
+                      <div className="category-progress">
+                        <div className="progress-bar">
+                          <div 
+                            className="progress-fill" 
+                            style={{ width: `${(earnedBadges.length / categoryBadges.length) * 100}%` }}
+                          ></div>
+                        </div>
+                        <span className="progress-text">
+                          {Math.round((earnedBadges.length / categoryBadges.length) * 100)}% {currentLanguage === 'rw' ? 'yarangije' : 'complete'}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
