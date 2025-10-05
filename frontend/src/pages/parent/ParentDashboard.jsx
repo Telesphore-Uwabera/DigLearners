@@ -1,15 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../../components/DashboardStyles.css';
 
 const ParentDashboard = () => {
   return (
-    <div className="page-container">
-      <div className="page-header">
-        <div className="header-content">
-          <h1>Parent Dashboard</h1>
-          <p>Monitor your child's learning progress and activities</p>
+    <div className="dashboard-container">
+      <div className="page-container">
+        <div className="page-header">
+          <div className="header-content">
+            <h1>Parent Dashboard</h1>
+            <p>Monitor your child's learning progress and activities</p>
+          </div>
         </div>
-      </div>
 
       <div className="stats-grid">
         <div className="stat-card">
@@ -216,6 +218,7 @@ const ParentDashboard = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

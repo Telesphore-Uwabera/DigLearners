@@ -195,6 +195,11 @@ const Login = ({ onLogin }) => {
             margin-top: 1.5rem;
           }
           
+          .login-footer p {
+            color: #000000;
+            margin: 0;
+          }
+          
           .login-footer a {
             color: #0ea5a4;
             text-decoration: none;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from '../lib/language'
+import './CodePlayStyles.css'
 
 export default function SafeBrowsingLesson({ lesson, onComplete, onProgress }) {
   const { t } = useTranslation()
@@ -120,18 +121,33 @@ export default function SafeBrowsingLesson({ lesson, onComplete, onProgress }) {
 
   return (
     <div className="safe-browsing-lesson">
-      <div className="lesson-header">
-        <h2>{lesson?.title || t('lesson.safe_browsing')}</h2>
-        <div className="lesson-progress">
-          <span>Question {currentScenario + 1} of {scenarios.length}</span>
-          <div className="progress-bar">
-            <div 
-              className="progress-fill" 
-              style={{ width: `${((currentScenario + 1) / scenarios.length) * 100}%` }}
-            ></div>
+      {/* CodePlay-style header */}
+      <div className="lesson-header codeplay-header">
+        <div className="header-left">
+          <h1 className="codeplay-title">CodePlay</h1>
+        </div>
+        <div className="header-right">
+          <div className="user-profile">
+            <div className="avatar">🛡️</div>
+            <span className="user-name">Hi, Alex</span>
           </div>
         </div>
       </div>
+
+      {/* Main lesson area */}
+      <div className="lesson-content">
+        <div className="lesson-info">
+          <h2>{lesson?.title || t('lesson.safe_browsing')}</h2>
+          <div className="lesson-progress">
+            <span>Question {currentScenario + 1} of {scenarios.length}</span>
+            <div className="progress-bar">
+              <div 
+                className="progress-fill" 
+                style={{ width: `${((currentScenario + 1) / scenarios.length) * 100}%` }}
+              ></div>
+            </div>
+          </div>
+        </div>
 
       <div className="scenario-area">
         <div className="scenario-card">

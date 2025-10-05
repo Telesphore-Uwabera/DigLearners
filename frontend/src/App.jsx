@@ -12,6 +12,12 @@ import LearnerApp from './pages/learner/LearnerApp'
 import TeacherApp from './pages/teacher/TeacherApp'
 import ParentApp from './pages/parent/ParentApp'
 import AdminApp from './pages/admin/AdminApp'
+import TermsAndConditions from './pages/legal/TermsAndConditions'
+import PrivacyPolicy from './pages/legal/PrivacyPolicy'
+import CookiesPolicy from './pages/legal/CookiesPolicy'
+import HelpCenter from './pages/support/HelpCenter'
+import FAQ from './pages/support/FAQ'
+import CookiesBanner from './components/CookiesBanner'
 import NotFound from './pages/public/NotFound'
 
 // Protected Route Component
@@ -72,9 +78,10 @@ function AppRoutes() {
   }
 
   return (
-    <Routes>
-      {/* Public Routes */}
-      <Route path="/" element={<Home />} />
+    <>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<Home />} />
       <Route 
         path="/login" 
         element={
@@ -87,6 +94,15 @@ function AppRoutes() {
           isAuthenticated ? <Navigate to="/dashboard" replace /> : <Register onRegister={handleRegister} />
         } 
       />
+      
+      {/* Legal Pages */}
+      <Route path="/cookies" element={<CookiesPolicy />} />
+      <Route path="/terms" element={<TermsAndConditions />} />
+      <Route path="/privacy" element={<PrivacyPolicy />} />
+      
+      {/* Support Pages */}
+      <Route path="/help" element={<HelpCenter />} />
+      <Route path="/faq" element={<FAQ />} />
 
       {/* Protected Routes - Role-based Dashboards */}
       <Route 
@@ -102,9 +118,11 @@ function AppRoutes() {
         } 
       />
 
-      {/* 404 Route */}
+      {/* 404 Route - Must be last */}
       <Route path="*" element={<NotFound />} />
-    </Routes>
+      </Routes>
+      <CookiesBanner />
+    </>
   )
 }
 

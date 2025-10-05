@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../../components/DashboardStyles.css';
 
 const LearnerDashboard = () => {
   return (
-    <div className="page-container">
+    <div className="dashboard-container">
+      <div className="page-container">
       <div className="page-header">
         <div className="header-content">
           <h1>My Learning Dashboard</h1>
@@ -149,6 +151,7 @@ const LearnerDashboard = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

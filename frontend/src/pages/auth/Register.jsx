@@ -249,6 +249,11 @@ const Register = ({ onRegister }) => {
           margin-top: 1.5rem;
         }
         
+        .register-footer p {
+          color: #000000;
+          margin: 0;
+        }
+        
         .register-footer a {
           color: #0ea5a4;
           text-decoration: none;

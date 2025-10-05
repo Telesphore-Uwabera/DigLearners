@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const Sidebar = ({ user, onLogout }) => {
+const Sidebar = ({ user, onLogout, isOpen, onClose }) => {
   const getNavigationItems = (role) => {
     const baseItems = [
       { path: '/dashboard', icon: '🏠', label: 'Dashboard', exact: true }
@@ -34,10 +34,9 @@ const Sidebar = ({ user, onLogout }) => {
           ...baseItems,
           { path: '/dashboard/lessons', icon: '📚', label: 'My Lessons' },
           { path: '/dashboard/progress', icon: '📈', label: 'Progress' },
-          { path: '/dashboard/badges', icon: '🏆', label: 'Badges' },
+          { path: '/dashboard/achievements', icon: '🏆', label: 'Badges' },
           { path: '/dashboard/assignments', icon: '📝', label: 'Assignments' },
-          { path: '/dashboard/leaderboard', icon: '🥇', label: 'Leaderboard' },
-          { path: '/dashboard/achievements', icon: '⭐', label: 'Achievements' }
+          { path: '/dashboard/leaderboard', icon: '🥇', label: 'Leaderboard' }
         ];
       
       case 'parent':
@@ -58,10 +57,26 @@ const Sidebar = ({ user, onLogout }) => {
 
   const navigationItems = getNavigationItems(user?.role);
 
+  const handleNavClick = () => {
+    // Close sidebar on mobile when a navigation item is clicked
+    if (window.innerWidth <= 768 && onClose) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
       <div className="sidebar-header">
-        <h2>DigLearners</h2>
+        <div className="sidebar-header-top">
+          <h2>DigLearners</h2>
+          <button 
+            className="sidebar-close-btn" 
+            onClick={onClose}
+            aria-label="Close menu"
+          >
+            ✕
+          </button>
+        </div>
         <p className="user-info">
           <span className="user-name">{user?.fullName || 'User'}</span>
           <span className="user-role">{user?.role?.charAt(0).toUpperCase() + user?.role?.slice(1)}</span>
@@ -76,6 +91,7 @@ const Sidebar = ({ user, onLogout }) => {
                 to={item.path} 
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 end={item.exact}
+                onClick={handleNavClick}
               >
                 <span className="nav-icon">{item.icon}</span>
                 <span className="nav-label">{item.label}</span>

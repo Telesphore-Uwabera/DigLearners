@@ -1,15 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../../components/DashboardStyles.css';
 
 const AdminDashboard = () => {
   return (
-    <div className="page-container">
-      <div className="page-header">
-        <div className="header-content">
-          <h1>Admin Dashboard</h1>
-          <p>Manage the entire DigLearners platform</p>
+    <div className="dashboard-container">
+      <div className="page-container">
+        <div className="page-header">
+          <div className="header-content">
+            <h1>Admin Dashboard</h1>
+            <p>Manage the entire DigLearners platform</p>
+          </div>
         </div>
-      </div>
 
       <div className="stats-grid">
         <div className="stat-card">
@@ -220,6 +222,7 @@ const AdminDashboard = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

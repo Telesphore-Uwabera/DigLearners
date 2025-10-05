@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from '../lib/language'
+import ProgressTracker from './ProgressTracker'
+import './CodePlayStyles.css'
 
 export default function BlockCodingLesson({ lesson, onComplete, onProgress }) {
   const { t } = useTranslation()
@@ -8,6 +10,8 @@ export default function BlockCodingLesson({ lesson, onComplete, onProgress }) {
   const [isCompleted, setIsCompleted] = useState(false)
   const [showHint, setShowHint] = useState(false)
   const [moves, setMoves] = useState(0)
+  const [isRunning, setIsRunning] = useState(false)
+  const [characterPosition, setCharacterPosition] = useState(0)
 
   const puzzles = [
     {
@@ -85,6 +89,65 @@ export default function BlockCodingLesson({ lesson, onComplete, onProgress }) {
     setMoves(0)
   }, [currentPuzzle])
 
+  const getCharacterMessage = () => {
+    if (isCompleted) {
+      return "Great job! 🎉 You solved it!"
+    }
+    
+    if (isRunning) {
+      return "Watch me execute your code! 🏃‍♂️"
+    }
+    
+    if (selectedBlocks.length === 0) {
+      return currentPuzzleData.description
+    }
+    
+    if (selectedBlocks.length < currentPuzzleData.target.length) {
+      return "Keep going! Add more blocks to complete the sequence."
+    }
+    
+    if (selectedBlocks.length === currentPuzzleData.target.length) {
+      return "Perfect! Now click 'Run' to see if your code works!"
+    }
+    
+    return "Try running your code to see what happens!"
+  }
+
+  const runCode = async () => {
+    if (selectedBlocks.length === 0) return
+    
+    setIsRunning(true)
+    setCharacterPosition(0)
+    
+    // Animate character movement
+    for (let i = 0; i < selectedBlocks.length; i++) {
+      await new Promise(resolve => setTimeout(resolve, 800))
+      setCharacterPosition(i + 1)
+    }
+    
+    // Check if solution is correct
+    await new Promise(resolve => setTimeout(resolve, 500))
+    setIsRunning(false)
+    
+    if (checkSolution()) {
+      setIsCompleted(true)
+      if (onComplete) {
+        onComplete({
+          puzzleId: currentPuzzleData.id,
+          moves,
+          timeElapsed: Date.now()
+        })
+      }
+    } else {
+      alert("Not quite right! Try again. Remember to follow the instructions exactly!")
+    }
+  }
+
+  const resetStage = () => {
+    setCharacterPosition(0)
+    setIsRunning(false)
+  }
+
   const handleBlockClick = (blockId) => {
     if (isCompleted) return
     
@@ -156,70 +219,140 @@ export default function BlockCodingLesson({ lesson, onComplete, onProgress }) {
 
   return (
     <div className="block-coding-lesson">
-      <div className="lesson-header">
-        <h2>{lesson?.title || t('lesson.block_puzzles')}</h2>
-        <div className="lesson-progress">
-          <span>Puzzle {currentPuzzle + 1} of {puzzles.length}</span>
-          <div className="progress-bar">
-            <div 
-              className="progress-fill" 
-              style={{ width: `${((currentPuzzle + 1) / puzzles.length) * 100}%` }}
-            ></div>
+      {/* CodePlay-style header */}
+      <div className="lesson-header codeplay-header">
+        <div className="header-left">
+          <h1 className="codeplay-title">CodePlay</h1>
+        </div>
+        <div className="header-right">
+          <div className="user-profile">
+            <div className="avatar">🐱</div>
+            <span className="user-name">Hi, Alex</span>
           </div>
         </div>
       </div>
 
-      <div className="puzzle-area">
-        <div className="puzzle-description">
-          <h3>{currentPuzzleData.title}</h3>
-          <p>{currentPuzzleData.description}</p>
-          <div className="moves-counter">
-            Moves: {moves}
-          </div>
+      {/* Main lesson area */}
+      <div className="lesson-content">
+        <div className="lesson-info">
+          <h2>{lesson?.title || t('lesson.block_puzzles')}</h2>
+          
+          {/* Enhanced progress tracking */}
+          <ProgressTracker 
+            currentProgress={currentPuzzle + 1}
+            totalItems={puzzles.length}
+            showStats={true}
+            showLevel={true}
+          />
         </div>
 
-        <div className="coding-workspace">
-          <div className="sequence-area">
-            <h4>Your Code:</h4>
-            <div className="sequence-blocks">
-              {selectedBlocks.map((blockId, index) => {
-                const block = currentPuzzleData.availableBlocks.find(b => b.id === blockId)
-                return (
-                  <div
-                    key={index}
-                    className="sequence-block"
-                    style={{ backgroundColor: block?.color }}
-                    onClick={() => removeBlock(index)}
-                  >
-                    <span className="block-icon">{block?.icon}</span>
-                    <span className="block-text">{block?.text}</span>
-                    <span className="remove-block">×</span>
-                  </div>
-                )
-              })}
-              {selectedBlocks.length === 0 && (
-                <div className="empty-sequence">
-                  Drag blocks here to create your code!
+        {/* CodePlay-style main area */}
+        <div className="codeplay-main-area">
+          {/* Left side - Code Blocks Area */}
+          <div className="code-blocks-area">
+            <div className="puzzle-description">
+              <h3>{currentPuzzleData.title}</h3>
+              <p>{currentPuzzleData.description}</p>
+              <div className="moves-counter">
+                Moves: {moves}
+              </div>
+            </div>
+
+            <div className="coding-workspace">
+              <div className="sequence-area">
+                <h4>Your Code:</h4>
+                <div className="sequence-blocks">
+                  {selectedBlocks.map((blockId, index) => {
+                    const block = currentPuzzleData.availableBlocks.find(b => b.id === blockId)
+                    return (
+                      <div
+                        key={index}
+                        className="sequence-block"
+                        style={{ backgroundColor: block?.color }}
+                        onClick={() => removeBlock(index)}
+                      >
+                        <span className="block-icon">{block?.icon}</span>
+                        <span className="block-text">{block?.text}</span>
+                        <span className="remove-block">×</span>
+                      </div>
+                    )
+                  })}
+                  {selectedBlocks.length === 0 && (
+                    <div className="empty-sequence">
+                      Drag blocks here to create your code!
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
+
+              <div className="blocks-palette">
+                <h4>Available Blocks:</h4>
+                <div className="blocks-grid">
+                  {currentPuzzleData.availableBlocks.map((block) => (
+                    <button
+                      key={block.id}
+                      className="code-block"
+                      style={{ backgroundColor: block.color }}
+                      onClick={() => handleBlockClick(block.id)}
+                      disabled={isCompleted}
+                    >
+                      <span className="block-icon">{block.icon}</span>
+                      <span className="block-text">{block.text}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="blocks-palette">
-            <h4>Available Blocks:</h4>
-            <div className="blocks-grid">
-              {currentPuzzleData.availableBlocks.map((block) => (
-                <button
-                  key={block.id}
-                  className="code-block"
-                  style={{ backgroundColor: block.color }}
-                  onClick={() => handleBlockClick(block.id)}
-                  disabled={isCompleted}
-                >
-                  <span className="block-icon">{block.icon}</span>
-                  <span className="block-text">{block.text}</span>
-                </button>
-              ))}
+          {/* Right side - Interactive Stage/Game Area */}
+          <div className="interactive-stage">
+            <div className="stage-header">
+              <h4>Game Stage</h4>
+            </div>
+            <div className="game-area">
+              <div className="game-environment">
+                <div className="sky"></div>
+                <div className="grass"></div>
+                <div className="character-area" style={{ left: `${20 + (characterPosition * 40)}px` }}>
+                  <div className="cat-character">🐱</div>
+                  <div className="speech-bubble">
+                    {getCharacterMessage()}
+                  </div>
+                </div>
+                <div className="path-area">
+                  {Array.from({ length: 5 }, (_, index) => (
+                    <div 
+                      key={index}
+                      className={`path-tile ${index === 4 ? 'target' : ''} ${
+                        index < characterPosition ? 'visited' : ''
+                      }`}
+                    ></div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="stage-controls">
+              <button 
+                className="reset-stage" 
+                onClick={resetStage}
+                disabled={isRunning}
+              >
+                Reset
+              </button>
+              <button 
+                className="hint-stage" 
+                onClick={() => setShowHint(!showHint)}
+              >
+                💡
+              </button>
+              <button 
+                className="run-stage" 
+                onClick={runCode}
+                disabled={selectedBlocks.length === 0 || isRunning}
+              >
+                {isRunning ? 'Running...' : 'Run'}
+              </button>
             </div>
           </div>
         </div>

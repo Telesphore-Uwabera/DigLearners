@@ -2,6 +2,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../../contexts/LanguageContext'
+import PublicFooter from '../../components/layout/PublicFooter'
 
 const Home = () => {
   const { t } = useLanguage()
@@ -85,11 +86,7 @@ const Home = () => {
         </div>
       </section>
 
-      <footer className="footer">
-        <div className="container">
-          <p>&copy; 2024 DigLearners. Empowering digital literacy in Rwanda.</p>
-        </div>
-      </footer>
+      <PublicFooter />
 
       <style dangerouslySetInnerHTML={{
         __html: `

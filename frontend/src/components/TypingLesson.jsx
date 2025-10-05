@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useTranslation } from '../lib/language'
+import ProgressTracker from './ProgressTracker'
+import './CodePlayStyles.css'
 
 export default function TypingLesson({ lesson, onComplete, onProgress }) {
   const { t } = useTranslation()
@@ -111,23 +113,47 @@ export default function TypingLesson({ lesson, onComplete, onProgress }) {
 
   return (
     <div className="typing-lesson">
-      <div className="lesson-header">
-        <h2>{lesson?.title || t('lesson.typing_basics')}</h2>
-        <div className="lesson-stats">
-          <div className="stat">
-            <span className="stat-label">WPM:</span>
-            <span className="stat-value">{wpm}</span>
-          </div>
-          <div className="stat">
-            <span className="stat-label">Accuracy:</span>
-            <span className="stat-value">{Math.round(accuracy)}%</span>
-          </div>
-          <div className="stat">
-            <span className="stat-label">Errors:</span>
-            <span className="stat-value">{errors}</span>
+      {/* CodePlay-style header */}
+      <div className="lesson-header codeplay-header">
+        <div className="header-left">
+          <h1 className="codeplay-title">CodePlay</h1>
+        </div>
+        <div className="header-right">
+          <div className="user-profile">
+            <div className="avatar">⌨️</div>
+            <span className="user-name">Hi, Alex</span>
           </div>
         </div>
       </div>
+
+      {/* Main lesson area */}
+      <div className="lesson-content">
+        <div className="lesson-info">
+          <h2>{lesson?.title || t('lesson.typing_basics')}</h2>
+          
+          {/* Enhanced progress tracking */}
+          <ProgressTracker 
+            currentProgress={Math.round((userInput.length / currentText.length) * 100)}
+            totalItems={100}
+            showStats={true}
+            showLevel={true}
+          />
+          
+          <div className="lesson-stats">
+            <div className="stat">
+              <span className="stat-label">WPM:</span>
+              <span className="stat-value">{wpm}</span>
+            </div>
+            <div className="stat">
+              <span className="stat-label">Accuracy:</span>
+              <span className="stat-value">{Math.round(accuracy)}%</span>
+            </div>
+            <div className="stat">
+              <span className="stat-label">Errors:</span>
+              <span className="stat-value">{errors}</span>
+            </div>
+          </div>
+        </div>
 
       <div className="typing-area">
         <div className="text-display">
