@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from '../lib/language'
 import { gamificationManager } from '../lib/gamification'
+import Icon from './icons/Icon'
 import './CodePlayStyles.css'
 
 export default function ProgressTracker({ 
@@ -64,7 +65,9 @@ export default function ProgressTracker({
       {showStats && userProgress && (
         <div className="user-stats">
           <div className="stat-item">
-            <div className="stat-icon">🏆</div>
+            <div className="stat-icon">
+              <Icon name="achievement" size={24} />
+            </div>
             <div className="stat-info">
               <div className="stat-value">{userProgress.totalPoints}</div>
               <div className="stat-label">Points</div>
@@ -72,7 +75,9 @@ export default function ProgressTracker({
           </div>
           
           <div className="stat-item">
-            <div className="stat-icon">🔥</div>
+            <div className="stat-icon">
+              <Icon name="lightning" size={24} />
+            </div>
             <div className="stat-info">
               <div className="stat-value">{userProgress.streak}</div>
               <div className="stat-label">Day Streak</div>
@@ -80,7 +85,9 @@ export default function ProgressTracker({
           </div>
           
           <div className="stat-item">
-            <div className="stat-icon">🎯</div>
+            <div className="stat-icon">
+              <Icon name="target" size={24} />
+            </div>
             <div className="stat-info">
               <div className="stat-value">{userProgress.lessonsCompleted}</div>
               <div className="stat-label">Lessons</div>

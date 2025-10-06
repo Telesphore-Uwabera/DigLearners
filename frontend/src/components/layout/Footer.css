@@ -79,6 +79,7 @@
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
 }
 
 .social-link:hover {
@@ -87,8 +88,31 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.social-link span {
-  font-size: 1.2rem;
+.social-link svg {
+  width: 20px;
+  height: 20px;
+  transition: all 0.3s ease;
+}
+
+/* Social Media Specific Colors */
+.social-link.facebook:hover {
+  background: #1877F2;
+  color: white;
+}
+
+.social-link.twitter:hover {
+  background: #1DA1F2;
+  color: white;
+}
+
+.social-link.linkedin:hover {
+  background: #0077B5;
+  color: white;
+}
+
+.social-link.youtube:hover {
+  background: #FF0000;
+  color: white;
 }
 
 /* Footer Links */

@@ -3,6 +3,7 @@ import { useTranslation } from '../../lib/language'
 import { mockUserProgress, mockClassProgress } from '../../services/mockDataService'
 import ProgressTracker from '../../components/ProgressTracker'
 import ProgressDashboard from '../../components/ProgressDashboard'
+import Icon from '../../components/icons/Icon'
 import '../../components/CodePlayStyles.css'
 import '../../components/DashboardStyles.css'
 
@@ -18,7 +19,9 @@ export default function Progress() {
         </div>
         <div className="header-right">
           <div className="user-profile">
-            <div className="avatar">📊</div>
+            <div className="avatar">
+              <Icon name="analytics" size={24} />
+            </div>
             <span className="user-name">My Progress</span>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from '../../lib/language';
 import { getReportsData } from '../../services/parentMockDataService';
+import Icon from '../../components/icons/Icon';
 import '../../components/DashboardStyles.css';
 
 const Reports = () => {
@@ -132,7 +133,10 @@ const Reports = () => {
                           </h5>
                           <ul>
                             {report.strengths.map((strength, index) => (
-                              <li key={index}>✅ {strength}</li>
+                              <li key={index}>
+                                <Icon name="check" size={16} style={{ marginRight: '8px' }} />
+                                {strength}
+                              </li>
                             ))}
                           </ul>
                         </div>
@@ -145,7 +149,10 @@ const Reports = () => {
                           </h5>
                           <ul>
                             {report.recommendations.map((rec, index) => (
-                              <li key={index}>📈 {rec}</li>
+                              <li key={index}>
+                                <Icon name="progress" size={16} style={{ marginRight: '8px' }} />
+                                {rec}
+                              </li>
                             ))}
                           </ul>
                         </div>
@@ -193,7 +200,9 @@ const Reports = () => {
           </h3>
           <div className="stats-grid">
             <div className="stat-card">
-              <div className="stat-icon">📊</div>
+              <div className="stat-icon">
+                <Icon name="analytics" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.totalReports}</h3>
                 <p>
@@ -202,7 +211,9 @@ const Reports = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">🆕</div>
+              <div className="stat-icon">
+                <Icon name="new" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.recentReports}</h3>
                 <p>
@@ -211,7 +222,9 @@ const Reports = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">⭐</div>
+              <div className="stat-icon">
+                <Icon name="star" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.averageGrade}</h3>
                 <p>
@@ -220,7 +233,9 @@ const Reports = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">📈</div>
+              <div className="stat-icon">
+                <Icon name="progress" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.mostImproved}</h3>
                 <p>

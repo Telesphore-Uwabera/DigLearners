@@ -235,7 +235,7 @@ const seedInitialData = async () => {
         name: 'Typing Master',
         description: 'Achieved 40 WPM in a typing lesson!',
         criteria: 'Reach 40 WPM in typing',
-        icon: '⌨️',
+        icon: 'computer',
         points: 50,
         category: 'achievement',
         requirements: { lessonType: 'typing', minScore: 40 }
@@ -244,7 +244,7 @@ const seedInitialData = async () => {
         name: 'Safe Surfer',
         description: 'Successfully navigated 5 safe browsing scenarios!',
         criteria: 'Complete 5 safety lessons',
-        icon: '🛡️',
+        icon: 'shield',
         points: 40,
         category: 'achievement',
         requirements: { lessonType: 'safety', minLessons: 5 }

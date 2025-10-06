@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from '../lib/language'
 import ProgressTracker from './ProgressTracker'
+import Icon from './icons/Icon'
 import './CodePlayStyles.css'
 
 export default function BlockCodingLesson({ lesson, onComplete, onProgress }) {
@@ -91,11 +92,11 @@ export default function BlockCodingLesson({ lesson, onComplete, onProgress }) {
 
   const getCharacterMessage = () => {
     if (isCompleted) {
-      return "Great job! 🎉 You solved it!"
+      return "Great job! You solved it!"
     }
     
     if (isRunning) {
-      return "Watch me execute your code! 🏃‍♂️"
+      return "Watch me execute your code!"
     }
     
     if (selectedBlocks.length === 0) {
@@ -344,7 +345,7 @@ export default function BlockCodingLesson({ lesson, onComplete, onProgress }) {
                 className="hint-stage" 
                 onClick={() => setShowHint(!showHint)}
               >
-                💡
+                <Icon name="help" size={16} />
               </button>
               <button 
                 className="run-stage" 
@@ -359,26 +360,35 @@ export default function BlockCodingLesson({ lesson, onComplete, onProgress }) {
 
         <div className="puzzle-controls">
           <button onClick={clearSequence} className="clear-button">
-            🗑️ Clear
+            <Icon name="cross" size={16} style={{ marginRight: '8px' }} />
+            Clear
           </button>
           <button onClick={handleRun} className="run-button" disabled={selectedBlocks.length === 0}>
-            ▶️ Run Code
+            <Icon name="play" size={16} style={{ marginRight: '8px' }} />
+            Run Code
           </button>
           <button onClick={() => setShowHint(!showHint)} className="hint-button">
-            💡 {showHint ? 'Hide Hint' : 'Show Hint'}
+            <Icon name="help" size={16} style={{ marginRight: '8px' }} />
+            {showHint ? 'Hide Hint' : 'Show Hint'}
           </button>
         </div>
 
         {showHint && (
           <div className="hint-box">
-            <h4>💡 Hint:</h4>
+            <h4>
+              <Icon name="help" size={16} style={{ marginRight: '8px' }} />
+              Hint:
+            </h4>
             <p>{currentPuzzleData.hint}</p>
           </div>
         )}
 
         {isCompleted && (
           <div className="completion-message">
-            <h3>🎉 Great job!</h3>
+            <h3>
+              <Icon name="star" size={20} style={{ marginRight: '8px' }} />
+              Great job!
+            </h3>
             <p>You solved the puzzle in {moves} moves!</p>
             <button onClick={handleNext} className="next-button">
               {currentPuzzle < puzzles.length - 1 ? t('common.next') : t('common.finish')} →
@@ -389,12 +399,16 @@ export default function BlockCodingLesson({ lesson, onComplete, onProgress }) {
 
       <div className="lesson-controls">
         <button onClick={resetPuzzle} className="reset-button">
-          🔄 {t('common.restart')}
+          <Icon name="recent" size={16} style={{ marginRight: '8px' }} />
+          {t('common.restart')}
         </button>
       </div>
 
       <div className="coding-tips">
-        <h4>🧩 Coding Tips:</h4>
+        <h4>
+          <Icon name="puzzle" size={20} style={{ marginRight: '8px' }} />
+          Coding Tips:
+        </h4>
         <ul>
           <li>Read the instructions carefully</li>
           <li>Think about the order of your blocks</li>

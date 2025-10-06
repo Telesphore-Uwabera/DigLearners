@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useTranslation } from '../../lib/language'
 import { mockLessons, getLessonsByModule, getCompletedLessons, getPendingLessons, formatDate } from '../../services/mockDataService'
 import ProgressTracker from '../../components/ProgressTracker'
+import Icon from '../../components/icons/Icon'
 import '../../components/CodePlayStyles.css'
 import '../../components/DashboardStyles.css'
 
@@ -12,12 +13,12 @@ export default function MyLessons() {
   const [filteredLessons, setFilteredLessons] = useState(mockLessons)
 
   const modules = [
-    { id: 'all', name: 'All Lessons', icon: '📚', color: '#1976D2' },
-    { id: 'introduction', name: 'Introduction', icon: '🌍', color: '#4CAF50' },
-    { id: 'typing', name: 'Typing', icon: '⌨️', color: '#FF9800' },
-    { id: 'safety', name: 'Safety', icon: '🛡️', color: '#F44336' },
-    { id: 'coding', name: 'Coding', icon: '🧩', color: '#9C27B0' },
-    { id: 'creative', name: 'Creative', icon: '🎨', color: '#E91E63' }
+    { id: 'all', name: 'All Lessons', icon: 'book', color: '#1976D2' },
+    { id: 'introduction', name: 'Introduction', icon: 'globe', color: '#4CAF50' },
+    { id: 'typing', name: 'Typing', icon: 'computer', color: '#FF9800' },
+    { id: 'safety', name: 'Safety', icon: 'shield', color: '#F44336' },
+    { id: 'coding', name: 'Coding', icon: 'puzzle', color: '#9C27B0' },
+    { id: 'creative', name: 'Creative', icon: 'palette', color: '#E91E63' }
   ]
 
   useEffect(() => {
@@ -59,7 +60,9 @@ export default function MyLessons() {
         </div>
         <div className="header-right">
           <div className="user-profile">
-            <div className="avatar">📚</div>
+            <div className="avatar">
+              <Icon name="book" size={24} />
+            </div>
             <span className="user-name">My Lessons</span>
           </div>
         </div>
@@ -88,7 +91,9 @@ export default function MyLessons() {
                 style={{ borderColor: module.color }}
                 onClick={() => setSelectedModule(module.id)}
               >
-                <span className="module-icon">{module.icon}</span>
+                <span className="module-icon">
+                  <Icon name={module.icon} size={20} />
+                </span>
                 <span className="module-name">{module.name}</span>
               </button>
             ))}
@@ -101,13 +106,20 @@ export default function MyLessons() {
             <div key={lesson.id} className={`lesson-card ${lesson.isCompleted ? 'completed' : 'pending'}`}>
               <div className="lesson-header-card">
                 <div className="lesson-icon">
-                  {modules.find(m => m.id === lesson.moduleType)?.icon || '📚'}
+                  <Icon 
+                    name={modules.find(m => m.id === lesson.moduleType)?.icon || 'book'} 
+                    size={24} 
+                  />
                 </div>
                 <div className="lesson-status">
                   {lesson.isCompleted ? (
-                    <span className="completed-badge">✅</span>
+                    <span className="completed-badge">
+                      <Icon name="check" size={16} />
+                    </span>
                   ) : (
-                    <span className="pending-badge">⏳</span>
+                    <span className="pending-badge">
+                      <Icon name="clock" size={16} />
+                    </span>
                   )}
                 </div>
               </div>
@@ -130,12 +142,16 @@ export default function MyLessons() {
                   </div>
                   
                   <div className="lesson-time">
-                    <span className="time-icon">⏱️</span>
+                    <span className="time-icon">
+                      <Icon name="clock" size={16} />
+                    </span>
                     <span className="time-text">{lesson.estimatedTime}</span>
                   </div>
                   
                   <div className="lesson-points">
-                    <span className="points-icon">⭐</span>
+                    <span className="points-icon">
+                      <Icon name="star" size={16} />
+                    </span>
                     <span className="points-text">{lesson.points} pts</span>
                   </div>
                 </div>
@@ -168,11 +184,13 @@ export default function MyLessons() {
               <div className="lesson-actions">
                 {lesson.isCompleted ? (
                   <button className="review-button">
-                    🔄 Review Lesson
+                    <Icon name="recent" size={16} style={{ marginRight: '8px' }} />
+                    Review Lesson
                   </button>
                 ) : (
                   <button className="start-button">
-                    ▶️ Start Lesson
+                    <Icon name="play" size={16} style={{ marginRight: '8px' }} />
+                    Start Lesson
                   </button>
                 )}
               </div>
@@ -183,7 +201,9 @@ export default function MyLessons() {
         {/* Quick Stats */}
         <div className="quick-stats">
           <div className="stat-item">
-            <div className="stat-icon">✅</div>
+            <div className="stat-icon">
+              <Icon name="check" size={24} />
+            </div>
             <div className="stat-info">
               <div className="stat-value">{completedLessons.length}</div>
               <div className="stat-label">Completed</div>
@@ -191,7 +211,9 @@ export default function MyLessons() {
           </div>
           
           <div className="stat-item">
-            <div className="stat-icon">⏳</div>
+            <div className="stat-icon">
+              <Icon name="clock" size={24} />
+            </div>
             <div className="stat-info">
               <div className="stat-value">{pendingLessons.length}</div>
               <div className="stat-label">Pending</div>
@@ -199,7 +221,9 @@ export default function MyLessons() {
           </div>
           
           <div className="stat-item">
-            <div className="stat-icon">⭐</div>
+            <div className="stat-icon">
+              <Icon name="star" size={24} />
+            </div>
             <div className="stat-info">
               <div className="stat-value">
                 {completedLessons.reduce((sum, lesson) => sum + lesson.points, 0)}

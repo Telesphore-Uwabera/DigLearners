@@ -13,7 +13,7 @@ DigLearners is a web-based platform that enhances foundational digital literacy 
 - **Child-Friendly Design**: Large touch targets, high contrast, and accessibility features
 - **Research Analytics**: Comprehensive data collection for educational research
 
-## 🏗️ Architecture
+## Architecture
 
 The platform follows a three-tier architecture as defined in the UML diagrams:
 
@@ -101,7 +101,7 @@ npm run build
 npm start
 ```
 
-## 📊 Database Schema
+## Database Schema
 
 The platform implements the Entity-Relationship Diagram (ERD) with the following entities:
 
@@ -120,7 +120,7 @@ The platform implements the Entity-Relationship Diagram (ERD) with the following
 - User ↔ Badge (Many-to-Many via UserBadge)
 - LearningClass ↔ Lesson (Many-to-Many via ClassLesson)
 
-## 🎮 Gamification System
+## Gamification System
 
 ### Levels
 1. **Explorer** (0-99 points)
@@ -183,7 +183,7 @@ The platform implements the Entity-Relationship Diagram (ERD) with the following
 - System configuration
 - Research data export
 
-## 📱 PWA Features
+## PWA Features
 
 ### Offline-First Architecture
 - Service Worker for caching
@@ -214,7 +214,7 @@ The platform implements the Entity-Relationship Diagram (ERD) with the following
 - Real-time analytics dashboard
 - Research-specific metrics
 
-## 🛠️ Development
+## Development
 
 ### Backend Development
 ```bash
@@ -239,7 +239,7 @@ cd backend
 npm run seed       # Seed initial data
 ```
 
-## 📚 API Documentation
+## API Documentation
 
 ### Authentication Endpoints
 - `POST /api/auth/register` - User registration
@@ -306,7 +306,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 4. Add tests for new functionality
 5. Submit a pull request
 
-## 📞 Support
+## Support
 
 For support and questions:
 - Email: support@diglearners.rw

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from '../../lib/language';
 import PublicFooter from '../../components/layout/PublicFooter';
+import Icon from '../../components/icons/Icon';
 import './SupportPages.css';
 
 const HelpCenter = () => {
@@ -38,7 +39,9 @@ const HelpCenter = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="search-input"
                 />
-                <span className="search-icon">🔍</span>
+                <span className="search-icon">
+                  <Icon name="search" size={20} />
+                </span>
               </div>
               <p className="search-hint">
                 {currentLanguage === 'rw' 
@@ -78,7 +81,9 @@ const HelpCenter = () => {
               </div>
 
               <div className="help-card">
-                <div className="help-icon">📚</div>
+                <div className="help-icon">
+                  <Icon name="book" size={24} />
+                </div>
                 <h3>
                   {currentLanguage === 'rw' 
                     ? 'Amahugurwa' 
@@ -97,7 +102,9 @@ const HelpCenter = () => {
               </div>
 
               <div className="help-card">
-                <div className="help-icon">🏆</div>
+                <div className="help-icon">
+                  <Icon name="achievement" size={24} />
+                </div>
                 <h3>
                   {currentLanguage === 'rw' 
                     ? 'Intsinzi' 
@@ -211,7 +218,9 @@ const HelpCenter = () => {
             </h2>
             <div className="contact-methods">
               <div className="contact-method">
-                <div className="contact-icon">📧</div>
+                <div className="contact-icon">
+                  <Icon name="email" size={24} />
+                </div>
                 <h3>
                   {currentLanguage === 'rw' 
                     ? 'Imeli' 
@@ -230,7 +239,9 @@ const HelpCenter = () => {
               </div>
 
               <div className="contact-method">
-                <div className="contact-icon">📱</div>
+                <div className="contact-icon">
+                  <Icon name="phone" size={24} />
+                </div>
                 <h3>
                   {currentLanguage === 'rw' 
                     ? 'Telefone' 
@@ -249,7 +260,9 @@ const HelpCenter = () => {
               </div>
 
               <div className="contact-method">
-                <div className="contact-icon">💬</div>
+                <div className="contact-icon">
+                  <Icon name="message" size={24} />
+                </div>
                 <h3>
                   {currentLanguage === 'rw' 
                     ? 'Icyerekezo' 

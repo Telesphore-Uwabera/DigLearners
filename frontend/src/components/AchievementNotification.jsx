@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from '../lib/language'
+import Icon from './icons/Icon'
 import './CodePlayStyles.css'
 
 export default function AchievementNotification({ 
@@ -31,7 +32,9 @@ export default function AchievementNotification({
     <div className={`achievement-notification ${show ? 'show' : ''}`}>
       <div className="notification-content">
         <div className="achievement-icon">
-          <div className="badge-icon">{badge?.icon || '🏆'}</div>
+          <div className="badge-icon">
+            <Icon name="achievement" size={32} />
+          </div>
           <div className="sparkle-effect">✨</div>
         </div>
         

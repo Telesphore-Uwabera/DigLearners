@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from '../../lib/language';
 import { getAssignmentsData } from '../../services/teacherMockDataService';
+import Icon from '../../components/icons/Icon';
 import '../../components/DashboardStyles.css';
 
 const Assignments = () => {
@@ -167,9 +168,18 @@ const Assignments = () => {
                 <h2>{currentAssignment.title}</h2>
                 <p>{currentAssignment.class}</p>
                 <div className="assignment-meta-detail">
-                  <span>📅 {new Date(currentAssignment.dueDate).toLocaleDateString()}</span>
-                  <span>👥 {currentAssignment.totalStudents} {currentLanguage === 'rw' ? 'abanyeshuri' : 'students'}</span>
-                  <span>✅ {currentAssignment.submitted} {currentLanguage === 'rw' ? 'yatangije' : 'submitted'}</span>
+                  <span>
+                    <Icon name="calendar" size={16} style={{ marginRight: '4px' }} />
+                    {new Date(currentAssignment.dueDate).toLocaleDateString()}
+                  </span>
+                  <span>
+                    <Icon name="users" size={16} style={{ marginRight: '4px' }} />
+                    {currentAssignment.totalStudents} {currentLanguage === 'rw' ? 'abanyeshuri' : 'students'}
+                  </span>
+                  <span>
+                    <Icon name="check" size={16} style={{ marginRight: '4px' }} />
+                    {currentAssignment.submitted} {currentLanguage === 'rw' ? 'yatangije' : 'submitted'}
+                  </span>
                 </div>
               </div>
               <div className="assignment-actions">
@@ -248,7 +258,9 @@ const Assignments = () => {
           </h3>
           <div className="stats-grid">
             <div className="stat-card">
-              <div className="stat-icon">📝</div>
+              <div className="stat-icon">
+                <Icon name="assignment" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.totalAssignments}</h3>
                 <p>
@@ -257,7 +269,9 @@ const Assignments = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">✅</div>
+              <div className="stat-icon">
+                <Icon name="check" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.activeAssignments}</h3>
                 <p>
@@ -266,7 +280,9 @@ const Assignments = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">📅</div>
+              <div className="stat-icon">
+                <Icon name="calendar" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.upcomingAssignments}</h3>
                 <p>
@@ -275,7 +291,9 @@ const Assignments = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">📊</div>
+              <div className="stat-icon">
+                <Icon name="analytics" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.totalSubmissions}</h3>
                 <p>

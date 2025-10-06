@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from '../../lib/language';
 import PublicFooter from '../../components/layout/PublicFooter';
+import Icon from '../../components/icons/Icon';
 import './SupportPages.css';
 
 const FAQ = () => {
@@ -122,7 +123,9 @@ const FAQ = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="search-input"
                 />
-                <span className="search-icon">🔍</span>
+                <span className="search-icon">
+                  <Icon name="search" size={20} />
+                </span>
               </div>
             </div>
             
@@ -178,10 +181,12 @@ const FAQ = () => {
               </p>
               <div className="contact-buttons">
                 <a href="mailto:support@diglearners.rw" className="contact-btn">
-                  📧 {currentLanguage === 'rw' ? 'Twandikire' : 'Email Us'}
+                  <Icon name="email" size={16} style={{ marginRight: '8px' }} />
+                  {currentLanguage === 'rw' ? 'Twandikire' : 'Email Us'}
                 </a>
                 <a href="tel:+250788123456" className="contact-btn">
-                  📱 {currentLanguage === 'rw' ? 'Hamagara' : 'Call Us'}
+                  <Icon name="phone" size={16} style={{ marginRight: '8px' }} />
+                  {currentLanguage === 'rw' ? 'Hamagara' : 'Call Us'}
                 </a>
               </div>
             </div>

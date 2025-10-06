@@ -18,7 +18,7 @@ export const getParentDashboardData = () => {
       {
         id: 'child_001',
         name: 'Alice Uwimana',
-        avatar: '👧',
+        avatar: 'Girl',
         age: 9,
         grade: 'Primary 4A',
         progress: 85,
@@ -58,7 +58,7 @@ export const getParentDashboardData = () => {
       {
         id: 'child_002',
         name: 'John Mukasa',
-        avatar: '👦',
+        avatar: 'Boy',
         age: 10,
         grade: 'Primary 5B',
         progress: 78,
@@ -107,7 +107,7 @@ export const getChildrenOverviewData = () => {
       {
         id: 'child_001',
         name: 'Alice Uwimana',
-        avatar: '👧',
+        avatar: 'Girl',
         age: 9,
         grade: 'Primary 4A',
         progress: 85,
@@ -147,7 +147,7 @@ export const getChildrenOverviewData = () => {
       {
         id: 'child_002',
         name: 'John Mukasa',
-        avatar: '👦',
+        avatar: 'Boy',
         age: 10,
         grade: 'Primary 5B',
         progress: 78,
@@ -230,7 +230,7 @@ export const getProgressReportsData = () => {
       {
         id: 'child_001',
         name: 'Alice Uwimana',
-        avatar: '👧',
+        avatar: 'Girl',
         grade: 'Primary 4A',
         overallProgress: 85,
         subjects: [
@@ -278,7 +278,7 @@ export const getProgressReportsData = () => {
       {
         id: 'child_002',
         name: 'John Mukasa',
-        avatar: '👦',
+        avatar: 'Boy',
         grade: 'Primary 5B',
         overallProgress: 78,
         subjects: [
@@ -339,7 +339,7 @@ export const getAchievementsData = () => {
       {
         id: 'child_001',
         name: 'Alice Uwimana',
-        avatar: '👧',
+        avatar: 'Girl',
         grade: 'Primary 4A',
         totalBadges: 7,
         recentBadges: [
@@ -347,7 +347,7 @@ export const getAchievementsData = () => {
             id: 'badge_001',
             title: 'Digital Explorer',
             description: 'Completed 5 digital literacy lessons',
-            icon: '🔍',
+            icon: 'search',
             category: 'Digital Literacy',
             date: '2024-12-19',
             earned: true
@@ -356,7 +356,7 @@ export const getAchievementsData = () => {
             id: 'badge_002',
             title: 'Safety First',
             description: 'Mastered internet safety basics',
-            icon: '🛡️',
+            icon: 'shield',
             category: 'Safety',
             date: '2024-12-18',
             earned: true
@@ -365,7 +365,7 @@ export const getAchievementsData = () => {
             id: 'badge_003',
             title: 'Code Master',
             description: 'Completed first coding project',
-            icon: '💻',
+            icon: 'computer',
             category: 'Coding',
             date: '2024-12-17',
             earned: true
@@ -376,7 +376,7 @@ export const getAchievementsData = () => {
             id: 'badge_001',
             title: 'Digital Explorer',
             description: 'Completed 5 digital literacy lessons',
-            icon: '🔍',
+            icon: 'search',
             category: 'Digital Literacy',
             date: '2024-12-19',
             earned: true
@@ -385,7 +385,7 @@ export const getAchievementsData = () => {
             id: 'badge_002',
             title: 'Safety First',
             description: 'Mastered internet safety basics',
-            icon: '🛡️',
+            icon: 'shield',
             category: 'Safety',
             date: '2024-12-18',
             earned: true
@@ -394,7 +394,7 @@ export const getAchievementsData = () => {
             id: 'badge_003',
             title: 'Code Master',
             description: 'Completed first coding project',
-            icon: '💻',
+            icon: 'computer',
             category: 'Coding',
             date: '2024-12-17',
             earned: true
@@ -403,7 +403,7 @@ export const getAchievementsData = () => {
             id: 'badge_004',
             title: 'Quick Learner',
             description: 'Completed lessons ahead of schedule',
-            icon: '⚡',
+            icon: 'lightning',
             category: 'Consistency',
             date: '2024-12-16',
             earned: true
@@ -412,7 +412,7 @@ export const getAchievementsData = () => {
             id: 'badge_005',
             title: 'Helper',
             description: 'Helped 3 classmates with lessons',
-            icon: '🤝',
+            icon: 'handshake',
             category: 'Skill',
             date: '2024-12-15',
             earned: true
@@ -421,7 +421,7 @@ export const getAchievementsData = () => {
             id: 'badge_006',
             title: 'Perfect Score',
             description: 'Got 100% on 3 consecutive lessons',
-            icon: '🎯',
+            icon: 'target',
             category: 'Milestone',
             date: '2024-12-14',
             earned: true
@@ -430,7 +430,7 @@ export const getAchievementsData = () => {
             id: 'badge_007',
             title: 'Week Warrior',
             description: 'Completed lessons for 7 days straight',
-            icon: '📅',
+            icon: 'calendar',
             category: 'Consistency',
             date: '2024-12-13',
             earned: true
@@ -439,7 +439,7 @@ export const getAchievementsData = () => {
             id: 'badge_008',
             title: 'Typing Speedster',
             description: 'Achieved 30 WPM typing speed',
-            icon: '⌨️',
+            icon: 'computer',
             category: 'Skill',
             date: null,
             earned: false
@@ -458,7 +458,7 @@ export const getAchievementsData = () => {
       {
         id: 'child_002',
         name: 'John Mukasa',
-        avatar: '👦',
+        avatar: 'Boy',
         grade: 'Primary 5B',
         totalBadges: 5,
         recentBadges: [
@@ -466,7 +466,7 @@ export const getAchievementsData = () => {
             id: 'badge_010',
             title: 'Safety First',
             description: 'Mastered internet safety basics',
-            icon: '🛡️',
+            icon: 'shield',
             category: 'Safety',
             date: '2024-12-18',
             earned: true
@@ -475,7 +475,7 @@ export const getAchievementsData = () => {
             id: 'badge_011',
             title: 'Creative Coder',
             description: 'Created unique coding project',
-            icon: '🎨',
+            icon: 'palette',
             category: 'Coding',
             date: '2024-12-17',
             earned: true
@@ -486,7 +486,7 @@ export const getAchievementsData = () => {
             id: 'badge_010',
             title: 'Safety First',
             description: 'Mastered internet safety basics',
-            icon: '🛡️',
+            icon: 'shield',
             category: 'Safety',
             date: '2024-12-18',
             earned: true
@@ -495,7 +495,7 @@ export const getAchievementsData = () => {
             id: 'badge_011',
             title: 'Creative Coder',
             description: 'Created unique coding project',
-            icon: '🎨',
+            icon: 'palette',
             category: 'Coding',
             date: '2024-12-17',
             earned: true
@@ -504,7 +504,7 @@ export const getAchievementsData = () => {
             id: 'badge_012',
             title: 'Problem Solver',
             description: 'Solved 10 coding challenges',
-            icon: '🧩',
+            icon: 'puzzle',
             category: 'Skill',
             date: '2024-12-16',
             earned: true
@@ -513,7 +513,7 @@ export const getAchievementsData = () => {
             id: 'badge_013',
             title: 'Team Player',
             description: 'Collaborated on group project',
-            icon: '👥',
+            icon: 'users',
             category: 'Skill',
             date: '2024-12-15',
             earned: true
@@ -522,7 +522,7 @@ export const getAchievementsData = () => {
             id: 'badge_014',
             title: 'Consistent Learner',
             description: 'Completed lessons for 5 days straight',
-            icon: '📚',
+            icon: 'book',
             category: 'Consistency',
             date: '2024-12-14',
             earned: true
@@ -531,7 +531,7 @@ export const getAchievementsData = () => {
             id: 'badge_015',
             title: 'Digital Artist',
             description: 'Create digital artwork',
-            icon: '🎨',
+            icon: 'palette',
             category: 'Skill',
             date: null,
             earned: false
@@ -540,7 +540,7 @@ export const getAchievementsData = () => {
             id: 'badge_016',
             title: 'Code Master',
             description: 'Complete advanced coding project',
-            icon: '💻',
+            icon: 'computer',
             category: 'Coding',
             date: null,
             earned: false
@@ -563,7 +563,7 @@ export const getScheduleData = () => {
       {
         id: 'child_001',
         name: 'Alice Uwimana',
-        avatar: '👧',
+        avatar: 'Girl',
         grade: 'Primary 4A',
         schedule: [
           {
@@ -593,7 +593,7 @@ export const getScheduleData = () => {
       {
         id: 'child_002',
         name: 'John Mukasa',
-        avatar: '👦',
+        avatar: 'Boy',
         grade: 'Primary 5B',
         schedule: [
           {
@@ -732,7 +732,7 @@ export const getReportsData = () => {
       {
         id: 'child_001',
         name: 'Alice Uwimana',
-        avatar: '👧',
+        avatar: 'Girl',
         grade: 'Primary 4A',
         reports: [
           {
@@ -783,7 +783,7 @@ export const getReportsData = () => {
       {
         id: 'child_002',
         name: 'John Mukasa',
-        avatar: '👦',
+        avatar: 'Boy',
         grade: 'Primary 5B',
         reports: [
           {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from '../../lib/language';
 import { getMyClassesData } from '../../services/teacherMockDataService';
+import Icon from '../../components/icons/Icon';
 import '../../components/DashboardStyles.css';
 
 const MyClasses = () => {
@@ -63,9 +64,18 @@ const MyClasses = () => {
                 <h2>{currentClass.name}</h2>
                 <p>{currentClass.description}</p>
                 <div className="class-meta">
-                  <span>📅 {currentClass.schedule}</span>
-                  <span>🏫 {currentClass.classroom}</span>
-                  <span>👥 {currentClass.totalStudents} {currentLanguage === 'rw' ? 'abanyeshuri' : 'students'}</span>
+                  <span>
+                    <Icon name="calendar" size={16} style={{ marginRight: '4px' }} />
+                    {currentClass.schedule}
+                  </span>
+                  <span>
+                    <Icon name="school" size={16} style={{ marginRight: '4px' }} />
+                    {currentClass.classroom}
+                  </span>
+                  <span>
+                    <Icon name="users" size={16} style={{ marginRight: '4px' }} />
+                    {currentClass.totalStudents} {currentLanguage === 'rw' ? 'abanyeshuri' : 'students'}
+                  </span>
                 </div>
               </div>
               <div className="class-progress">
@@ -81,7 +91,9 @@ const MyClasses = () => {
             {/* Class Statistics */}
             <div className="class-stats-grid">
               <div className="stat-card">
-                <div className="stat-icon">👥</div>
+                <div className="stat-icon">
+                  <Icon name="users" size={24} />
+                </div>
                 <div className="stat-content">
                   <h3>{currentClass.totalStudents}</h3>
                   <p>
@@ -90,7 +102,9 @@ const MyClasses = () => {
                 </div>
               </div>
               <div className="stat-card">
-                <div className="stat-icon">✅</div>
+                <div className="stat-icon">
+                  <Icon name="check" size={24} />
+                </div>
                 <div className="stat-content">
                   <h3>{currentClass.activeStudents}</h3>
                   <p>
@@ -99,7 +113,9 @@ const MyClasses = () => {
                 </div>
               </div>
               <div className="stat-card">
-                <div className="stat-icon">📊</div>
+                <div className="stat-icon">
+                  <Icon name="analytics" size={24} />
+                </div>
                 <div className="stat-content">
                   <h3>{currentClass.averageProgress}%</h3>
                   <p>
@@ -108,7 +124,9 @@ const MyClasses = () => {
                 </div>
               </div>
               <div className="stat-card">
-                <div className="stat-icon">📅</div>
+                <div className="stat-icon">
+                  <Icon name="calendar" size={24} />
+                </div>
                 <div className="stat-content">
                   <h3>
                     {new Date(currentClass.nextLesson).toLocaleDateString()}
@@ -171,7 +189,9 @@ const MyClasses = () => {
           </h3>
           <div className="stats-grid">
             <div className="stat-card">
-              <div className="stat-icon">🏫</div>
+              <div className="stat-icon">
+                <Icon name="school" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.totalClasses}</h3>
                 <p>
@@ -180,7 +200,9 @@ const MyClasses = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">👥</div>
+              <div className="stat-icon">
+                <Icon name="users" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.totalStudents}</h3>
                 <p>
@@ -189,7 +211,9 @@ const MyClasses = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">✅</div>
+              <div className="stat-icon">
+                <Icon name="check" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.activeStudents}</h3>
                 <p>
@@ -198,7 +222,9 @@ const MyClasses = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">📊</div>
+              <div className="stat-icon">
+                <Icon name="analytics" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.averageProgress}%</h3>
                 <p>

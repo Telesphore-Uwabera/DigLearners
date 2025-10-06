@@ -84,7 +84,7 @@ export const getMyClassesData = () => {
           {
             id: 'student_001',
             name: 'Alice Uwimana',
-            avatar: '👧',
+            avatar: 'Girl',
             progress: 85,
             lastActive: '2024-12-20',
             assignments: 8,
@@ -93,7 +93,7 @@ export const getMyClassesData = () => {
           {
             id: 'student_002',
             name: 'John Mukasa',
-            avatar: '👦',
+            avatar: 'Boy',
             progress: 78,
             lastActive: '2024-12-19',
             assignments: 8,
@@ -102,7 +102,7 @@ export const getMyClassesData = () => {
           {
             id: 'student_003',
             name: 'Grace Niyonsaba',
-            avatar: '👧',
+            avatar: 'Girl',
             progress: 92,
             lastActive: '2024-12-20',
             assignments: 8,
@@ -126,7 +126,7 @@ export const getMyClassesData = () => {
           {
             id: 'student_004',
             name: 'Peter Nkurunziza',
-            avatar: '👦',
+            avatar: 'Boy',
             progress: 88,
             lastActive: '2024-12-19',
             assignments: 6,
@@ -135,7 +135,7 @@ export const getMyClassesData = () => {
           {
             id: 'student_005',
             name: 'Marie Uwimana',
-            avatar: '👧',
+            avatar: 'Girl',
             progress: 75,
             lastActive: '2024-12-18',
             assignments: 6,
@@ -159,7 +159,7 @@ export const getMyClassesData = () => {
           {
             id: 'student_006',
             name: 'David Nsengimana',
-            avatar: '👦',
+            avatar: 'Boy',
             progress: 90,
             lastActive: '2024-12-20',
             assignments: 4,
@@ -168,7 +168,7 @@ export const getMyClassesData = () => {
           {
             id: 'student_007',
             name: 'Claire Mukamana',
-            avatar: '👧',
+            avatar: 'Girl',
             progress: 80,
             lastActive: '2024-12-19',
             assignments: 4,
@@ -193,7 +193,7 @@ export const getStudentsData = () => {
       {
         id: 'student_001',
         name: 'Alice Uwimana',
-        avatar: '👧',
+        avatar: 'Girl',
         grade: 'Primary 4A',
         class: 'Digital Literacy',
         progress: 85,
@@ -226,7 +226,7 @@ export const getStudentsData = () => {
       {
         id: 'student_002',
         name: 'John Mukasa',
-        avatar: '👦',
+        avatar: 'Boy',
         grade: 'Primary 4A',
         class: 'Digital Literacy',
         progress: 78,
@@ -252,7 +252,7 @@ export const getStudentsData = () => {
       {
         id: 'student_003',
         name: 'Grace Niyonsaba',
-        avatar: '👧',
+        avatar: 'Girl',
         grade: 'Primary 4A',
         class: 'Digital Literacy',
         progress: 92,

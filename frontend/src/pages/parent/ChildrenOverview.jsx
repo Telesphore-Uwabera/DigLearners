@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from '../../lib/language';
 import { getChildrenOverviewData } from '../../services/parentMockDataService';
+import Icon from '../../components/icons/Icon';
 import '../../components/DashboardStyles.css';
 
 const ChildrenOverview = () => {
@@ -33,7 +34,9 @@ const ChildrenOverview = () => {
         {/* Overview Stats */}
         <div className="stats-grid">
           <div className="stat-card">
-            <div className="stat-icon">👶</div>
+            <div className="stat-icon">
+              <Icon name="child" size={24} />
+            </div>
             <div className="stat-content">
               <h3>{data.overview.totalChildren}</h3>
               <p>
@@ -42,7 +45,9 @@ const ChildrenOverview = () => {
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon">📚</div>
+            <div className="stat-icon">
+              <Icon name="book" size={24} />
+            </div>
             <div className="stat-content">
               <h3>{data.overview.totalLessonsCompleted}</h3>
               <p>
@@ -51,7 +56,9 @@ const ChildrenOverview = () => {
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon">🏆</div>
+            <div className="stat-icon">
+              <Icon name="achievement" size={24} />
+            </div>
             <div className="stat-content">
               <h3>{data.overview.totalBadges}</h3>
               <p>
@@ -60,7 +67,9 @@ const ChildrenOverview = () => {
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon">⏱️</div>
+            <div className="stat-icon">
+              <Icon name="clock" size={24} />
+            </div>
             <div className="stat-content">
               <h3>{data.overview.totalLearningTime}</h3>
               <p>
@@ -139,7 +148,10 @@ const ChildrenOverview = () => {
                 </h3>
                 <ul>
                   {currentChild.strengths.map((strength, index) => (
-                    <li key={index}>✅ {strength}</li>
+                    <li key={index}>
+                      <Icon name="check" size={16} style={{ marginRight: '8px' }} />
+                      {strength}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -150,7 +162,10 @@ const ChildrenOverview = () => {
                 </h3>
                 <ul>
                   {currentChild.areasForImprovement.map((area, index) => (
-                    <li key={index}>📈 {area}</li>
+                    <li key={index}>
+                      <Icon name="progress" size={16} style={{ marginRight: '8px' }} />
+                      {area}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -163,8 +178,11 @@ const ChildrenOverview = () => {
                   {currentChild.recentActivity.map((activity) => (
                     <div key={activity.id} className="activity-item">
                       <div className="activity-icon">
-                        {activity.type === 'lesson_completed' ? '✅' : 
-                         activity.type === 'badge_earned' ? '🏆' : '📚'}
+                        <Icon 
+                          name={activity.type === 'lesson_completed' ? 'check' : 
+                                activity.type === 'badge_earned' ? 'achievement' : 'book'} 
+                          size={20} 
+                        />
                       </div>
                       <div className="activity-content">
                         <p>{activity.title}</p>
@@ -215,13 +233,19 @@ const ChildrenOverview = () => {
                     <span className="stat-label">
                       {currentLanguage === 'rw' ? 'Ibyubahiro:' : 'BADGES:'}
                     </span>
-                    <span className="stat-value">{child.badges} 🏆</span>
+                    <span className="stat-value">
+                      {child.badges} 
+                      <Icon name="achievement" size={16} style={{ marginLeft: '4px' }} />
+                    </span>
                   </div>
                   <div className="stat-item">
                     <span className="stat-label">
                       {currentLanguage === 'rw' ? 'Amatike:' : 'POINTS:'}
                     </span>
-                    <span className="stat-value">{child.points} ⭐</span>
+                    <span className="stat-value">
+                      {child.points} 
+                      <Icon name="star" size={16} style={{ marginLeft: '4px' }} />
+                    </span>
                   </div>
                   <div className="stat-item">
                     <span className="stat-label">
@@ -244,8 +268,11 @@ const ChildrenOverview = () => {
                     {child.recentActivity.slice(0, 2).map((activity) => (
                       <div key={activity.id} className="activity-item">
                         <div className="activity-icon">
-                          {activity.type === 'lesson_completed' ? '✅' : 
-                           activity.type === 'badge_earned' ? '🏆' : '📚'}
+                          <Icon 
+                            name={activity.type === 'lesson_completed' ? 'check' : 
+                                  activity.type === 'badge_earned' ? 'achievement' : 'book'} 
+                            size={16} 
+                          />
                         </div>
                         <div className="activity-content">
                           <p>{activity.title}</p>
@@ -271,8 +298,11 @@ const ChildrenOverview = () => {
             {data.recentActivity.map((activity) => (
               <div key={activity.id} className="activity-item">
                 <div className="activity-icon">
-                  {activity.type === 'lesson_completed' ? '✅' : 
-                   activity.type === 'badge_earned' ? '🏆' : '📚'}
+                  <Icon 
+                    name={activity.type === 'lesson_completed' ? 'check' : 
+                          activity.type === 'badge_earned' ? 'achievement' : 'book'} 
+                    size={20} 
+                  />
                 </div>
                 <div className="activity-content">
                   <p>

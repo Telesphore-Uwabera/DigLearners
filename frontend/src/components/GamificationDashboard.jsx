@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useTranslation } from '../lib/language'
 import { gamificationManager, BADGES } from '../lib/gamification'
 import AchievementNotification from './AchievementNotification'
+import Icon from './icons/Icon'
 import './CodePlayStyles.css'
 
 export default function GamificationDashboard({ userId = 'demo-student-1' }) {
@@ -80,7 +81,9 @@ export default function GamificationDashboard({ userId = 'demo-student-1' }) {
         </div>
         <div className="header-right">
           <div className="user-profile">
-            <div className="avatar">🏆</div>
+            <div className="avatar">
+              <Icon name="achievement" size={24} />
+            </div>
             <span className="user-name">Achievements</span>
           </div>
         </div>
@@ -129,7 +132,9 @@ export default function GamificationDashboard({ userId = 'demo-student-1' }) {
           </div>
           
           <div className="stat-card">
-            <div className="stat-icon">🎯</div>
+            <div className="stat-icon">
+              <Icon name="target" size={24} />
+            </div>
             <div className="stat-info">
               <div className="stat-value">{userProgress.lessonsCompleted}</div>
               <div className="stat-label">Lessons</div>
@@ -137,7 +142,9 @@ export default function GamificationDashboard({ userId = 'demo-student-1' }) {
           </div>
           
           <div className="stat-card">
-            <div className="stat-icon">🧩</div>
+            <div className="stat-icon">
+              <Icon name="puzzle" size={24} />
+            </div>
             <div className="stat-info">
               <div className="stat-value">{userProgress.codingPuzzles}</div>
               <div className="stat-label">Puzzles</div>
@@ -145,7 +152,9 @@ export default function GamificationDashboard({ userId = 'demo-student-1' }) {
           </div>
           
           <div className="stat-card">
-            <div className="stat-icon">⭐</div>
+            <div className="stat-icon">
+              <Icon name="star" size={24} />
+            </div>
             <div className="stat-info">
               <div className="stat-value">{userProgress.perfectScores}</div>
               <div className="stat-label">Perfect</div>
@@ -180,7 +189,8 @@ export default function GamificationDashboard({ userId = 'demo-student-1' }) {
             className="demo-button"
             onClick={simulateAchievement}
           >
-            🎉 Test Achievement Notification
+            <Icon name="star" size={16} style={{ marginRight: '8px' }} />
+            Test Achievement Notification
           </button>
         </div>
       </div>

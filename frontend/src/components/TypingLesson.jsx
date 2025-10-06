@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useTranslation } from '../lib/language'
 import ProgressTracker from './ProgressTracker'
+import Icon from './icons/Icon'
 import './CodePlayStyles.css'
 
 export default function TypingLesson({ lesson, onComplete, onProgress }) {
@@ -120,7 +121,9 @@ export default function TypingLesson({ lesson, onComplete, onProgress }) {
         </div>
         <div className="header-right">
           <div className="user-profile">
-            <div className="avatar">⌨️</div>
+            <div className="avatar">
+              <Icon name="computer" size={24} />
+            </div>
             <span className="user-name">Hi, Alex</span>
           </div>
         </div>
@@ -186,12 +189,16 @@ export default function TypingLesson({ lesson, onComplete, onProgress }) {
 
       <div className="lesson-controls">
         <button onClick={resetLesson} className="reset-button">
-          🔄 {t('common.restart')}
+          <Icon name="recent" size={16} style={{ marginRight: '8px' }} />
+          {t('common.restart')}
         </button>
         
         {isCompleted && (
           <div className="completion-message">
-            <h3>🎉 {t('lesson.lesson_complete')}</h3>
+            <h3>
+              <Icon name="star" size={20} style={{ marginRight: '8px' }} />
+              {t('lesson.lesson_complete')}
+            </h3>
             <p>Great job! You typed at {wpm} WPM with {Math.round(accuracy)}% accuracy!</p>
             <button onClick={() => onComplete && onComplete({ wpm, accuracy, errors })} className="next-button">
               {t('common.next')} →
@@ -201,7 +208,10 @@ export default function TypingLesson({ lesson, onComplete, onProgress }) {
       </div>
 
       <div className="typing-tips">
-        <h4>💡 Typing Tips:</h4>
+        <h4>
+          <Icon name="help" size={16} style={{ marginRight: '8px' }} />
+          Typing Tips:
+        </h4>
         <ul>
           <li>Keep your fingers on the home row</li>
           <li>Look at the screen, not the keyboard</li>

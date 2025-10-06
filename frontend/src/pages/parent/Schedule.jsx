@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from '../../lib/language';
 import { getScheduleData } from '../../services/parentMockDataService';
+import Icon from '../../components/icons/Icon';
 import '../../components/DashboardStyles.css';
 
 const Schedule = () => {
@@ -113,7 +114,10 @@ const Schedule = () => {
                 </div>
                 <div className="schedule-type">
                   <span className={`type-badge ${item.type}`}>
-                    {item.type === 'lesson' ? '📚' : '🔄'}
+                    <Icon 
+                      name={item.type === 'lesson' ? 'book' : 'recent'} 
+                      size={16} 
+                    />
                   </span>
                 </div>
               </div>
@@ -154,7 +158,10 @@ const Schedule = () => {
                           <div className="card-title">{item.title}</div>
                           <div className="card-subject">{item.subject}</div>
                           <div className={`card-status ${item.status}`}>
-                            {item.status === 'scheduled' ? '📅' : '✅'}
+                            <Icon 
+                              name={item.status === 'scheduled' ? 'calendar' : 'check'} 
+                              size={16} 
+                            />
                           </div>
                         </div>
                       ))}
@@ -179,7 +186,10 @@ const Schedule = () => {
                       </div>
                       <div className="schedule-status">
                         <span className={`status-badge ${item.status}`}>
-                          {item.status === 'scheduled' ? '📅' : '✅'}
+                          <Icon 
+                            name={item.status === 'scheduled' ? 'calendar' : 'check'} 
+                            size={16} 
+                          />
                         </span>
                         <span className="type-badge">{item.type}</span>
                       </div>
@@ -198,7 +208,9 @@ const Schedule = () => {
           </h3>
           <div className="stats-grid">
             <div className="stat-card">
-              <div className="stat-icon">📅</div>
+              <div className="stat-icon">
+                <Icon name="calendar" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.totalScheduled}</h3>
                 <p>
@@ -207,7 +219,9 @@ const Schedule = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">📊</div>
+              <div className="stat-icon">
+                <Icon name="analytics" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.thisWeek}</h3>
                 <p>
@@ -216,7 +230,9 @@ const Schedule = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">📈</div>
+              <div className="stat-icon">
+                <Icon name="progress" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.nextWeek}</h3>
                 <p>
@@ -225,7 +241,9 @@ const Schedule = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">📅</div>
+              <div className="stat-icon">
+                <Icon name="calendar" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.mostActiveDay}</h3>
                 <p>

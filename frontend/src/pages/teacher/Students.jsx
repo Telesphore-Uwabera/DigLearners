@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from '../../lib/language';
 import { getStudentsData } from '../../services/teacherMockDataService';
+import Icon from '../../components/icons/Icon';
 import '../../components/DashboardStyles.css';
 
 const Students = () => {
@@ -122,13 +123,19 @@ const Students = () => {
                   <span className="stat-label">
                     {currentLanguage === 'rw' ? 'Ibyubahiro:' : 'Badges:'}
                   </span>
-                  <span className="stat-value">{student.badges} 🏆</span>
+                  <span className="stat-value">
+                    {student.badges} 
+                    <Icon name="achievement" size={16} style={{ marginLeft: '4px' }} />
+                  </span>
                 </div>
                 <div className="stat-item">
                   <span className="stat-label">
                     {currentLanguage === 'rw' ? 'Amatike:' : 'Points:'}
                   </span>
-                  <span className="stat-value">{student.points} ⭐</span>
+                  <span className="stat-value">
+                    {student.points} 
+                    <Icon name="star" size={16} style={{ marginLeft: '4px' }} />
+                  </span>
                 </div>
                 <div className="stat-item">
                   <span className="stat-label">
@@ -194,7 +201,10 @@ const Students = () => {
                 </h3>
                 <ul>
                   {currentStudent.strengths.map((strength, index) => (
-                    <li key={index}>✅ {strength}</li>
+                    <li key={index}>
+                      <Icon name="check" size={16} style={{ marginRight: '8px' }} />
+                      {strength}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -205,7 +215,10 @@ const Students = () => {
                 </h3>
                 <ul>
                   {currentStudent.areasForImprovement.map((area, index) => (
-                    <li key={index}>📈 {area}</li>
+                    <li key={index}>
+                      <Icon name="progress" size={16} style={{ marginRight: '8px' }} />
+                      {area}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -218,7 +231,10 @@ const Students = () => {
                   {currentStudent.recentActivity.map((activity) => (
                     <div key={activity.id} className="activity-item">
                       <div className="activity-icon">
-                        {activity.type === 'lesson_completed' ? '✅' : '🏆'}
+                        <Icon 
+                          name={activity.type === 'lesson_completed' ? 'check' : 'achievement'} 
+                          size={20} 
+                        />
                       </div>
                       <div className="activity-content">
                         <p>{activity.title}</p>
@@ -242,7 +258,9 @@ const Students = () => {
           </h3>
           <div className="stats-grid">
             <div className="stat-card">
-              <div className="stat-icon">👥</div>
+              <div className="stat-icon">
+                <Icon name="users" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.totalStudents}</h3>
                 <p>
@@ -251,7 +269,9 @@ const Students = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">✅</div>
+              <div className="stat-icon">
+                <Icon name="check" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.activeStudents}</h3>
                 <p>
@@ -260,7 +280,9 @@ const Students = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">📊</div>
+              <div className="stat-icon">
+                <Icon name="analytics" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.averageProgress}%</h3>
                 <p>
@@ -269,7 +291,9 @@ const Students = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">⭐</div>
+              <div className="stat-icon">
+                <Icon name="star" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.topPerformer}</h3>
                 <p>

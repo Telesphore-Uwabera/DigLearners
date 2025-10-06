@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from '../../lib/language';
 import { getCommunicationData } from '../../services/parentMockDataService';
+import Icon from '../../components/icons/Icon';
 import '../../components/DashboardStyles.css';
 
 const Communication = () => {
@@ -112,7 +113,10 @@ const Communication = () => {
                     <div className="announcement-title">
                       <h4>{announcement.title}</h4>
                       <span className={`announcement-type ${announcement.type}`}>
-                        {announcement.type === 'update' ? '🔄' : '🏆'}
+                        <Icon 
+                          name={announcement.type === 'update' ? 'recent' : 'achievement'} 
+                          size={16} 
+                        />
                       </span>
                     </div>
                     <div className="announcement-date">{announcement.date}</div>
@@ -133,25 +137,33 @@ const Communication = () => {
           </h3>
           <div className="actions-grid">
             <button className="action-btn">
-              <span className="action-icon">✉️</span>
+              <span className="action-icon">
+                <Icon name="email" size={20} />
+              </span>
               <span className="action-text">
                 {currentLanguage === 'rw' ? 'Ohereza Ubutumwa' : 'Send Message'}
               </span>
             </button>
             <button className="action-btn">
-              <span className="action-icon">📞</span>
+              <span className="action-icon">
+                <Icon name="phone" size={20} />
+              </span>
               <span className="action-text">
                 {currentLanguage === 'rw' ? 'Hamagara Umwarimu' : 'Call Teacher'}
               </span>
             </button>
             <button className="action-btn">
-              <span className="action-icon">📅</span>
+              <span className="action-icon">
+                <Icon name="calendar" size={20} />
+              </span>
               <span className="action-text">
                 {currentLanguage === 'rw' ? 'Gahunda Y\'Ihuriro' : 'Schedule Meeting'}
               </span>
             </button>
             <button className="action-btn">
-              <span className="action-icon">📊</span>
+              <span className="action-icon">
+                <Icon name="analytics" size={20} />
+              </span>
               <span className="action-text">
                 {currentLanguage === 'rw' ? 'Raporo Y\'Imikurire' : 'Progress Report'}
               </span>
@@ -166,7 +178,9 @@ const Communication = () => {
           </h3>
           <div className="stats-grid">
             <div className="stat-card">
-              <div className="stat-icon">✉️</div>
+              <div className="stat-icon">
+                <Icon name="email" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.unreadMessages}</h3>
                 <p>
@@ -175,7 +189,9 @@ const Communication = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">📨</div>
+              <div className="stat-icon">
+                <Icon name="message" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.totalMessages}</h3>
                 <p>
@@ -184,7 +200,9 @@ const Communication = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">📢</div>
+              <div className="stat-icon">
+                <Icon name="announcement" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.recentAnnouncements}</h3>
                 <p>
@@ -193,7 +211,9 @@ const Communication = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">📞</div>
+              <div className="stat-icon">
+                <Icon name="phone" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>24/7</h3>
                 <p>

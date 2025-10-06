@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from '../../lib/language'
 import { mockLeaderboard, mockClassProgress } from '../../services/mockDataService'
+import Icon from '../../components/icons/Icon'
 import '../../components/CodePlayStyles.css'
 import '../../components/DashboardStyles.css'
 
@@ -11,16 +12,16 @@ export default function Leaderboard() {
   const [classProgress] = useState(mockClassProgress)
 
   const periods = [
-    { id: 'weekly', name: 'This Week', icon: '📅' },
-    { id: 'monthly', name: 'This Month', icon: '📆' },
-    { id: 'alltime', name: 'All Time', icon: '🏆' }
+    { id: 'weekly', name: 'This Week', icon: 'calendar' },
+    { id: 'monthly', name: 'This Month', icon: 'calendar' },
+    { id: 'alltime', name: 'All Time', icon: 'achievement' }
   ]
 
   const getRankIcon = (rank) => {
     switch (rank) {
-      case 1: return '🥇'
-      case 2: return '🥈'
-      case 3: return '🥉'
+      case 1: return <Icon name="trophy" size={20} />
+      case 2: return <Icon name="trophy" size={20} />
+      case 3: return <Icon name="trophy" size={20} />
       default: return `#${rank}`
     }
   }
@@ -49,7 +50,9 @@ export default function Leaderboard() {
         </div>
         <div className="header-right">
           <div className="user-profile">
-            <div className="avatar">🏆</div>
+            <div className="avatar">
+              <Icon name="achievement" size={24} />
+            </div>
             <span className="user-name">Leaderboard</span>
           </div>
         </div>
@@ -60,13 +63,18 @@ export default function Leaderboard() {
         {/* Class Overview */}
         <div className="class-overview">
           <div className="class-header">
-            <h2>📚 {classProgress.className}</h2>
+            <h2>
+              <Icon name="book" size={20} style={{ marginRight: '8px' }} />
+              {classProgress.className}
+            </h2>
             <p>Teacher: {classProgress.teacher}</p>
           </div>
           
           <div className="class-stats">
             <div className="class-stat">
-              <div className="stat-icon">👥</div>
+              <div className="stat-icon">
+                <Icon name="users" size={20} />
+              </div>
               <div className="stat-info">
                 <div className="stat-value">{classProgress.totalStudents}</div>
                 <div className="stat-label">Students</div>
@@ -74,7 +82,9 @@ export default function Leaderboard() {
             </div>
             
             <div className="class-stat">
-              <div className="stat-icon">📈</div>
+              <div className="stat-icon">
+                <Icon name="progress" size={20} />
+              </div>
               <div className="stat-info">
                 <div className="stat-value">{classProgress.averageProgress}%</div>
                 <div className="stat-label">Avg Progress</div>
@@ -82,7 +92,9 @@ export default function Leaderboard() {
             </div>
             
             <div className="class-stat">
-              <div className="stat-icon">⭐</div>
+              <div className="stat-icon">
+                <Icon name="star" size={20} />
+              </div>
               <div className="stat-info">
                 <div className="stat-value">{classProgress.classStats.averageScore}</div>
                 <div className="stat-label">Avg Score</div>
@@ -90,7 +102,9 @@ export default function Leaderboard() {
             </div>
             
             <div className="class-stat">
-              <div className="stat-icon">⏱️</div>
+              <div className="stat-icon">
+                <Icon name="clock" size={20} />
+              </div>
               <div className="stat-info">
                 <div className="stat-value">{classProgress.classStats.totalTimeSpent}h</div>
                 <div className="stat-label">Total Time</div>
@@ -109,7 +123,9 @@ export default function Leaderboard() {
                 className={`period-button ${selectedPeriod === period.id ? 'active' : ''}`}
                 onClick={() => setSelectedPeriod(period.id)}
               >
-                <span className="period-icon">{period.icon}</span>
+                <span className="period-icon">
+                  <Icon name={period.icon} size={16} />
+                </span>
                 <span className="period-name">{period.name}</span>
               </button>
             ))}
@@ -135,15 +151,17 @@ export default function Leaderboard() {
                 </div>
                 <div className="podium-stats">
                   <div className="stat-item">
-                    <span className="stat-icon">📚</span>
+                    <span className="stat-icon">
+                      <Icon name="book" size={16} />
+                    </span>
                     <span className="stat-value">{student.lessonsCompleted}</span>
                   </div>
                   <div className="stat-item">
-                    <span className="stat-icon">🔥</span>
+                    <span className="stat-icon"><Icon name="lightning" size={16} /></span>
                     <span className="stat-value">{student.streak}</span>
                   </div>
                   <div className="stat-item">
-                    <span className="stat-icon">🏆</span>
+                    <span className="stat-icon"><Icon name="achievement" size={16} /></span>
                     <span className="stat-value">{student.badges}</span>
                   </div>
                 </div>
@@ -154,7 +172,10 @@ export default function Leaderboard() {
 
         {/* Full Leaderboard */}
         <div className="full-leaderboard">
-          <h3>📊 Complete Rankings</h3>
+          <h3>
+            <Icon name="analytics" size={20} style={{ marginRight: '8px' }} />
+            Complete Rankings
+          </h3>
           <div className="leaderboard-list">
             {leaderboard.map((student, index) => (
               <div key={student.studentId} className={`leaderboard-item ${index < 3 ? 'top-three-item' : ''}`}>
@@ -184,11 +205,11 @@ export default function Leaderboard() {
                 
                 <div className="stats-section">
                   <div className="stat-item">
-                    <span className="stat-icon">🔥</span>
+                    <span className="stat-icon"><Icon name="lightning" size={16} /></span>
                     <span className="stat-value">{student.streak}</span>
                   </div>
                   <div className="stat-item">
-                    <span className="stat-icon">🏆</span>
+                    <span className="stat-icon"><Icon name="achievement" size={16} /></span>
                     <span className="stat-value">{student.badges}</span>
                   </div>
                 </div>
@@ -208,10 +229,13 @@ export default function Leaderboard() {
 
         {/* Achievement Highlights */}
         <div className="achievement-highlights">
-          <h3>🎉 Recent Achievements</h3>
+          <h3>
+            <Icon name="star" size={20} style={{ marginRight: '8px' }} />
+            Recent Achievements
+          </h3>
           <div className="achievements-grid">
             <div className="achievement-item">
-              <div className="achievement-icon">🏆</div>
+              <div className="achievement-icon"><Icon name="achievement" size={16} /></div>
               <div className="achievement-info">
                 <div className="achievement-title">Weekly Champion</div>
                 <div className="achievement-student">Alex K.</div>
@@ -219,7 +243,7 @@ export default function Leaderboard() {
             </div>
             
             <div className="achievement-item">
-              <div className="achievement-icon">🔥</div>
+              <div className="achievement-icon"><Icon name="lightning" size={16} /></div>
               <div className="achievement-info">
                 <div className="achievement-title">7-Day Streak</div>
                 <div className="achievement-student">Alex K.</div>
@@ -227,7 +251,9 @@ export default function Leaderboard() {
             </div>
             
             <div className="achievement-item">
-              <div className="achievement-icon">⭐</div>
+              <div className="achievement-icon">
+                <Icon name="star" size={16} />
+              </div>
               <div className="achievement-info">
                 <div className="achievement-title">Perfect Score</div>
                 <div className="achievement-student">Grace M.</div>
@@ -235,7 +261,9 @@ export default function Leaderboard() {
             </div>
             
             <div className="achievement-item">
-              <div className="achievement-icon">🧩</div>
+              <div className="achievement-icon">
+                <Icon name="puzzle" size={16} />
+              </div>
               <div className="achievement-info">
                 <div className="achievement-title">Code Breaker</div>
                 <div className="achievement-student">David R.</div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from '../../lib/language'
 import { mockAssignments, getAssignmentsByStatus, formatDate, formatTimeAgo } from '../../services/mockDataService'
+import Icon from '../../components/icons/Icon'
 import '../../components/CodePlayStyles.css'
 import '../../components/DashboardStyles.css'
 
@@ -10,10 +11,10 @@ export default function Assignments() {
   const [assignments] = useState(mockAssignments)
 
   const statusFilters = [
-    { id: 'all', name: 'All Assignments', icon: '📋', color: '#1976D2' },
-    { id: 'assigned', name: 'Assigned', icon: '📝', color: '#FF9800' },
-    { id: 'in_progress', name: 'In Progress', icon: '🔄', color: '#2196F3' },
-    { id: 'completed', name: 'Completed', icon: '✅', color: '#4CAF50' }
+    { id: 'all', name: 'All Assignments', icon: 'report', color: '#1976D2' },
+    { id: 'assigned', name: 'Assigned', icon: 'assignment', color: '#FF9800' },
+    { id: 'in_progress', name: 'In Progress', icon: 'recent', color: '#2196F3' },
+    { id: 'completed', name: 'Completed', icon: 'check', color: '#4CAF50' }
   ]
 
   const getFilteredAssignments = () => {
@@ -34,10 +35,10 @@ export default function Assignments() {
 
   const getStatusIcon = (status) => {
     switch (status) {
-      case 'assigned': return '📝'
-      case 'in_progress': return '🔄'
-      case 'completed': return '✅'
-      default: return '❓'
+      case 'assigned': return <Icon name="assignment" size={16} />
+      case 'in_progress': return <Icon name="recent" size={16} />
+      case 'completed': return <Icon name="check" size={16} />
+      default: return <Icon name="help" size={16} />
     }
   }
 
@@ -69,7 +70,9 @@ export default function Assignments() {
         </div>
         <div className="header-right">
           <div className="user-profile">
-            <div className="avatar">📋</div>
+            <div className="avatar">
+              <Icon name="report" size={24} />
+            </div>
             <span className="user-name">My Assignments</span>
           </div>
         </div>
@@ -80,7 +83,9 @@ export default function Assignments() {
         {/* Assignment Stats */}
         <div className="assignment-stats">
           <div className="stat-card">
-            <div className="stat-icon">📝</div>
+            <div className="stat-icon">
+              <Icon name="assignment" size={20} />
+            </div>
             <div className="stat-info">
               <div className="stat-value">{assignments.length}</div>
               <div className="stat-label">Total Assignments</div>
@@ -88,7 +93,9 @@ export default function Assignments() {
           </div>
           
           <div className="stat-card">
-            <div className="stat-icon">🔄</div>
+            <div className="stat-icon">
+              <Icon name="recent" size={20} />
+            </div>
             <div className="stat-info">
               <div className="stat-value">
                 {getAssignmentsByStatus('in_progress').length}
@@ -98,7 +105,9 @@ export default function Assignments() {
           </div>
           
           <div className="stat-card">
-            <div className="stat-icon">✅</div>
+            <div className="stat-icon">
+              <Icon name="check" size={20} />
+            </div>
             <div className="stat-info">
               <div className="stat-value">
                 {getAssignmentsByStatus('completed').length}
@@ -108,7 +117,9 @@ export default function Assignments() {
           </div>
           
           <div className="stat-card">
-            <div className="stat-icon">⭐</div>
+            <div className="stat-icon">
+              <Icon name="star" size={20} />
+            </div>
             <div className="stat-info">
               <div className="stat-value">
                 {assignments.reduce((sum, assignment) => sum + assignment.points, 0)}
@@ -129,7 +140,9 @@ export default function Assignments() {
                 style={{ borderColor: status.color }}
                 onClick={() => setSelectedStatus(status.id)}
               >
-                <span className="status-icon">{status.icon}</span>
+                <span className="status-icon">
+                  <Icon name={status.icon} size={16} />
+                </span>
                 <span className="status-name">{status.name}</span>
               </button>
             ))}
@@ -144,8 +157,14 @@ export default function Assignments() {
                 <div className="assignment-title">
                   <h4>{assignment.title}</h4>
                   <div className="assignment-meta">
-                    <span className="teacher">👩‍🏫 {assignment.teacher}</span>
-                    <span className="points">⭐ {assignment.points} points</span>
+                    <span className="teacher">
+                      <Icon name="teacher" size={16} style={{ marginRight: '4px' }} />
+                      {assignment.teacher}
+                    </span>
+                    <span className="points">
+                      <Icon name="star" size={16} style={{ marginRight: '4px' }} />
+                      {assignment.points} points
+                    </span>
                   </div>
                 </div>
                 
@@ -180,7 +199,9 @@ export default function Assignments() {
 
                 <div className="assignment-details">
                   <div className="detail-item">
-                    <span className="detail-icon">📅</span>
+                    <span className="detail-icon">
+                      <Icon name="calendar" size={16} />
+                    </span>
                     <span className="detail-label">Due:</span>
                     <span className={`detail-value ${isOverdue(assignment.dueDate) ? 'overdue' : ''} ${isDueSoon(assignment.dueDate) ? 'due-soon' : ''}`}>
                       {formatDate(assignment.dueDate)}
@@ -194,13 +215,17 @@ export default function Assignments() {
                   </div>
                   
                   <div className="detail-item">
-                    <span className="detail-icon">📚</span>
+                    <span className="detail-icon">
+                      <Icon name="book" size={16} />
+                    </span>
                     <span className="detail-label">Lessons:</span>
                     <span className="detail-value">{assignment.lessons.length} lesson(s)</span>
                   </div>
                   
                   <div className="detail-item">
-                    <span className="detail-icon">📝</span>
+                    <span className="detail-icon">
+                      <Icon name="assignment" size={16} />
+                    </span>
                     <span className="detail-label">Assigned:</span>
                     <span className="detail-value">{formatTimeAgo(assignment.createdAt)}</span>
                   </div>
@@ -210,19 +235,22 @@ export default function Assignments() {
               <div className="assignment-actions">
                 {assignment.status === 'assigned' && (
                   <button className="start-assignment-button">
-                    ▶️ Start Assignment
+                    <Icon name="play" size={16} style={{ marginRight: '8px' }} />
+                    Start Assignment
                   </button>
                 )}
                 
                 {assignment.status === 'in_progress' && (
                   <button className="continue-assignment-button">
-                    🔄 Continue Assignment
+                    <Icon name="recent" size={16} style={{ marginRight: '8px' }} />
+                    Continue Assignment
                   </button>
                 )}
                 
                 {assignment.status === 'completed' && (
                   <button className="review-assignment-button">
-                    👁️ Review Assignment
+                    <Icon name="search" size={16} style={{ marginRight: '8px' }} />
+                    Review Assignment
                   </button>
                 )}
               </div>
@@ -235,13 +263,16 @@ export default function Assignments() {
           <h3>Quick Actions</h3>
           <div className="action-buttons">
             <button className="action-button">
-              📊 View Progress Report
+              <Icon name="analytics" size={16} style={{ marginRight: '8px' }} />
+              View Progress Report
             </button>
             <button className="action-button">
-              📧 Contact Teacher
+              <Icon name="email" size={16} style={{ marginRight: '8px' }} />
+              Contact Teacher
             </button>
             <button className="action-button">
-              📅 View Calendar
+              <Icon name="calendar" size={16} style={{ marginRight: '8px' }} />
+              View Calendar
             </button>
           </div>
         </div>

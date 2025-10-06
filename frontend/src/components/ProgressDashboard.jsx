@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from '../lib/language'
 import { gamificationManager } from '../lib/gamification'
+import Icon from './icons/Icon'
 import './CodePlayStyles.css'
 
 export default function ProgressDashboard({ userId = 'demo-student-1' }) {
@@ -72,7 +73,9 @@ export default function ProgressDashboard({ userId = 'demo-student-1' }) {
         </div>
         <div className="header-right">
           <div className="user-profile">
-            <div className="avatar">👩‍🏫</div>
+            <div className="avatar">
+              <Icon name="teacher" size={24} />
+            </div>
             <span className="user-name">Hello, Mrs. A</span>
           </div>
         </div>
@@ -84,7 +87,9 @@ export default function ProgressDashboard({ userId = 'demo-student-1' }) {
         <div className="progress-overview">
           <div className="progress-header">
             <h2>Progress</h2>
-            <div className="progress-icon">📊</div>
+            <div className="progress-icon">
+              <Icon name="analytics" size={24} />
+            </div>
           </div>
           
           <div className="progress-stats">
@@ -113,9 +118,13 @@ export default function ProgressDashboard({ userId = 'demo-student-1' }) {
                   <div className="module-name">{module.name}</div>
                   <div className="module-status">
                     {module.completed ? (
-                      <span className="completed-badge">✅</span>
+                      <span className="completed-badge">
+                        <Icon name="check" size={16} />
+                      </span>
                     ) : (
-                      <span className="in-progress-badge">🔄</span>
+                      <span className="in-progress-badge">
+                        <Icon name="recent" size={16} />
+                      </span>
                     )}
                   </div>
                 </div>

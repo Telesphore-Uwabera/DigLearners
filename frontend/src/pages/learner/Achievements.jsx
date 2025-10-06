@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from '../../lib/language'
 import { mockBadges, mockAchievements, getEarnedBadges, getPendingBadges, formatDate } from '../../services/mockDataService'
 import AchievementNotification from '../../components/AchievementNotification'
+import Icon from '../../components/icons/Icon'
 import '../../components/CodePlayStyles.css'
 import '../../components/DashboardStyles.css'
 
@@ -12,10 +13,10 @@ export default function Achievements() {
   const [currentBadge, setCurrentBadge] = useState(null)
 
   const categories = [
-    { id: 'all', name: 'All Badges', icon: '🏆', color: '#1976D2' },
-    { id: 'achievement', name: 'Achievements', icon: '🎯', color: '#4CAF50' },
-    { id: 'milestone', name: 'Milestones', icon: '📈', color: '#FF9800' },
-    { id: 'special', name: 'Special', icon: '⭐', color: '#9C27B0' }
+    { id: 'all', name: 'All Badges', icon: 'achievement', color: '#1976D2' },
+    { id: 'achievement', name: 'Achievements', icon: 'target', color: '#4CAF50' },
+    { id: 'milestone', name: 'Milestones', icon: 'progress', color: '#FF9800' },
+    { id: 'special', name: 'Special', icon: 'star', color: '#9C27B0' }
   ]
 
   const getFilteredBadges = () => {
@@ -58,7 +59,9 @@ export default function Achievements() {
         </div>
         <div className="header-right">
           <div className="user-profile">
-            <div className="avatar">🏆</div>
+            <div className="avatar">
+              <Icon name="achievement" size={24} />
+            </div>
             <span className="user-name">My Achievements</span>
           </div>
         </div>
@@ -70,7 +73,9 @@ export default function Achievements() {
         <div className="achievement-overview">
           <div className="overview-stats">
             <div className="stat-card">
-              <div className="stat-icon">🏆</div>
+              <div className="stat-icon">
+                <Icon name="achievement" size={24} />
+              </div>
               <div className="stat-info">
                 <div className="stat-value">{earnedBadges.length}</div>
                 <div className="stat-label">Badges Earned</div>
@@ -78,7 +83,9 @@ export default function Achievements() {
             </div>
             
             <div className="stat-card">
-              <div className="stat-icon">📊</div>
+              <div className="stat-icon">
+                <Icon name="analytics" size={24} />
+              </div>
               <div className="stat-info">
                 <div className="stat-value">{completionRate}%</div>
                 <div className="stat-label">Completion Rate</div>
@@ -86,7 +93,9 @@ export default function Achievements() {
             </div>
             
             <div className="stat-card">
-              <div className="stat-icon">⭐</div>
+              <div className="stat-icon">
+                <Icon name="star" size={24} />
+              </div>
               <div className="stat-info">
                 <div className="stat-value">
                   {earnedBadges.reduce((sum, badge) => sum + badge.points, 0)}
@@ -96,7 +105,9 @@ export default function Achievements() {
             </div>
             
             <div className="stat-card">
-              <div className="stat-icon">🎯</div>
+              <div className="stat-icon">
+                <Icon name="target" size={24} />
+              </div>
               <div className="stat-info">
                 <div className="stat-value">{pendingBadges.length}</div>
                 <div className="stat-label">Available Badges</div>
@@ -107,7 +118,10 @@ export default function Achievements() {
 
         {/* Recent Achievements */}
         <div className="recent-achievements">
-          <h3>🎉 Recent Achievements</h3>
+          <h3>
+            <Icon name="star" size={20} style={{ marginRight: '8px' }} />
+            Recent Achievements
+          </h3>
           <div className="recent-badges">
             {mockAchievements.recentAchievements.map(achievement => (
               <div key={achievement.id} className="recent-badge">
@@ -122,7 +136,8 @@ export default function Achievements() {
                   className="test-notification-button"
                   onClick={() => simulateAchievement(achievement)}
                 >
-                  🎉 Test
+                  <Icon name="star" size={16} style={{ marginRight: '4px' }} />
+                  Test
                 </button>
               </div>
             ))}
@@ -140,7 +155,9 @@ export default function Achievements() {
                 style={{ borderColor: category.color }}
                 onClick={() => setSelectedCategory(category.id)}
               >
-                <span className="category-icon">{category.icon}</span>
+                <span className="category-icon">
+                  <Icon name={category.icon} size={20} />
+                </span>
                 <span className="category-name">{category.name}</span>
               </button>
             ))}
@@ -149,7 +166,10 @@ export default function Achievements() {
 
         {/* Badge Collection */}
         <div className="badge-collection">
-          <h3>🏆 Badge Collection</h3>
+          <h3>
+            <Icon name="achievement" size={20} style={{ marginRight: '8px' }} />
+            Badge Collection
+          </h3>
           <div className="badges-grid">
             {getFilteredBadges().map(badge => (
               <div 
@@ -170,7 +190,8 @@ export default function Achievements() {
                       className="celebrate-button"
                       onClick={() => simulateAchievement(badge)}
                     >
-                      🎉 Celebrate
+                      <Icon name="star" size={16} style={{ marginRight: '4px' }} />
+                      Celebrate
                     </button>
                   </div>
                 )}
@@ -190,7 +211,10 @@ export default function Achievements() {
 
         {/* Upcoming Badges */}
         <div className="upcoming-badges">
-          <h3>🎯 Upcoming Badges</h3>
+          <h3>
+            <Icon name="target" size={20} style={{ marginRight: '8px' }} />
+            Upcoming Badges
+          </h3>
           <div className="upcoming-list">
             {mockAchievements.upcomingBadges.map(badge => (
               <div key={badge.id} className="upcoming-badge">
@@ -218,10 +242,15 @@ export default function Achievements() {
 
         {/* Achievement Tips */}
         <div className="achievement-tips">
-          <h3>💡 Tips to Earn More Badges</h3>
+          <h3>
+            <Icon name="help" size={20} style={{ marginRight: '8px' }} />
+            Tips to Earn More Badges
+          </h3>
           <div className="tips-grid">
             <div className="tip-item">
-              <div className="tip-icon">📚</div>
+              <div className="tip-icon">
+                <Icon name="book" size={20} />
+              </div>
               <div className="tip-content">
                 <div className="tip-title">Complete Lessons</div>
                 <div className="tip-description">Finish lessons to earn achievement badges</div>
@@ -229,7 +258,9 @@ export default function Achievements() {
             </div>
             
             <div className="tip-item">
-              <div className="tip-icon">🔥</div>
+              <div className="tip-icon">
+                <Icon name="lightning" size={20} />
+              </div>
               <div className="tip-content">
                 <div className="tip-title">Maintain Streaks</div>
                 <div className="tip-description">Learn daily to earn streak badges</div>
@@ -237,7 +268,9 @@ export default function Achievements() {
             </div>
             
             <div className="tip-item">
-              <div className="tip-icon">⭐</div>
+              <div className="tip-icon">
+                <Icon name="star" size={20} />
+              </div>
               <div className="tip-content">
                 <div className="tip-title">Perfect Scores</div>
                 <div className="tip-description">Get 100% on lessons for special badges</div>
@@ -245,7 +278,9 @@ export default function Achievements() {
             </div>
             
             <div className="tip-item">
-              <div className="tip-icon">🏆</div>
+              <div className="tip-icon">
+                <Icon name="achievement" size={20} />
+              </div>
               <div className="tip-content">
                 <div className="tip-title">Top Rankings</div>
                 <div className="tip-description">Be among the top performers weekly</div>

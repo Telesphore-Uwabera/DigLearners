@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from '../../lib/language';
 import { getAchievementsData } from '../../services/parentMockDataService';
+import Icon from '../../components/icons/Icon';
 import '../../components/DashboardStyles.css';
 
 const Achievements = () => {
@@ -175,7 +176,9 @@ const Achievements = () => {
                     </div>
                     <div className="badge-category">{badge.category}</div>
                     {badge.earned && (
-                      <div className="badge-status">✅</div>
+                      <div className="badge-status">
+                        <Icon name="check" size={16} />
+                      </div>
                     )}
                   </div>
                 ))}
@@ -223,7 +226,9 @@ const Achievements = () => {
           </h3>
           <div className="stats-grid">
             <div className="stat-card">
-              <div className="stat-icon">🏆</div>
+              <div className="stat-icon">
+                <Icon name="achievement" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.totalBadges}</h3>
                 <p>
@@ -232,7 +237,9 @@ const Achievements = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">🆕</div>
+              <div className="stat-icon">
+                <Icon name="new" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.recentBadges}</h3>
                 <p>
@@ -241,7 +248,9 @@ const Achievements = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">🛡️</div>
+              <div className="stat-icon">
+                <Icon name="shield" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.topCategory}</h3>
                 <p>
@@ -250,7 +259,9 @@ const Achievements = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">⭐</div>
+              <div className="stat-icon">
+                <Icon name="star" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.mostActiveChild}</h3>
                 <p>

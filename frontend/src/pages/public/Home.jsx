@@ -3,6 +3,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../../contexts/LanguageContext'
 import PublicFooter from '../../components/layout/PublicFooter'
+import Icon from '../../components/icons/Icon'
 
 const Home = () => {
   const { t } = useLanguage()
@@ -28,10 +29,18 @@ const Home = () => {
         </div>
         <div className="hero-image">
           <div className="learning-illustration">
-            <div className="student-icon">🎓</div>
-            <div className="computer-icon">💻</div>
-            <div className="book-icon">📚</div>
-            <div className="star-icon">⭐</div>
+            <div className="student-icon">
+              <Icon name="student" size={32} />
+            </div>
+            <div className="computer-icon">
+              <Icon name="computer" size={32} />
+            </div>
+            <div className="book-icon">
+              <Icon name="book" size={32} />
+            </div>
+            <div className="star-icon">
+              <Icon name="star" size={32} />
+            </div>
           </div>
         </div>
       </header>
@@ -41,32 +50,44 @@ const Home = () => {
           <h2>Why DigLearners?</h2>
           <div className="features-grid">
             <div className="feature-card">
-              <div className="feature-icon">📱</div>
+              <div className="feature-icon">
+                <Icon name="phone" size={24} />
+              </div>
               <h3>Offline-First</h3>
               <p>Works seamlessly in low-bandwidth and rural areas with offline capabilities</p>
             </div>
             <div className="feature-card">
-              <div className="feature-icon">🎮</div>
+              <div className="feature-icon">
+                <Icon name="target" size={24} />
+              </div>
               <h3>Gamified Learning</h3>
               <p>Engaging points, badges, and levels to motivate young learners</p>
             </div>
             <div className="feature-card">
-              <div className="feature-icon">🌍</div>
+              <div className="feature-icon">
+                <Icon name="globe" size={24} />
+              </div>
               <h3>Multilingual</h3>
               <p>Available in English and Kinyarwanda for local accessibility</p>
             </div>
             <div className="feature-card">
-              <div className="feature-icon">♿</div>
+              <div className="feature-icon">
+                <Icon name="accessibility" size={24} />
+              </div>
               <h3>Accessible</h3>
               <p>Designed with accessibility features for inclusive learning</p>
             </div>
             <div className="feature-card">
-              <div className="feature-icon">👨‍👩‍👧‍👦</div>
+              <div className="feature-icon">
+                <Icon name="users" size={24} />
+              </div>
               <h3>Family Engagement</h3>
               <p>Parents can track their child's progress and achievements</p>
             </div>
             <div className="feature-card">
-              <div className="feature-icon">📊</div>
+              <div className="feature-icon">
+                <Icon name="analytics" size={24} />
+              </div>
               <h3>Research-Driven</h3>
               <p>Built on educational research for effective digital literacy learning</p>
             </div>

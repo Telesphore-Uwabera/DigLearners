@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from '../../lib/language';
 import { getProgressReportsData } from '../../services/parentMockDataService';
+import Icon from '../../components/icons/Icon';
 import '../../components/DashboardStyles.css';
 
 const ProgressReports = () => {
@@ -106,7 +107,9 @@ const ProgressReports = () => {
               <div className="overview-section">
                 <div className="overview-stats">
                   <div className="stat-card">
-                    <div className="stat-icon">📚</div>
+                    <div className="stat-icon">
+                      <Icon name="book" size={24} />
+                    </div>
                     <div className="stat-content">
                       <h3>
                         {currentChild.subjects.reduce((total, subject) => total + subject.lessonsCompleted, 0)}
@@ -117,7 +120,9 @@ const ProgressReports = () => {
                     </div>
                   </div>
                   <div className="stat-card">
-                    <div className="stat-icon">⏱️</div>
+                    <div className="stat-icon">
+                      <Icon name="clock" size={24} />
+                    </div>
                     <div className="stat-content">
                       <h3>
                         {currentChild.weeklyProgress.reduce((total, week) => {
@@ -131,7 +136,9 @@ const ProgressReports = () => {
                     </div>
                   </div>
                   <div className="stat-card">
-                    <div className="stat-icon">📊</div>
+                    <div className="stat-icon">
+                      <Icon name="analytics" size={24} />
+                    </div>
                     <div className="stat-content">
                       <h3>
                         {Math.round(currentChild.subjects.reduce((total, subject) => total + subject.averageScore, 0) / currentChild.subjects.length)}%
@@ -142,7 +149,9 @@ const ProgressReports = () => {
                     </div>
                   </div>
                   <div className="stat-card">
-                    <div className="stat-icon">🎯</div>
+                    <div className="stat-icon">
+                      <Icon name="target" size={24} />
+                    </div>
                     <div className="stat-content">
                       <h3>{currentChild.subjects.length}</h3>
                       <p>
@@ -159,7 +168,10 @@ const ProgressReports = () => {
                     </h3>
                     <ul>
                       {currentChild.strengths.map((strength, index) => (
-                        <li key={index}>✅ {strength}</li>
+                        <li key={index}>
+                          <Icon name="check" size={16} style={{ marginRight: '8px' }} />
+                          {strength}
+                        </li>
                       ))}
                     </ul>
                   </div>
@@ -169,7 +181,10 @@ const ProgressReports = () => {
                     </h3>
                     <ul>
                       {currentChild.areasForImprovement.map((area, index) => (
-                        <li key={index}>📈 {area}</li>
+                        <li key={index}>
+                          <Icon name="progress" size={16} style={{ marginRight: '8px' }} />
+                          {area}
+                        </li>
                       ))}
                     </ul>
                   </div>
@@ -259,7 +274,9 @@ const ProgressReports = () => {
           </h3>
           <div className="stats-grid">
             <div className="stat-card">
-              <div className="stat-icon">👶</div>
+              <div className="stat-icon">
+                <Icon name="child" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.totalChildren}</h3>
                 <p>
@@ -268,7 +285,9 @@ const ProgressReports = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">📊</div>
+              <div className="stat-icon">
+                <Icon name="analytics" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.averageProgress}%</h3>
                 <p>
@@ -277,7 +296,9 @@ const ProgressReports = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">📚</div>
+              <div className="stat-icon">
+                <Icon name="book" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.totalLessonsCompleted}</h3>
                 <p>
@@ -286,7 +307,9 @@ const ProgressReports = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">⏱️</div>
+              <div className="stat-icon">
+                <Icon name="clock" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.totalLearningTime}</h3>
                 <p>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from '../../lib/language';
 import { getLessonsData } from '../../services/teacherMockDataService';
+import Icon from '../../components/icons/Icon';
 import '../../components/DashboardStyles.css';
 
 const Lessons = () => {
@@ -179,9 +180,18 @@ const Lessons = () => {
                 <h2>{currentLesson.title}</h2>
                 <p>{currentLesson.subject} • {currentLesson.grade}</p>
                 <div className="lesson-meta-detail">
-                  <span>⏱️ {currentLesson.duration}</span>
-                  <span>📊 {currentLesson.difficulty}</span>
-                  <span>📅 {currentLesson.lastModified}</span>
+                  <span>
+                    <Icon name="clock" size={16} style={{ marginRight: '4px' }} />
+                    {currentLesson.duration}
+                  </span>
+                  <span>
+                    <Icon name="analytics" size={16} style={{ marginRight: '4px' }} />
+                    {currentLesson.difficulty}
+                  </span>
+                  <span>
+                    <Icon name="calendar" size={16} style={{ marginRight: '4px' }} />
+                    {currentLesson.lastModified}
+                  </span>
                 </div>
               </div>
               <div className="lesson-actions">
@@ -204,7 +214,10 @@ const Lessons = () => {
                 </h3>
                 <ul>
                   {currentLesson.objectives.map((objective, index) => (
-                    <li key={index}>🎯 {objective}</li>
+                    <li key={index}>
+                      <Icon name="target" size={16} style={{ marginRight: '8px' }} />
+                      {objective}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -215,7 +228,10 @@ const Lessons = () => {
                 </h3>
                 <ul>
                   {currentLesson.resources.map((resource, index) => (
-                    <li key={index}>📚 {resource}</li>
+                    <li key={index}>
+                      <Icon name="book" size={16} style={{ marginRight: '8px' }} />
+                      {resource}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -277,7 +293,9 @@ const Lessons = () => {
           </h3>
           <div className="stats-grid">
             <div className="stat-card">
-              <div className="stat-icon">📚</div>
+              <div className="stat-icon">
+                <Icon name="book" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.totalLessons}</h3>
                 <p>
@@ -286,7 +304,9 @@ const Lessons = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">✅</div>
+              <div className="stat-icon">
+                <Icon name="check" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.publishedLessons}</h3>
                 <p>
@@ -295,7 +315,9 @@ const Lessons = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">📝</div>
+              <div className="stat-icon">
+                <Icon name="assignment" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.draftLessons}</h3>
                 <p>
@@ -304,7 +326,9 @@ const Lessons = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">📊</div>
+              <div className="stat-icon">
+                <Icon name="analytics" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.averageCompletion}%</h3>
                 <p>

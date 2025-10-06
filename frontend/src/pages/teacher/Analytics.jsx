@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from '../../lib/language';
 import { getAnalyticsData } from '../../services/teacherMockDataService';
+import Icon from '../../components/icons/Icon';
 import '../../components/DashboardStyles.css';
 
 const Analytics = () => {
@@ -53,7 +54,9 @@ const Analytics = () => {
           <div className="overview-section">
             <div className="overview-stats">
               <div className="stat-card">
-                <div className="stat-icon">👥</div>
+                <div className="stat-icon">
+                  <Icon name="users" size={24} />
+                </div>
                 <div className="stat-content">
                   <h3>{data.overview.totalStudents}</h3>
                   <p>
@@ -62,7 +65,9 @@ const Analytics = () => {
                 </div>
               </div>
               <div className="stat-card">
-                <div className="stat-icon">✅</div>
+                <div className="stat-icon">
+                  <Icon name="check" size={24} />
+                </div>
                 <div className="stat-content">
                   <h3>{data.overview.activeStudents}</h3>
                   <p>
@@ -71,7 +76,9 @@ const Analytics = () => {
                 </div>
               </div>
               <div className="stat-card">
-                <div className="stat-icon">📚</div>
+                <div className="stat-icon">
+                  <Icon name="book" size={24} />
+                </div>
                 <div className="stat-content">
                   <h3>{data.overview.totalLessons}</h3>
                   <p>
@@ -80,7 +87,9 @@ const Analytics = () => {
                 </div>
               </div>
               <div className="stat-card">
-                <div className="stat-icon">⏱️</div>
+                <div className="stat-icon">
+                  <Icon name="clock" size={24} />
+                </div>
                 <div className="stat-content">
                   <h3>{data.overview.totalHours}</h3>
                   <p>
@@ -126,7 +135,9 @@ const Analytics = () => {
               {data.studentProgress.map((student, index) => (
                 <div key={index} className="student-progress-item">
                   <div className="student-info">
-                    <div className="student-avatar">👤</div>
+                    <div className="student-avatar">
+                      <Icon name="users" size={24} />
+                    </div>
                     <div>
                       <h4>{student.name}</h4>
                       <p>
@@ -288,7 +299,9 @@ const Analytics = () => {
           </h3>
           <div className="stats-grid">
             <div className="stat-card">
-              <div className="stat-icon">📊</div>
+              <div className="stat-icon">
+                <Icon name="analytics" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.overview.averageProgress}%</h3>
                 <p>
@@ -297,7 +310,9 @@ const Analytics = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">📚</div>
+              <div className="stat-icon">
+                <Icon name="book" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.overview.completedLessons}</h3>
                 <p>
@@ -306,7 +321,9 @@ const Analytics = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">⏱️</div>
+              <div className="stat-icon">
+                <Icon name="clock" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.overview.totalHours}</h3>
                 <p>
@@ -315,7 +332,9 @@ const Analytics = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">👥</div>
+              <div className="stat-icon">
+                <Icon name="users" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.overview.activeStudents}</h3>
                 <p>

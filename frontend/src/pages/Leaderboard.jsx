@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { gamificationManager } from '../lib/gamification'
 import MyComponent from '../components/MyComponent'
+import Icon from '../components/icons/Icon'
 
 export default function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState([])
@@ -27,9 +28,9 @@ export default function Leaderboard() {
 
   const getRankIcon = (rank) => {
     switch (rank) {
-      case 1: return '🥇'
-      case 2: return '🥈'
-      case 3: return '🥉'
+      case 1: return <Icon name="trophy" size={20} />
+      case 2: return <Icon name="trophy" size={20} />
+      case 3: return <Icon name="trophy" size={20} />
       default: return `#${rank}`
     }
   }
@@ -100,10 +101,12 @@ export default function Leaderboard() {
               
               <div className="progress-indicators">
                 <div className="lessons-completed">
-                  📚 {student.lessonsCompleted}
+                  <Icon name="book" size={16} style={{ marginRight: '4px' }} />
+                  {student.lessonsCompleted}
                 </div>
                 <div className="streak">
-                  🔥 {student.streak}
+                  <Icon name="lightning" size={16} style={{ marginRight: '4px' }} />
+                  {student.streak}
                 </div>
               </div>
             </div>

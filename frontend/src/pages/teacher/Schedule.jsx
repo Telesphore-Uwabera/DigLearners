@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from '../../lib/language';
 import { getScheduleData } from '../../services/teacherMockDataService';
+import Icon from '../../components/icons/Icon';
 import '../../components/DashboardStyles.css';
 
 const Schedule = () => {
@@ -93,7 +94,9 @@ const Schedule = () => {
                   <p>{item.class} • {item.students} {currentLanguage === 'rw' ? 'abanyeshuri' : 'students'}</p>
                 </div>
                 <div className="schedule-type">
-                  <span className="type-badge">📚</span>
+                  <span className="type-badge">
+                    <Icon name="book" size={16} />
+                  </span>
                 </div>
               </div>
             ))}
@@ -130,7 +133,10 @@ const Schedule = () => {
                       <div className="card-class">{item.class}</div>
                       <div className="card-students">{item.students} {currentLanguage === 'rw' ? 'abanyeshuri' : 'students'}</div>
                       <div className={`card-status ${item.status}`}>
-                        {item.status === 'scheduled' ? '📅' : '✅'}
+                        <Icon 
+                          name={item.status === 'scheduled' ? 'calendar' : 'check'} 
+                          size={16} 
+                        />
                       </div>
                     </div>
                   ))}
@@ -183,11 +189,26 @@ const Schedule = () => {
                 <h2>{currentSchedule.title}</h2>
                 <p>{currentSchedule.class} • {currentSchedule.subject}</p>
                 <div className="schedule-meta">
-                  <span>📅 {new Date(currentSchedule.date).toLocaleDateString()}</span>
-                  <span>⏰ {currentSchedule.time}</span>
-                  <span>⏱️ {currentSchedule.duration}</span>
-                  <span>🏫 {currentSchedule.classroom}</span>
-                  <span>👥 {currentSchedule.students} {currentLanguage === 'rw' ? 'abanyeshuri' : 'students'}</span>
+                  <span>
+                    <Icon name="calendar" size={16} style={{ marginRight: '4px' }} />
+                    {new Date(currentSchedule.date).toLocaleDateString()}
+                  </span>
+                  <span>
+                    <Icon name="clock" size={16} style={{ marginRight: '4px' }} />
+                    {currentSchedule.time}
+                  </span>
+                  <span>
+                    <Icon name="clock" size={16} style={{ marginRight: '4px' }} />
+                    {currentSchedule.duration}
+                  </span>
+                  <span>
+                    <Icon name="school" size={16} style={{ marginRight: '4px' }} />
+                    {currentSchedule.classroom}
+                  </span>
+                  <span>
+                    <Icon name="users" size={16} style={{ marginRight: '4px' }} />
+                    {currentSchedule.students} {currentLanguage === 'rw' ? 'abanyeshuri' : 'students'}
+                  </span>
                 </div>
               </div>
               <div className="schedule-actions">
@@ -210,7 +231,10 @@ const Schedule = () => {
                 </h3>
                 <ul>
                   {currentSchedule.objectives.map((objective, index) => (
-                    <li key={index}>🎯 {objective}</li>
+                    <li key={index}>
+                      <Icon name="target" size={16} style={{ marginRight: '8px' }} />
+                      {objective}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -257,7 +281,9 @@ const Schedule = () => {
           </h3>
           <div className="stats-grid">
             <div className="stat-card">
-              <div className="stat-icon">📅</div>
+              <div className="stat-icon">
+                <Icon name="calendar" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.totalScheduled}</h3>
                 <p>
@@ -266,7 +292,9 @@ const Schedule = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">📊</div>
+              <div className="stat-icon">
+                <Icon name="analytics" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.thisWeek}</h3>
                 <p>
@@ -275,7 +303,9 @@ const Schedule = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">👥</div>
+              <div className="stat-icon">
+                <Icon name="users" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.totalStudents}</h3>
                 <p>
@@ -284,7 +314,9 @@ const Schedule = () => {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">⏱️</div>
+              <div className="stat-icon">
+                <Icon name="clock" size={24} />
+              </div>
               <div className="stat-content">
                 <h3>{data.summary.totalHours}</h3>
                 <p>

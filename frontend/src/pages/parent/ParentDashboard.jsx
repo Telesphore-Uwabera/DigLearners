@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Icon from '../../components/icons/Icon';
 import '../../components/DashboardStyles.css';
 
 const ParentDashboard = () => {
@@ -15,28 +16,36 @@ const ParentDashboard = () => {
 
       <div className="stats-grid">
         <div className="stat-card">
-          <div className="stat-icon">👶</div>
+          <div className="stat-icon">
+            <Icon name="child" size={24} />
+          </div>
           <div className="stat-content">
             <h3>2</h3>
             <p>Children</p>
           </div>
         </div>
         <div className="stat-card">
-          <div className="stat-icon">📚</div>
+          <div className="stat-icon">
+            <Icon name="book" size={24} />
+          </div>
           <div className="stat-content">
             <h3>24</h3>
             <p>Lessons Completed</p>
           </div>
         </div>
         <div className="stat-card">
-          <div className="stat-icon">🏆</div>
+          <div className="stat-icon">
+            <Icon name="achievement" size={24} />
+          </div>
           <div className="stat-content">
             <h3>12</h3>
             <p>Total Badges</p>
           </div>
         </div>
         <div className="stat-card">
-          <div className="stat-icon">⏱️</div>
+          <div className="stat-icon">
+            <Icon name="clock" size={24} />
+          </div>
           <div className="stat-content">
             <h3>15h</h3>
             <p>Learning Time</p>
@@ -46,7 +55,9 @@ const ParentDashboard = () => {
 
       <div className="dashboard-grid">
         <Link to="/dashboard/children" className="dashboard-card">
-          <div className="card-icon">👶</div>
+          <div className="card-icon">
+            <Icon name="child" size={32} />
+          </div>
           <div className="card-content">
             <h3>My Children</h3>
             <p>View and manage your children's profiles</p>
@@ -58,7 +69,9 @@ const ParentDashboard = () => {
         </Link>
         
         <Link to="/dashboard/progress" className="dashboard-card">
-          <div className="card-icon">📊</div>
+          <div className="card-icon">
+            <Icon name="analytics" size={32} />
+          </div>
           <div className="card-content">
             <h3>Progress Reports</h3>
             <p>Detailed learning progress for each child</p>
@@ -70,7 +83,9 @@ const ParentDashboard = () => {
         </Link>
         
         <Link to="/dashboard/achievements" className="dashboard-card">
-          <div className="card-icon">🏆</div>
+          <div className="card-icon">
+            <Icon name="achievement" size={32} />
+          </div>
           <div className="card-content">
             <h3>Achievements</h3>
             <p>View badges and accomplishments</p>
@@ -82,7 +97,9 @@ const ParentDashboard = () => {
         </Link>
         
         <Link to="/dashboard/schedule" className="dashboard-card">
-          <div className="card-icon">📅</div>
+          <div className="card-icon">
+            <Icon name="calendar" size={32} />
+          </div>
           <div className="card-content">
             <h3>Schedule</h3>
             <p>View learning schedules and activities</p>
@@ -94,7 +111,9 @@ const ParentDashboard = () => {
         </Link>
         
         <Link to="/dashboard/communication" className="dashboard-card">
-          <div className="card-icon">💬</div>
+          <div className="card-icon">
+            <Icon name="message" size={32} />
+          </div>
           <div className="card-content">
             <h3>Communication</h3>
             <p>Messages from teachers and administrators</p>
@@ -106,7 +125,9 @@ const ParentDashboard = () => {
         </Link>
         
         <Link to="/dashboard/reports" className="dashboard-card">
-          <div className="card-icon">📋</div>
+          <div className="card-icon">
+            <Icon name="report" size={24} />
+          </div>
           <div className="card-content">
             <h3>Reports</h3>
             <p>Weekly and monthly progress reports</p>
@@ -122,28 +143,36 @@ const ParentDashboard = () => {
         <h2>Recent Activity</h2>
         <div className="activity-list">
           <div className="activity-item">
-            <div className="activity-icon">✅</div>
+            <div className="activity-icon">
+              <Icon name="check" size={20} />
+            </div>
             <div className="activity-content">
               <p><strong>Alice completed:</strong> Introduction to Programming</p>
               <span className="activity-time">2 hours ago</span>
             </div>
           </div>
           <div className="activity-item">
-            <div className="activity-icon">🏆</div>
+            <div className="activity-icon">
+              <Icon name="achievement" size={20} />
+            </div>
             <div className="activity-content">
               <p><strong>John earned badge:</strong> Fast Learner</p>
               <span className="activity-time">4 hours ago</span>
             </div>
           </div>
           <div className="activity-item">
-            <div className="activity-icon">📚</div>
+            <div className="activity-icon">
+              <Icon name="book" size={20} />
+            </div>
             <div className="activity-content">
               <p><strong>New lesson assigned:</strong> Safe Internet Browsing</p>
               <span className="activity-time">1 day ago</span>
             </div>
           </div>
           <div className="activity-item">
-            <div className="activity-icon">📊</div>
+            <div className="activity-icon">
+              <Icon name="analytics" size={20} />
+            </div>
             <div className="activity-content">
               <p><strong>Weekly report generated:</strong> Alice's learning progress</p>
               <span className="activity-time">2 days ago</span>
@@ -170,11 +199,17 @@ const ParentDashboard = () => {
               </div>
               <div className="stat">
                 <span className="stat-label">Badges:</span>
-                <span className="stat-value">🏆 7</span>
+                <span className="stat-value">
+                  <Icon name="achievement" size={16} style={{ marginRight: '4px' }} />
+                  7
+                </span>
               </div>
               <div className="stat">
                 <span className="stat-label">Points:</span>
-                <span className="stat-value">⭐ 450</span>
+                <span className="stat-value">
+                  <Icon name="star" size={16} style={{ marginRight: '4px' }} />
+                  450
+                </span>
               </div>
               <div className="stat">
                 <span className="stat-label">Progress:</span>
@@ -201,11 +236,17 @@ const ParentDashboard = () => {
               </div>
               <div className="stat">
                 <span className="stat-label">Badges:</span>
-                <span className="stat-value">🏆 5</span>
+                <span className="stat-value">
+                  <Icon name="achievement" size={16} style={{ marginRight: '4px' }} />
+                  5
+                </span>
               </div>
               <div className="stat">
                 <span className="stat-label">Points:</span>
-                <span className="stat-value">⭐ 380</span>
+                <span className="stat-value">
+                  <Icon name="star" size={16} style={{ marginRight: '4px' }} />
+                  380
+                </span>
               </div>
               <div className="stat">
                 <span className="stat-label">Progress:</span>

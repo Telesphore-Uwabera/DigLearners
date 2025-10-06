@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from '../../lib/language';
+import Icon from '../icons/Icon';
 import './PublicFooter.css';
 
 const PublicFooter = () => {
@@ -64,15 +65,21 @@ const PublicFooter = () => {
             <h4>{currentLanguage === 'rw' ? 'Twandikire' : 'Contact'}</h4>
             <div className="public-contact-info">
               <div className="public-contact-item">
-                <span className="public-contact-icon">📧</span>
+                <span className="public-contact-icon">
+                  <Icon name="email" size={16} />
+                </span>
                 <span>info@diglearners.rw</span>
               </div>
               <div className="public-contact-item">
-                <span className="public-contact-icon">📱</span>
+                <span className="public-contact-icon">
+                  <Icon name="phone" size={16} />
+                </span>
                 <span>+250 788 123 456</span>
               </div>
               <div className="public-contact-item">
-                <span className="public-contact-icon">📍</span>
+                <span className="public-contact-icon">
+                  <Icon name="location" size={16} />
+                </span>
                 <span>{currentLanguage === 'rw' ? 'Kigali, Rwanda' : 'Kigali, Rwanda'}</span>
               </div>
             </div>

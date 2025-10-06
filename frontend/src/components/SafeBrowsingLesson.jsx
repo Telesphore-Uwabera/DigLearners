@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from '../lib/language'
+import Icon from './icons/Icon'
 import './CodePlayStyles.css'
 
 export default function SafeBrowsingLesson({ lesson, onComplete, onProgress }) {
@@ -128,7 +129,9 @@ export default function SafeBrowsingLesson({ lesson, onComplete, onProgress }) {
         </div>
         <div className="header-right">
           <div className="user-profile">
-            <div className="avatar">🛡️</div>
+            <div className="avatar">
+              <Icon name="shield" size={24} />
+            </div>
             <span className="user-name">Hi, Alex</span>
           </div>
         </div>
@@ -151,7 +154,9 @@ export default function SafeBrowsingLesson({ lesson, onComplete, onProgress }) {
 
       <div className="scenario-area">
         <div className="scenario-card">
-          <div className="scenario-icon">🛡️</div>
+          <div className="scenario-icon">
+            <Icon name="shield" size={32} />
+          </div>
           <h3 className="scenario-question">{currentScenarioData.question}</h3>
           
           <div className="options-grid">
@@ -182,7 +187,10 @@ export default function SafeBrowsingLesson({ lesson, onComplete, onProgress }) {
           {showResult && (
             <div className="result-explanation">
               <div className={`result-icon ${selectedAnswer === currentScenarioData.correct ? 'correct' : 'incorrect'}`}>
-                {selectedAnswer === currentScenarioData.correct ? '✅' : '❌'}
+                <Icon 
+                  name={selectedAnswer === currentScenarioData.correct ? 'check' : 'cross'} 
+                  size={24} 
+                />
               </div>
               <div className="explanation-text">
                 <h4>
@@ -203,25 +211,33 @@ export default function SafeBrowsingLesson({ lesson, onComplete, onProgress }) {
         )}
         
         <button onClick={resetLesson} className="reset-button">
-          🔄 {t('common.restart')}
+          <Icon name="recent" size={16} style={{ marginRight: '8px' }} />
+          {t('common.restart')}
         </button>
       </div>
 
       {isCompleted && (
         <div className="completion-message">
-          <h3>🎉 {t('lesson.lesson_complete')}</h3>
+          <h3>
+            <Icon name="star" size={20} style={{ marginRight: '8px' }} />
+            {t('lesson.lesson_complete')}
+          </h3>
           <div className="final-score">
             <p>You scored {score} out of {scenarios.length} questions!</p>
             <p>That's {Math.round((score / scenarios.length) * 100)}% correct!</p>
           </div>
           <button onClick={() => onComplete && onComplete({ score, totalQuestions: scenarios.length })} className="next-button">
-            {t('common.finish')} 🏆
+            <Icon name="achievement" size={16} style={{ marginRight: '8px' }} />
+            {t('common.finish')}
           </button>
         </div>
       )}
 
       <div className="safety-tips">
-        <h4>🛡️ Internet Safety Tips:</h4>
+        <h4>
+          <Icon name="shield" size={20} style={{ marginRight: '8px' }} />
+          Internet Safety Tips:
+        </h4>
         <ul>
           <li>Never share personal information with strangers</li>
           <li>Don't click on suspicious links or pop-ups</li>
