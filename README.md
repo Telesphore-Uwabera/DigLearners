@@ -55,7 +55,7 @@ frontend/
 │   └── utils/          # Utility functions
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Node.js >= 16.0.0
@@ -143,7 +143,7 @@ The platform implements the Entity-Relationship Diagram (ERD) with the following
 - Daily streaks: +5 points per day
 - Badge earning: 10-100 points per badge
 
-## 🌐 Multilingual Support
+## Multilingual Support
 
 ### Supported Languages
 - **English** (en): Primary language
@@ -156,7 +156,7 @@ The platform implements the Entity-Relationship Diagram (ERD) with the following
 - Accessibility features
 - Research dashboard
 
-## 🔐 Role-Based Access Control
+## Role-Based Access Control
 
 ### Learner Interface
 - Access to lessons and learning activities
@@ -260,7 +260,7 @@ npm run seed       # Seed initial data
 - `GET /api/learning/progress` - Get user progress
 - `GET /api/learning/badges` - Get user badges
 
-## 🧪 Testing
+## Testing
 
 ### Backend Tests
 ```bash
@@ -279,7 +279,7 @@ npm test
 npm run test:e2e
 ```
 
-## 🚀 Deployment
+## Deployment
 
 ### Docker Deployment
 ```bash
@@ -294,11 +294,11 @@ npm run docker:up
 4. Configure environment variables
 5. Set up database
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch

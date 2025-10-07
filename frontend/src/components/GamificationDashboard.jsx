@@ -124,7 +124,9 @@ export default function GamificationDashboard({ userId = 'demo-student-1' }) {
         {/* User Stats */}
         <div className="user-stats-grid">
           <div className="stat-card">
-            <div className="stat-icon">🔥</div>
+            <div className="stat-icon">
+              <Icon name="lightning" size={24} />
+            </div>
             <div className="stat-info">
               <div className="stat-value">{userProgress.streak}</div>
               <div className="stat-label">Day Streak</div>

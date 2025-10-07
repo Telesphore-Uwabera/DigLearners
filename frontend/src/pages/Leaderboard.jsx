@@ -116,7 +116,7 @@ export default function Leaderboard() {
 
       {/* Motivational Message */}
       <div className="motivational-message">
-        <h3>Keep Learning! 🚀</h3>
+        <h3>Keep Learning!</h3>
         <p>
           {activeTab === 'overall' 
             ? "Complete more lessons and earn badges to climb the leaderboard!"

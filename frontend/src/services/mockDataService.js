@@ -204,7 +204,7 @@ export const mockBadges = [
     id: "streak_master",
     name: "Streak Master",
     description: "7-day learning streak",
-    icon: "🔥",
+    icon: "lightning",
     points: 75,
     category: "milestone",
     isEarned: true,
@@ -327,7 +327,7 @@ export const mockAchievements = {
       id: "streak_master",
       name: "Streak Master",
       description: "7-day learning streak",
-      icon: "🔥",
+      icon: "lightning",
       earnedAt: "2024-01-16T14:20:00Z"
     },
     {

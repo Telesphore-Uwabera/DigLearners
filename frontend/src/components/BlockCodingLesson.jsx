@@ -21,10 +21,10 @@ export default function BlockCodingLesson({ lesson, onComplete, onProgress }) {
       description: "Drag the 'move forward' block to make the cat walk!",
       target: ['move_forward'],
       availableBlocks: [
-        { id: 'move_forward', text: 'Move Forward', color: '#4CAF50', icon: '🚶' },
-        { id: 'turn_left', text: 'Turn Left', color: '#2196F3', icon: '↶' },
-        { id: 'turn_right', text: 'Turn Right', color: '#2196F3', icon: '↷' },
-        { id: 'jump', text: 'Jump', color: '#FF9800', icon: '🦘' }
+        { id: 'move_forward', text: 'Move Forward', color: '#4CAF50', icon: 'play' },
+        { id: 'turn_left', text: 'Turn Left', color: '#2196F3', icon: 'back' },
+        { id: 'turn_right', text: 'Turn Right', color: '#2196F3', icon: 'forward' },
+        { id: 'jump', text: 'Jump', color: '#FF9800', icon: 'progress' }
       ],
       hint: "Look for the green 'Move Forward' block!"
     },
@@ -34,10 +34,10 @@ export default function BlockCodingLesson({ lesson, onComplete, onProgress }) {
       description: "First turn left, then move forward!",
       target: ['turn_left', 'move_forward'],
       availableBlocks: [
-        { id: 'move_forward', text: 'Move Forward', color: '#4CAF50', icon: '🚶' },
-        { id: 'turn_left', text: 'Turn Left', color: '#2196F3', icon: '↶' },
-        { id: 'turn_right', text: 'Turn Right', color: '#2196F3', icon: '↷' },
-        { id: 'jump', text: 'Jump', color: '#FF9800', icon: '🦘' }
+        { id: 'move_forward', text: 'Move Forward', color: '#4CAF50', icon: 'play' },
+        { id: 'turn_left', text: 'Turn Left', color: '#2196F3', icon: 'back' },
+        { id: 'turn_right', text: 'Turn Right', color: '#2196F3', icon: 'forward' },
+        { id: 'jump', text: 'Jump', color: '#FF9800', icon: 'progress' }
       ],
       hint: "Drag 'Turn Left' first, then 'Move Forward'!"
     },
@@ -47,10 +47,10 @@ export default function BlockCodingLesson({ lesson, onComplete, onProgress }) {
       description: "Make the cat: move forward, turn right, move forward again!",
       target: ['move_forward', 'turn_right', 'move_forward'],
       availableBlocks: [
-        { id: 'move_forward', text: 'Move Forward', color: '#4CAF50', icon: '🚶' },
-        { id: 'turn_left', text: 'Turn Left', color: '#2196F3', icon: '↶' },
-        { id: 'turn_right', text: 'Turn Right', color: '#2196F3', icon: '↷' },
-        { id: 'jump', text: 'Jump', color: '#FF9800', icon: '🦘' }
+        { id: 'move_forward', text: 'Move Forward', color: '#4CAF50', icon: 'play' },
+        { id: 'turn_left', text: 'Turn Left', color: '#2196F3', icon: 'back' },
+        { id: 'turn_right', text: 'Turn Right', color: '#2196F3', icon: 'forward' },
+        { id: 'jump', text: 'Jump', color: '#FF9800', icon: 'progress' }
       ],
       hint: "The sequence should be: Move → Turn Right → Move"
     },
@@ -60,10 +60,10 @@ export default function BlockCodingLesson({ lesson, onComplete, onProgress }) {
       description: "Use the jump block two times in a row!",
       target: ['jump', 'jump'],
       availableBlocks: [
-        { id: 'move_forward', text: 'Move Forward', color: '#4CAF50', icon: '🚶' },
-        { id: 'turn_left', text: 'Turn Left', color: '#2196F3', icon: '↶' },
-        { id: 'turn_right', text: 'Turn Right', color: '#2196F3', icon: '↷' },
-        { id: 'jump', text: 'Jump', color: '#FF9800', icon: '🦘' }
+        { id: 'move_forward', text: 'Move Forward', color: '#4CAF50', icon: 'play' },
+        { id: 'turn_left', text: 'Turn Left', color: '#2196F3', icon: 'back' },
+        { id: 'turn_right', text: 'Turn Right', color: '#2196F3', icon: 'forward' },
+        { id: 'jump', text: 'Jump', color: '#FF9800', icon: 'progress' }
       ],
       hint: "Drag the jump block twice to the sequence area!"
     },
@@ -73,10 +73,10 @@ export default function BlockCodingLesson({ lesson, onComplete, onProgress }) {
       description: "Make the cat: move, turn left, move, turn right, jump!",
       target: ['move_forward', 'turn_left', 'move_forward', 'turn_right', 'jump'],
       availableBlocks: [
-        { id: 'move_forward', text: 'Move Forward', color: '#4CAF50', icon: '🚶' },
-        { id: 'turn_left', text: 'Turn Left', color: '#2196F3', icon: '↶' },
-        { id: 'turn_right', text: 'Turn Right', color: '#2196F3', icon: '↷' },
-        { id: 'jump', text: 'Jump', color: '#FF9800', icon: '🦘' }
+        { id: 'move_forward', text: 'Move Forward', color: '#4CAF50', icon: 'play' },
+        { id: 'turn_left', text: 'Turn Left', color: '#2196F3', icon: 'back' },
+        { id: 'turn_right', text: 'Turn Right', color: '#2196F3', icon: 'forward' },
+        { id: 'jump', text: 'Jump', color: '#FF9800', icon: 'progress' }
       ],
       hint: "Follow the pattern: Move → Turn Left → Move → Turn Right → Jump"
     }

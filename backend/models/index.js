@@ -262,7 +262,7 @@ const seedInitialData = async () => {
         name: '7-Day Streak',
         description: 'Logged in for 7 consecutive days!',
         criteria: '7 consecutive days of activity',
-        icon: '🔥',
+        icon: 'lightning',
         points: 30,
         category: 'milestone',
         requirements: { streakDays: 7 }

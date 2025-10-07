@@ -147,7 +147,9 @@ export default function StudentDashboard() {
         </div>
         
         <div className="stat-card">
-          <div className="stat-icon">🔥</div>
+          <div className="stat-icon">
+            <Icon name="lightning" size={24} />
+          </div>
           <div className="stat-content">
             <div className="stat-number">{progress.streak}</div>
             <div className="stat-label">Day Streak</div>

@@ -258,7 +258,10 @@ export default function ResearchDashboard() {
 
         {selectedTab === 'language' && (
           <div className="language-section">
-            <h3>🌐 Language Usage Analysis</h3>
+            <h3>
+              <Icon name="globe" size={20} style={{ marginRight: '8px' }} />
+              Language Usage Analysis
+            </h3>
             <div className="language-metrics">
               <div className="metric-card">
                 <div className="metric-value">{report.language.totalLanguageEvents}</div>
@@ -290,7 +293,10 @@ export default function ResearchDashboard() {
 
         {selectedTab === 'connectivity' && (
           <div className="connectivity-section">
-            <h3>📡 Connectivity Analysis</h3>
+            <h3>
+              <Icon name="phone" size={20} style={{ marginRight: '8px' }} />
+              Connectivity Analysis
+            </h3>
             <div className="connectivity-metrics">
               <div className="metric-card">
                 <div className="metric-value">{report.connectivity.totalConnectivityEvents}</div>

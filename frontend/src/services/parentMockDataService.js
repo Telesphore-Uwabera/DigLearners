@@ -448,7 +448,7 @@ export const getAchievementsData = () => {
             id: 'badge_009',
             title: 'Digital Citizen',
             description: 'Complete all digital citizenship lessons',
-            icon: '🌐',
+            icon: 'globe',
             category: 'Digital Literacy',
             date: null,
             earned: false

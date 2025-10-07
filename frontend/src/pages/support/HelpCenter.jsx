@@ -62,7 +62,9 @@ const HelpCenter = () => {
             </h2>
             <div className="help-grid">
               <div className="help-card">
-                <div className="help-icon">🚀</div>
+                <div className="help-icon">
+                  <Icon name="play" size={32} />
+                </div>
                 <h3>
                   {currentLanguage === 'rw' 
                     ? 'Gutangira' 

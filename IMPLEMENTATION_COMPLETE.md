@@ -93,7 +93,7 @@
   - 7-Day Streak
   - Perfect Score (100%)
 
-## 🚀 How to Run the Project
+## How to Run the Project
 
 ### Prerequisites
 - Node.js >= 16.0.0
@@ -154,7 +154,7 @@ When you first run the backend, it will automatically:
 The backend should start with output showing:
 ```
 Database initialized successfully
-🚀 DigLearners Backend running on http://localhost:3001
+DigLearners Backend running on http://localhost:3001
 ```
 
 Test endpoints:
@@ -337,7 +337,7 @@ DigLearners/
 - **Dark Mode:** Eye-friendly for low-light environments
 - **Smooth Animations:** Engaging user experience
 
-## 🔐 Security Features
+## Security Features
 
 - JWT token authentication
 - Password hashing with bcrypt (12 rounds)
