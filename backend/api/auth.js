@@ -23,6 +23,14 @@ router.post('/register', async (req, res) => {
       });
     }
 
+    // Prevent teacher registration through public endpoint
+    if (role === 'teacher') {
+      return res.status(403).json({ 
+        success: false, 
+        error: 'Teacher accounts can only be created by administrators' 
+      });
+    }
+
     // Check if user already exists
     const existingUser = await User.findByEmail(email);
     if (existingUser) {
@@ -292,6 +300,58 @@ router.get('/verify', authenticateToken, async (req, res) => {
     res.status(500).json({
       success: false,
       error: 'Internal server error verifying token'
+    });
+  }
+});
+
+// Admin-only endpoint to create teacher accounts
+router.post('/admin/create-teacher', authenticateToken, async (req, res) => {
+  try {
+    // Check if the requesting user is an admin
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        error: 'Only administrators can create teacher accounts'
+      });
+    }
+
+    const { fullName, email, password } = req.body;
+
+    // Validate input
+    if (!fullName || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        error: 'Full name, email, and password are required'
+      });
+    }
+
+    // Check if user already exists
+    const existingUser = await User.findByEmail(email);
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        error: 'User with this email already exists'
+      });
+    }
+
+    // Create teacher account
+    const teacher = await User.create({
+      fullName,
+      email,
+      passwordHash: password, // Will be hashed by model hook
+      role: 'teacher'
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'Teacher account created successfully',
+      user: teacher.toJSON()
+    });
+  } catch (error) {
+    console.error('Teacher creation error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error during teacher creation' 
     });
   }
 });

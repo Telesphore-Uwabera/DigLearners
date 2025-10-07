@@ -113,9 +113,11 @@ const Register = ({ onRegister }) => {
               required
             >
               <option value="learner">{t('role.learner')}</option>
-              <option value="teacher">{t('role.teacher')}</option>
               <option value="parent">{t('role.parent')}</option>
             </select>
+            <small className="role-note">
+              Note: Teacher accounts can only be created by administrators.
+            </small>
           </div>
           
           <div className="form-group">
@@ -287,6 +289,14 @@ const Register = ({ onRegister }) => {
         
         .register-footer a:hover {
           text-decoration: underline;
+        }
+        
+        .role-note {
+          display: block;
+          color: #6b7280;
+          font-size: 0.875rem;
+          margin-top: 0.5rem;
+          font-style: italic;
         }
         `
       }} />

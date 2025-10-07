@@ -6,10 +6,20 @@ import './AdminPages.css';
 
 const UserManagement = () => {
   const { t } = useTranslation();
-  const [users] = useState(adminMockDataService.getUsers());
+  const [users, setUsers] = useState(adminMockDataService.getUsers());
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [showAddTeacher, setShowAddTeacher] = useState(false);
+  const [newTeacher, setNewTeacher] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const filteredUsers = users.filter(user => {
     const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -34,12 +44,216 @@ const UserManagement = () => {
     return status === 'active' ? '#4CAF50' : '#F44336';
   };
 
+  const handleAddTeacher = () => {
+    setShowAddTeacher(true);
+    setError('');
+    setSuccess('');
+  };
+
+  const handleTeacherInputChange = (e) => {
+    setNewTeacher({
+      ...newTeacher,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleCreateTeacher = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    // Validate passwords match
+    if (newTeacher.password !== newTeacher.confirmPassword) {
+      setError('Passwords do not match');
+      setLoading(false);
+      return;
+    }
+
+    // Validate required fields
+    if (!newTeacher.name || !newTeacher.email || !newTeacher.password) {
+      setError('All fields are required');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // Call the admin API endpoint to create teacher
+      const response = await fetch('/api/auth/admin/create-teacher', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        },
+        body: JSON.stringify({
+          fullName: newTeacher.name,
+          email: newTeacher.email,
+          password: newTeacher.password
+        })
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        setError(result.error || 'Failed to create teacher account');
+        return;
+      }
+
+      // Add to local state
+      const teacherData = {
+        id: result.user.id,
+        name: result.user.fullName,
+        email: result.user.email,
+        role: 'teacher',
+        status: 'active',
+        progress: 0,
+        lastActive: new Date().toISOString(),
+        createdBy: 'admin'
+      };
+
+      setUsers([...users, teacherData]);
+      
+      setSuccess('Teacher account created successfully!');
+      setNewTeacher({ name: '', email: '', password: '', confirmPassword: '' });
+      setShowAddTeacher(false);
+      
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccess(''), 3000);
+    } catch (err) {
+      setError('Failed to create teacher account');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCancelAddTeacher = () => {
+    setShowAddTeacher(false);
+    setNewTeacher({ name: '', email: '', password: '', confirmPassword: '' });
+    setError('');
+    setSuccess('');
+  };
+
   return (
     <div className="admin-page">
       <div className="page-header">
-        <h1>User Management</h1>
-        <p>Manage users, roles, and permissions</p>
+        <div className="header-content">
+          <div>
+            <h1>User Management</h1>
+            <p>Manage users, roles, and permissions</p>
+          </div>
+          <button 
+            className="btn-primary"
+            onClick={handleAddTeacher}
+          >
+            <Icon name="plus" size={16} />
+            Add Teacher
+          </button>
+        </div>
       </div>
+
+      {/* Success/Error Messages */}
+      {success && (
+        <div className="admin-message success">
+          <Icon name="check" size={20} />
+          {success}
+        </div>
+      )}
+      
+      {error && (
+        <div className="admin-message error">
+          <Icon name="close" size={20} />
+          {error}
+        </div>
+      )}
+
+      {/* Add Teacher Modal */}
+      {showAddTeacher && (
+        <div className="admin-modal-overlay">
+          <div className="admin-modal">
+            <div className="modal-header">
+              <h2>Add New Teacher</h2>
+              <button 
+                className="modal-close"
+                onClick={handleCancelAddTeacher}
+              >
+                <Icon name="close" size={20} />
+              </button>
+            </div>
+            
+            <form onSubmit={handleCreateTeacher} className="modal-form">
+              <div className="form-group">
+                <label htmlFor="teacherName">Full Name</label>
+                <input
+                  type="text"
+                  id="teacherName"
+                  name="name"
+                  value={newTeacher.name}
+                  onChange={handleTeacherInputChange}
+                  required
+                  placeholder="Enter teacher's full name"
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="teacherEmail">Email Address</label>
+                <input
+                  type="email"
+                  id="teacherEmail"
+                  name="email"
+                  value={newTeacher.email}
+                  onChange={handleTeacherInputChange}
+                  required
+                  placeholder="Enter teacher's email"
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="teacherPassword">Password</label>
+                <input
+                  type="password"
+                  id="teacherPassword"
+                  name="password"
+                  value={newTeacher.password}
+                  onChange={handleTeacherInputChange}
+                  required
+                  minLength="6"
+                  placeholder="Enter password (min 6 characters)"
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="teacherConfirmPassword">Confirm Password</label>
+                <input
+                  type="password"
+                  id="teacherConfirmPassword"
+                  name="confirmPassword"
+                  value={newTeacher.confirmPassword}
+                  onChange={handleTeacherInputChange}
+                  required
+                  placeholder="Confirm password"
+                />
+              </div>
+              
+              <div className="modal-actions">
+                <button 
+                  type="button" 
+                  className="btn-secondary"
+                  onClick={handleCancelAddTeacher}
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  className="btn-primary"
+                  disabled={loading}
+                >
+                  {loading ? 'Creating...' : 'Create Teacher'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Filters and Search */}
       <div className="admin-filters">
