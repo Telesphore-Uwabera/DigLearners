@@ -7,7 +7,6 @@ import { ThemeProvider } from './contexts/ThemeContext'
 // Pages
 import Home from './pages/public/Home'
 import Login from './pages/auth/Login'
-import Register from './pages/auth/Register'
 import Enroll from './pages/auth/Enroll'
 import LearnerApp from './pages/learner/LearnerApp'
 import TeacherApp from './pages/teacher/TeacherApp'
@@ -113,12 +112,6 @@ function AppRoutes() {
         path="/login" 
         element={
           isAuthenticated ? <Navigate to="/dashboard" replace /> : <Login onLogin={handleLogin} />
-        } 
-      />
-      <Route 
-        path="/register" 
-        element={
-          isAuthenticated ? <Navigate to="/dashboard" replace /> : <Register onRegister={handleRegister} />
         } 
       />
       <Route 

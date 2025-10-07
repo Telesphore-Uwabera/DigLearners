@@ -134,8 +134,8 @@
 
 .modal-form .form-group input:focus {
   outline: none;
-  border-color: #0ea5a4;
-  box-shadow: 0 0 0 3px rgba(14, 165, 164, 0.1);
+  border-color: #FF677D;
+  box-shadow: 0 0 0 3px rgba(255, 103, 125, 0.1);
 }
 
 .modal-actions {
@@ -148,7 +148,7 @@
 }
 
 .btn-primary {
-  background: #0ea5a4;
+  background: linear-gradient(135deg, #FF677D, #F8B400);
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -162,8 +162,8 @@
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #0d9488;
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 103, 125, 0.3);
 }
 
 .btn-primary:disabled {
@@ -320,6 +320,7 @@
 .admin-table td {
   padding: 1rem;
   border-bottom: 1px solid #f1f3f4;
+  color: #000000;
 }
 
 .admin-table tr:hover {
@@ -350,13 +351,13 @@
 
 .user-name {
   font-weight: 600;
-  color: #2c3e50;
+  color: #000000;
   margin-bottom: 0.25rem;
 }
 
 .user-email {
   font-size: 0.9rem;
-  color: #6c757d;
+  color: #333333;
 }
 
 /* Badges */
@@ -403,9 +404,10 @@
 
 .progress-text {
   font-size: 0.9rem;
-  color: #6c757d;
+  color: #000000;
   min-width: 40px;
   text-align: right;
+  font-weight: 600;
 }
 
 /* Action Buttons */
