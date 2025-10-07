@@ -20,7 +20,7 @@ export const getParentDashboardData = () => {
         name: 'Alice Uwimana',
         avatar: 'Girl',
         age: 9,
-        grade: 'Primary 4A',
+        grade: 'Class A',
         progress: 85,
         completedLessons: 12,
         totalLessons: 15,
@@ -60,7 +60,7 @@ export const getParentDashboardData = () => {
         name: 'John Mukasa',
         avatar: 'Boy',
         age: 10,
-        grade: 'Primary 5B',
+        grade: 'Class B',
         progress: 78,
         completedLessons: 9,
         totalLessons: 12,
@@ -109,7 +109,7 @@ export const getChildrenOverviewData = () => {
         name: 'Alice Uwimana',
         avatar: 'Girl',
         age: 9,
-        grade: 'Primary 4A',
+        grade: 'Class A',
         progress: 85,
         completedLessons: 12,
         totalLessons: 15,
@@ -149,7 +149,7 @@ export const getChildrenOverviewData = () => {
         name: 'John Mukasa',
         avatar: 'Boy',
         age: 10,
-        grade: 'Primary 5B',
+        grade: 'Class B',
         progress: 78,
         completedLessons: 9,
         totalLessons: 12,
@@ -231,7 +231,7 @@ export const getProgressReportsData = () => {
         id: 'child_001',
         name: 'Alice Uwimana',
         avatar: 'Girl',
-        grade: 'Primary 4A',
+        grade: 'Class A',
         overallProgress: 85,
         subjects: [
           {
@@ -279,7 +279,7 @@ export const getProgressReportsData = () => {
         id: 'child_002',
         name: 'John Mukasa',
         avatar: 'Boy',
-        grade: 'Primary 5B',
+        grade: 'Class B',
         overallProgress: 78,
         subjects: [
           {
@@ -340,7 +340,7 @@ export const getAchievementsData = () => {
         id: 'child_001',
         name: 'Alice Uwimana',
         avatar: 'Girl',
-        grade: 'Primary 4A',
+        grade: 'Class A',
         totalBadges: 7,
         recentBadges: [
           {
@@ -459,7 +459,7 @@ export const getAchievementsData = () => {
         id: 'child_002',
         name: 'John Mukasa',
         avatar: 'Boy',
-        grade: 'Primary 5B',
+        grade: 'Class B',
         totalBadges: 5,
         recentBadges: [
           {
@@ -564,7 +564,7 @@ export const getScheduleData = () => {
         id: 'child_001',
         name: 'Alice Uwimana',
         avatar: 'Girl',
-        grade: 'Primary 4A',
+        grade: 'Class A',
         schedule: [
           {
             id: 'sched_001',
@@ -594,7 +594,7 @@ export const getScheduleData = () => {
         id: 'child_002',
         name: 'John Mukasa',
         avatar: 'Boy',
-        grade: 'Primary 5B',
+        grade: 'Class B',
         schedule: [
           {
             id: 'sched_003',
@@ -733,7 +733,7 @@ export const getReportsData = () => {
         id: 'child_001',
         name: 'Alice Uwimana',
         avatar: 'Girl',
-        grade: 'Primary 4A',
+        grade: 'Class A',
         reports: [
           {
             id: 'report_001',
@@ -784,7 +784,7 @@ export const getReportsData = () => {
         id: 'child_002',
         name: 'John Mukasa',
         avatar: 'Boy',
-        grade: 'Primary 5B',
+        grade: 'Class B',
         reports: [
           {
             id: 'report_003',

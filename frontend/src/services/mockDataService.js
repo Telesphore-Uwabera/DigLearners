@@ -366,7 +366,7 @@ export const mockAchievements = {
 }
 
 export const mockClassProgress = {
-  className: "Primary 4A",
+  className: "Digital Literacy Class",
   teacher: "Mrs. Mukamana",
   totalStudents: 25,
   averageProgress: 68,

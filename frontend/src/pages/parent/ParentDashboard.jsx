@@ -189,7 +189,7 @@ const ParentDashboard = () => {
               <div className="child-avatar">A</div>
               <div className="child-info">
                 <h3>Alice Uwimana</h3>
-                <p>Primary 4A • 9 years old</p>
+                <p>Class A • 9 years old</p>
               </div>
             </div>
             <div className="child-stats">
@@ -226,7 +226,7 @@ const ParentDashboard = () => {
               <div className="child-avatar">J</div>
               <div className="child-info">
                 <h3>John Mukasa</h3>
-                <p>Primary 5B • 10 years old</p>
+                <p>Class B • 10 years old</p>
               </div>
             </div>
             <div className="child-stats">

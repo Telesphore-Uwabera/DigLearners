@@ -30,7 +30,7 @@ const Students = () => {
     }
   });
 
-  const grades = ['all', 'Primary 4A', 'Primary 5B', 'Primary 6C'];
+  const grades = ['all', 'Class A', 'Class B', 'Class C'];
 
   return (
     <div className="dashboard-container">
@@ -66,9 +66,9 @@ const Students = () => {
               <option value="all">
                 {currentLanguage === 'rw' ? 'Byose' : 'All Grades'}
               </option>
-              <option value="Primary 4A">Primary 4A</option>
-              <option value="Primary 5B">Primary 5B</option>
-              <option value="Primary 6C">Primary 6C</option>
+              <option value="Class A">Class A</option>
+              <option value="Class B">Class B</option>
+              <option value="Class C">Class C</option>
             </select>
           </div>
           <div className="filter-group">

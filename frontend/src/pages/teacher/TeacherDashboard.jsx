@@ -147,7 +147,7 @@ const TeacherDashboard = () => {
               <Icon name="book" size={20} />
             </div>
             <div className="activity-content">
-              <p><strong>New lesson assigned:</strong> Introduction to Programming - Primary 5B</p>
+              <p><strong>New lesson assigned:</strong> Introduction to Programming - Class B</p>
               <span className="activity-time">2 hours ago</span>
             </div>
           </div>
@@ -174,7 +174,7 @@ const TeacherDashboard = () => {
               <Icon name="analytics" size={20} />
             </div>
             <div className="activity-content">
-              <p><strong>Weekly report generated</strong> for Primary 4A class</p>
+              <p><strong>Weekly report generated</strong> for Class A</p>
               <span className="activity-time">1 day ago</span>
             </div>
           </div>

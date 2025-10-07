@@ -177,10 +177,10 @@ const seedInitialData = async () => {
 
     // Create sample learning class
     const sampleClass = await LearningClass.create({
-      name: 'Primary 3 Digital Literacy',
+      name: 'Digital Literacy Class',
       teacherId: teacherUser.id,
-      description: 'Introduction to digital literacy for primary 3 students',
-      grade: 'P3'
+      description: 'Introduction to digital literacy for students',
+      grade: null
     });
 
     // Create sample lessons

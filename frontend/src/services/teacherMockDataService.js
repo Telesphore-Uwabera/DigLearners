@@ -18,9 +18,9 @@ export const getTeacherDashboardData = () => {
     classes: [
       {
         id: 'class_001',
-        name: 'Primary 4A - Digital Literacy',
+        name: 'Digital Literacy Class A',
         subject: 'Digital Literacy',
-        grade: 'Primary 4A',
+        grade: 'Class A',
         totalStudents: 12,
         activeStudents: 10,
         averageProgress: 78,
@@ -30,9 +30,9 @@ export const getTeacherDashboardData = () => {
       },
       {
         id: 'class_002',
-        name: 'Primary 5B - Safe Browsing',
+        name: 'Safe Browsing Class B',
         subject: 'Safe Browsing',
-        grade: 'Primary 5B',
+        grade: 'Class B',
         totalStudents: 8,
         activeStudents: 7,
         averageProgress: 82,
@@ -42,9 +42,9 @@ export const getTeacherDashboardData = () => {
       },
       {
         id: 'class_003',
-        name: 'Primary 6C - Typing Skills',
+        name: 'Typing Skills Class C',
         subject: 'Typing Skills',
-        grade: 'Primary 6C',
+        grade: 'Class C',
         totalStudents: 4,
         activeStudents: 4,
         averageProgress: 85,
@@ -70,9 +70,9 @@ export const getMyClassesData = () => {
     classes: [
       {
         id: 'class_001',
-        name: 'Primary 4A - Digital Literacy',
+        name: 'Digital Literacy Class A',
         subject: 'Digital Literacy',
-        grade: 'Primary 4A',
+        grade: 'Class A',
         totalStudents: 12,
         activeStudents: 10,
         averageProgress: 78,
@@ -112,9 +112,9 @@ export const getMyClassesData = () => {
       },
       {
         id: 'class_002',
-        name: 'Primary 5B - Safe Browsing',
+        name: 'Safe Browsing Class B',
         subject: 'Safe Browsing',
-        grade: 'Primary 5B',
+        grade: 'Class B',
         totalStudents: 8,
         activeStudents: 7,
         averageProgress: 82,
@@ -145,9 +145,9 @@ export const getMyClassesData = () => {
       },
       {
         id: 'class_003',
-        name: 'Primary 6C - Typing Skills',
+        name: 'Typing Skills Class C',
         subject: 'Typing Skills',
-        grade: 'Primary 6C',
+        grade: 'Class C',
         totalStudents: 4,
         activeStudents: 4,
         averageProgress: 85,
@@ -194,7 +194,7 @@ export const getStudentsData = () => {
         id: 'student_001',
         name: 'Alice Uwimana',
         avatar: 'Girl',
-        grade: 'Primary 4A',
+        grade: 'Class A',
         class: 'Digital Literacy',
         progress: 85,
         lastActive: '2024-12-20',
@@ -227,7 +227,7 @@ export const getStudentsData = () => {
         id: 'student_002',
         name: 'John Mukasa',
         avatar: 'Boy',
-        grade: 'Primary 4A',
+        grade: 'Class A',
         class: 'Digital Literacy',
         progress: 78,
         lastActive: '2024-12-19',
@@ -253,7 +253,7 @@ export const getStudentsData = () => {
         id: 'student_003',
         name: 'Grace Niyonsaba',
         avatar: 'Girl',
-        grade: 'Primary 4A',
+        grade: 'Class A',
         class: 'Digital Literacy',
         progress: 92,
         lastActive: '2024-12-20',
@@ -293,7 +293,7 @@ export const getLessonsData = () => {
         id: 'lesson_001',
         title: 'Introduction to Digital Literacy',
         subject: 'Digital Literacy',
-        grade: 'Primary 4A',
+        grade: 'Class A',
         duration: '30 minutes',
         difficulty: 'Beginner',
         status: 'published',
@@ -317,7 +317,7 @@ export const getLessonsData = () => {
         id: 'lesson_002',
         title: 'Safe Browsing Practices',
         subject: 'Safe Browsing',
-        grade: 'Primary 5B',
+        grade: 'Class B',
         duration: '25 minutes',
         difficulty: 'Intermediate',
         status: 'draft',
@@ -341,7 +341,7 @@ export const getLessonsData = () => {
         id: 'lesson_003',
         title: 'Touch Typing Fundamentals',
         subject: 'Typing Skills',
-        grade: 'Primary 6C',
+        grade: 'Class C',
         duration: '35 minutes',
         difficulty: 'Beginner',
         status: 'published',
@@ -384,7 +384,7 @@ export const getAssignmentsData = () => {
       {
         id: 'assign_001',
         title: 'Digital Citizenship Project',
-        class: 'Primary 4A - Digital Literacy',
+        class: 'Digital Literacy Class A',
         subject: 'Digital Literacy',
         dueDate: '2024-12-25',
         status: 'active',
@@ -418,7 +418,7 @@ export const getAssignmentsData = () => {
       {
         id: 'assign_002',
         title: 'Internet Safety Poster',
-        class: 'Primary 5B - Safe Browsing',
+        class: 'Safe Browsing Class B',
         subject: 'Safe Browsing',
         dueDate: '2024-12-28',
         status: 'active',
@@ -445,7 +445,7 @@ export const getAssignmentsData = () => {
       {
         id: 'assign_003',
         title: 'Typing Speed Challenge',
-        class: 'Primary 6C - Typing Skills',
+        class: 'Typing Skills Class C',
         subject: 'Typing Skills',
         dueDate: '2024-12-30',
         status: 'upcoming',
@@ -507,7 +507,7 @@ export const getAnalyticsData = () => {
     ],
     classPerformance: [
       {
-        className: 'Primary 4A - Digital Literacy',
+        className: 'Digital Literacy Class A',
         averageProgress: 78,
         totalStudents: 12,
         activeStudents: 10,
@@ -515,7 +515,7 @@ export const getAnalyticsData = () => {
         averageScore: 82
       },
       {
-        className: 'Primary 5B - Safe Browsing',
+        className: 'Safe Browsing Class B',
         averageProgress: 82,
         totalStudents: 8,
         activeStudents: 7,
@@ -523,7 +523,7 @@ export const getAnalyticsData = () => {
         averageScore: 85
       },
       {
-        className: 'Primary 6C - Typing Skills',
+        className: 'Typing Skills Class C',
         averageProgress: 85,
         totalStudents: 4,
         activeStudents: 4,
@@ -540,21 +540,21 @@ export const getAnalyticsData = () => {
     topPerformers: [
       {
         name: 'Grace Niyonsaba',
-        class: 'Primary 4A',
+        class: 'Class A',
         progress: 92,
         badges: 9,
         points: 520
       },
       {
         name: 'Alice Uwimana',
-        class: 'Primary 4A',
+        class: 'Class A',
         progress: 85,
         badges: 7,
         points: 450
       },
       {
         name: 'Peter Nkurunziza',
-        class: 'Primary 5B',
+        class: 'Class B',
         progress: 88,
         badges: 6,
         points: 420
@@ -563,14 +563,14 @@ export const getAnalyticsData = () => {
     needsAttention: [
       {
         name: 'John Mukasa',
-        class: 'Primary 4A',
+        class: 'Class A',
         issue: 'Low activity',
         lastActive: '2024-12-19',
         progress: 78
       },
       {
         name: 'Marie Uwimana',
-        class: 'Primary 5B',
+        class: 'Class B',
         issue: 'Missing assignments',
         lastActive: '2024-12-18',
         progress: 75
@@ -585,7 +585,7 @@ export const getScheduleData = () => {
       {
         id: 'sched_001',
         title: 'Digital Literacy - Lesson 5',
-        class: 'Primary 4A',
+        class: 'Class A',
         subject: 'Digital Literacy',
         date: '2024-12-21',
         time: '10:00 AM',
@@ -602,7 +602,7 @@ export const getScheduleData = () => {
       {
         id: 'sched_002',
         title: 'Safe Browsing - Lesson 3',
-        class: 'Primary 5B',
+        class: 'Class B',
         subject: 'Safe Browsing',
         date: '2024-12-21',
         time: '2:00 PM',
@@ -619,7 +619,7 @@ export const getScheduleData = () => {
       {
         id: 'sched_003',
         title: 'Typing Skills - Lesson 2',
-        class: 'Primary 6C',
+        class: 'Class C',
         subject: 'Typing Skills',
         date: '2024-12-22',
         time: '9:00 AM',
@@ -638,7 +638,7 @@ export const getScheduleData = () => {
       {
         id: 'upcoming_001',
         title: 'Digital Literacy - Lesson 5',
-        class: 'Primary 4A',
+        class: 'Class A',
         date: '2024-12-21',
         time: '10:00 AM',
         students: 12
@@ -646,7 +646,7 @@ export const getScheduleData = () => {
       {
         id: 'upcoming_002',
         title: 'Safe Browsing - Lesson 3',
-        class: 'Primary 5B',
+        class: 'Class B',
         date: '2024-12-21',
         time: '2:00 PM',
         students: 8
