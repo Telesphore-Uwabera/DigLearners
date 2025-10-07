@@ -40,10 +40,10 @@ const Home = () => {
             {t('welcome.description')}
           </p>
           <div className="hero-actions">
-            <Link to="/enroll" className="btn btn-primary">
+            <Link to="/enroll" className="btn btn-primary" style={{ cursor: 'pointer' }}>
               {t('welcome.enrollChild')}
             </Link>
-            <Link to="/login" className="btn btn-secondary">
+            <Link to="/login" className="btn btn-secondary" style={{ cursor: 'pointer' }}>
               {t('welcome.login')}
             </Link>
           </div>
@@ -272,6 +272,9 @@ const Home = () => {
             display: inline-block;
             font-size: 1.1rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            position: relative;
+            z-index: 10;
           }
 
           .btn-primary {
