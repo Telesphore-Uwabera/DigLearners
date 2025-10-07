@@ -14,8 +14,35 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children, value: initialValue }) => {
   const [user, setUser] = useState(initialValue?.user || null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true) // Start with loading true for initial check
   const [error, setError] = useState(null)
+
+  // Initialize authentication state on app load
+  useEffect(() => {
+    const initializeAuth = async () => {
+      try {
+        const token = localStorage.getItem('authToken')
+        if (token) {
+          // Verify token with backend
+          const result = await authService.verifyToken()
+          if (result.success) {
+            setUser(result.user)
+          } else {
+            // Token is invalid, remove it
+            localStorage.removeItem('authToken')
+          }
+        }
+      } catch (error) {
+        console.error('Auth initialization error:', error)
+        // If verification fails, remove invalid token
+        localStorage.removeItem('authToken')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    initializeAuth()
+  }, [])
 
   useEffect(() => {
     if (initialValue?.user) {

@@ -6,7 +6,8 @@ const Login = ({ onLogin }) => {
   const { t } = useLanguage()
   const [formData, setFormData] = useState({
     email: '',
-    password: ''
+    password: '',
+    rememberMe: true // Default to true for kids
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -76,6 +77,20 @@ const Login = ({ onLogin }) => {
               required
               placeholder="Enter your password"
             />
+          </div>
+          
+          <div className="form-group remember-me">
+            <label className="remember-me-label">
+              <input
+                type="checkbox"
+                name="rememberMe"
+                checked={formData.rememberMe}
+                onChange={handleChange}
+                className="remember-me-checkbox"
+              />
+              <span className="checkmark"></span>
+              <span className="remember-me-text">🔒 Keep me logged in (recommended for kids)</span>
+            </label>
           </div>
           
           <button 
@@ -188,6 +203,50 @@ const Login = ({ onLogin }) => {
           .login-button:disabled {
             background: #9ca3af;
             cursor: not-allowed;
+          }
+          
+          .remember-me {
+            margin-bottom: 1rem;
+          }
+          
+          .remember-me-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #4A5568;
+          }
+          
+          .remember-me-checkbox {
+            display: none;
+          }
+          
+          .checkmark {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #0ea5a4;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            background: white;
+          }
+          
+          .remember-me-checkbox:checked + .checkmark {
+            background: #0ea5a4;
+            color: white;
+          }
+          
+          .remember-me-checkbox:checked + .checkmark::after {
+            content: '✓';
+            font-weight: bold;
+            font-size: 14px;
+          }
+          
+          .remember-me-text {
+            font-weight: 500;
           }
           
           .login-footer {

@@ -8,6 +8,7 @@ import { ThemeProvider } from './contexts/ThemeContext'
 import Home from './pages/public/Home'
 import Login from './pages/auth/Login'
 import Register from './pages/auth/Register'
+import Enroll from './pages/auth/Enroll'
 import LearnerApp from './pages/learner/LearnerApp'
 import TeacherApp from './pages/teacher/TeacherApp'
 import ParentApp from './pages/parent/ParentApp'
@@ -57,7 +58,33 @@ function App() {
 
 // Routes Component
 function AppRoutes() {
-  const { user, login, register, logout, isAuthenticated } = useAuth()
+  const { user, login, register, logout, isAuthenticated, loading } = useAuth()
+
+  // Show loading screen while checking authentication
+  if (loading) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        background: 'linear-gradient(135deg, #FFB3BA, #B9FBC0)',
+        fontFamily: 'Comic Sans MS, cursive, sans-serif'
+      }}>
+        <div style={{
+          textAlign: 'center',
+          background: 'white',
+          padding: '2rem',
+          borderRadius: '25px',
+          boxShadow: '0 8px 25px rgba(0,0,0,0.1)'
+        }}>
+          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎓</div>
+          <h2 style={{ color: '#2D3748', margin: '0 0 1rem 0' }}>Loading...</h2>
+          <p style={{ color: '#4A5568', margin: 0 }}>Getting ready for your learning adventure!</p>
+        </div>
+      </div>
+    )
+  }
 
   const handleLogin = async (credentials) => {
     try {
@@ -92,6 +119,12 @@ function AppRoutes() {
         path="/register" 
         element={
           isAuthenticated ? <Navigate to="/dashboard" replace /> : <Register onRegister={handleRegister} />
+        } 
+      />
+      <Route 
+        path="/enroll" 
+        element={
+          isAuthenticated ? <Navigate to="/dashboard" replace /> : <Enroll />
         } 
       />
       

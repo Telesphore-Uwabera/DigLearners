@@ -100,97 +100,48 @@ export default function MyLessons() {
           </div>
         </div>
 
-        {/* Lessons Grid */}
-        <div className="lessons-grid">
+        {/* Kid-Friendly Lessons Grid */}
+        <div className="kid-lessons-grid">
           {filteredLessons.map(lesson => (
-            <div key={lesson.id} className={`lesson-card ${lesson.isCompleted ? 'completed' : 'pending'}`}>
-              <div className="lesson-header-card">
-                <div className="lesson-icon">
-                  <Icon 
-                    name={modules.find(m => m.id === lesson.moduleType)?.icon || 'book'} 
-                    size={24} 
-                  />
+            <div key={lesson.id} className={`kid-lesson-card ${lesson.isCompleted ? 'completed' : 'pending'}`}>
+              {/* Big Icon */}
+              <div className="kid-lesson-icon">
+                <div className="big-icon-container">
+                  {lesson.moduleType === 'introduction' && <span className="big-emoji">🌍</span>}
+                  {lesson.moduleType === 'typing' && <span className="big-emoji">⌨️</span>}
+                  {lesson.moduleType === 'safety' && <span className="big-emoji">🛡️</span>}
+                  {lesson.moduleType === 'coding' && <span className="big-emoji">🧩</span>}
+                  {lesson.moduleType === 'creative' && <span className="big-emoji">🎨</span>}
+                  {!['introduction', 'typing', 'safety', 'coding', 'creative'].includes(lesson.moduleType) && 
+                    <span className="big-emoji">📚</span>}
                 </div>
-                <div className="lesson-status">
+                
+                {/* Status Badge */}
+                <div className="kid-status-badge">
                   {lesson.isCompleted ? (
-                    <span className="completed-badge">
-                      <Icon name="check" size={16} />
-                    </span>
+                    <span className="completed-emoji">✅</span>
                   ) : (
-                    <span className="pending-badge">
-                      <Icon name="clock" size={16} />
-                    </span>
+                    <span className="pending-emoji">⏰</span>
                   )}
                 </div>
               </div>
 
-              <div className="lesson-content-card">
-                <h4 className="lesson-title">{lesson.title}</h4>
-                <p className="lesson-description">{lesson.description}</p>
-                
-                <div className="lesson-meta">
-                  <div className="lesson-difficulty">
-                    <span className="difficulty-icon">
-                      {getDifficultyIcon(lesson.difficulty)}
-                    </span>
-                    <span 
-                      className="difficulty-text"
-                      style={{ color: getDifficultyColor(lesson.difficulty) }}
-                    >
-                      {lesson.difficulty}
-                    </span>
-                  </div>
-                  
-                  <div className="lesson-time">
-                    <span className="time-icon">
-                      <Icon name="clock" size={16} />
-                    </span>
-                    <span className="time-text">{lesson.estimatedTime}</span>
-                  </div>
-                  
-                  <div className="lesson-points">
-                    <span className="points-icon">
-                      <Icon name="star" size={16} />
-                    </span>
-                    <span className="points-text">{lesson.points} pts</span>
-                  </div>
-                </div>
-
-                {lesson.isCompleted && (
-                  <div className="lesson-completion">
-                    <div className="completion-score">
-                      <span className="score-label">Score:</span>
-                      <span className="score-value">{lesson.score}%</span>
-                    </div>
-                    <div className="completion-date">
-                      Completed {formatDate(lesson.completedAt)}
-                    </div>
-                  </div>
-                )}
-
-                <div className="lesson-objectives">
-                  <h5>What you'll learn:</h5>
-                  <ul>
-                    {lesson.objectives.slice(0, 2).map((objective, index) => (
-                      <li key={index}>{objective}</li>
-                    ))}
-                    {lesson.objectives.length > 2 && (
-                      <li>+{lesson.objectives.length - 2} more objectives</li>
-                    )}
-                  </ul>
-                </div>
+              {/* Small Course Title */}
+              <div className="kid-lesson-title">
+                <h4>{lesson.title}</h4>
               </div>
 
-              <div className="lesson-actions">
+              {/* Simple Action Button */}
+              <div className="kid-lesson-action">
                 {lesson.isCompleted ? (
-                  <button className="review-button">
-                    <Icon name="recent" size={16} style={{ marginRight: '8px' }} />
-                    Review Lesson
+                  <button className="kid-review-btn">
+                    <span className="btn-emoji">🔄</span>
+                    Review
                   </button>
                 ) : (
-                  <button className="start-button">
-                    <Icon name="play" size={16} style={{ marginRight: '8px' }} />
-                    Start Lesson
+                  <button className="kid-start-btn">
+                    <span className="btn-emoji">▶️</span>
+                    Start
                   </button>
                 )}
               </div>

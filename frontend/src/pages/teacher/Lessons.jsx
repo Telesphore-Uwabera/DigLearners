@@ -39,11 +39,11 @@ const Lessons = () => {
     }
   };
 
-  return (
+    return (
     <div className="dashboard-container">
-      <div className="page-container">
-        <div className="page-header">
-          <div className="header-content">
+    <div className="page-container">
+      <div className="page-header">
+        <div className="header-content">
             <h1>
               {currentLanguage === 'rw' 
                 ? 'Amasomo' 
@@ -56,37 +56,37 @@ const Lessons = () => {
                 : 'Manage all lessons and their content'
               }
             </p>
-          </div>
         </div>
+      </div>
 
         {/* Filters */}
-        <div className="filters-section">
-          <div className="filter-group">
+      <div className="filters-section">
+        <div className="filter-group">
             <label>
               {currentLanguage === 'rw' ? 'Hitamo Icyiciro:' : 'Filter by Subject:'}
             </label>
-            <select 
+          <select 
               value={filterSubject} 
               onChange={(e) => setFilterSubject(e.target.value)}
-              className="filter-select"
-            >
+            className="filter-select"
+          >
               <option value="all">
                 {currentLanguage === 'rw' ? 'Byose' : 'All Subjects'}
               </option>
               {subjects.slice(1).map(subject => (
                 <option key={subject} value={subject}>{subject}</option>
-              ))}
-            </select>
-          </div>
-          <div className="filter-group">
+            ))}
+          </select>
+        </div>
+        <div className="filter-group">
             <label>
               {currentLanguage === 'rw' ? 'Hitamo Imiterere:' : 'Filter by Status:'}
             </label>
-            <select 
+          <select 
               value={filterStatus} 
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="filter-select"
-            >
+            className="filter-select"
+          >
               <option value="all">
                 {currentLanguage === 'rw' ? 'Byose' : 'All Status'}
               </option>
@@ -96,9 +96,9 @@ const Lessons = () => {
               <option value="draft">
                 {currentLanguage === 'rw' ? 'Ntibyasohowe' : 'Draft'}
               </option>
-            </select>
-          </div>
+          </select>
         </div>
+      </div>
 
         {/* Lessons Grid */}
         <div className="lessons-grid">
@@ -153,9 +153,9 @@ const Lessons = () => {
                       {currentLanguage === 'rw' ? 'Incamake:' : 'Average Score:'}
                     </span>
                     <span className="meta-value">{lesson.averageScore}%</span>
-                  </div>
+                </div>
                 )}
-              </div>
+                </div>
 
               <div className="lesson-progress">
                 <div className="progress-bar">
@@ -167,11 +167,11 @@ const Lessons = () => {
                 <span className="progress-text">
                   {lesson.studentsCompleted}/{lesson.totalStudents} {currentLanguage === 'rw' ? 'yarangije' : 'completed'}
                 </span>
-              </div>
+                </div>
             </div>
           ))}
-        </div>
-
+              </div>
+              
         {/* Selected Lesson Details */}
         {currentLesson && (
           <div className="lesson-details">
@@ -281,8 +281,8 @@ const Lessons = () => {
                   className="category-color" 
                   style={{ backgroundColor: category.color }}
                 ></div>
-              </div>
-            ))}
+            </div>
+          ))}
           </div>
         </div>
 
