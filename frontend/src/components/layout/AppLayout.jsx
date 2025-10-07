@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
-import Footer from './Footer';
 import './AppLayout.css';
 
 const AppLayout = ({ user, onLogout, children }) => {
@@ -61,7 +60,6 @@ const AppLayout = ({ user, onLogout, children }) => {
       />
       <main className="main-content">
         {children}
-        <Footer />
       </main>
     </div>
   );
