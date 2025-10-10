@@ -4076,24 +4076,116 @@
   color: #666;
 }
 
-/* Responsive design for all pages */
+/* Enhanced Responsive Design for All Pages */
+
+/* Tablet and smaller screens */
+@media (max-width: 1024px) {
+  /* Sidebar auto-collapse */
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  
+  /* Main content adjustments */
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+  
+  /* Grid adjustments for tablets */
+  .assignment-stats,
+  .overview-stats,
+  .class-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .lessons-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .badges-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* Tables with horizontal scroll */
+  .admin-table,
+  .teacher-table {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .admin-table table,
+  .teacher-table table {
+    min-width: 600px;
+  }
+  
+  .admin-table th,
+  .admin-table td,
+  .teacher-table th,
+  .teacher-table td {
+    white-space: nowrap;
+    padding: 8px 12px;
+  }
+  
+  /* Sticky table headers */
+  .admin-table thead,
+  .teacher-table thead {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+  }
+}
+
+/* Mobile screens */
 @media (max-width: 768px) {
+  /* Grid layouts to single column */
   .assignment-stats,
   .overview-stats,
   .class-stats {
     grid-template-columns: 1fr;
   }
   
+  .lessons-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .badges-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .kid-lessons-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* Button groups stack vertically */
   .status-buttons,
   .period-buttons,
   .category-buttons {
     flex-direction: column;
   }
   
+  .status-button,
+  .period-button,
+  .category-button {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* Top performers stack */
   .top-three {
     flex-direction: column;
   }
   
+  .podium-item {
+    margin-bottom: 1rem;
+  }
+  
+  /* Leaderboard items stack */
   .leaderboard-item {
     flex-direction: column;
     align-items: flex-start;
@@ -4105,8 +4197,164 @@
     width: 100%;
   }
   
+  /* Achievement grids single column */
   .achievements-grid,
   .tips-grid {
     grid-template-columns: 1fr;
+  }
+  
+  /* Assignment cards full width */
+  .assignment-card {
+    margin-bottom: 15px;
+  }
+  
+  /* Kid lesson cards responsive */
+  .kid-lesson-card {
+    min-height: 160px;
+    padding: 15px;
+  }
+  
+  .big-icon-container {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .big-emoji {
+    font-size: 30px;
+  }
+  
+  .kid-lesson-title h4 {
+    font-size: 12px;
+  }
+  
+  .kid-start-btn,
+  .kid-review-btn {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+}
+
+/* Small mobile screens */
+@media (max-width: 480px) {
+  /* Single column for everything */
+  .kid-lessons-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Smaller padding and margins */
+  .assignment-card,
+  .lesson-card,
+  .badge-card {
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+  
+  /* Smaller icons and text */
+  .big-icon-container {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .big-emoji {
+    font-size: 24px;
+  }
+  
+  .kid-lesson-title h4 {
+    font-size: 11px;
+  }
+  
+  .kid-start-btn,
+  .kid-review-btn {
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+  
+  /* Compact table headers */
+  .admin-table th,
+  .admin-table td,
+  .teacher-table th,
+  .teacher-table td {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+  
+  /* Hide less important columns on very small screens */
+  .admin-table .actions-column,
+  .teacher-table .actions-column {
+    display: none;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 360px) {
+  /* Even more compact */
+  .assignment-card,
+  .lesson-card,
+  .badge-card {
+    padding: 8px;
+  }
+  
+  .big-icon-container {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .big-emoji {
+    font-size: 20px;
+  }
+  
+  .kid-lesson-title h4 {
+    font-size: 10px;
+  }
+  
+  .kid-start-btn,
+  .kid-review-btn {
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Ensure crisp rendering on retina displays */
+  .big-emoji,
+  .badge-icon,
+  .achievement-icon {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+  .kid-lessons-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .lessons-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Print styles */
+@media print {
+  .sidebar,
+  .assignment-actions,
+  .lesson-actions,
+  .badge-actions {
+    display: none;
+  }
+  
+  .main-content {
+    margin-left: 0;
+    padding: 0;
+  }
+  
+  .assignment-card,
+  .lesson-card,
+  .badge-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ccc;
   }
 }

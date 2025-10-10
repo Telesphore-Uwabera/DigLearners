@@ -18,8 +18,8 @@ const Analytics = () => {
 
   return (
     <div className="dashboard-container">
-      <div className="page-container">
-        <div className="page-header">
+    <div className="page-container">
+      <div className="page-header">
           <div className="header-content">
             <h1>
               {currentLanguage === 'rw' 
@@ -342,7 +342,7 @@ const Analytics = () => {
                 </p>
               </div>
             </div>
-          </div>
+      </div>
         </div>
       </div>
     </div>
