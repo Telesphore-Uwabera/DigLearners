@@ -3,5 +3,36 @@
   "framework": "react",
   "bundler": "vite",
   "language": "javascript",
-  "styling": "css"
+  "styling": "css",
+  "units": "px",
+  "fileNaming": "pascalCase",
+  "styleGuide": {
+    "convertFigmaStyles": true,
+    "extractCommonStyles": true,
+    "appendPrefixToClassnames": false
+  },
+  "components": {
+    "path": "src/components",
+    "naming": "pascalCase"
+  },
+  "pages": {
+    "path": "src/pages",
+    "naming": "pascalCase"
+  },
+  "assets": {
+    "path": "src/assets",
+    "optimize": true
+  },
+  "responsive": {
+    "breakpoints": {
+      "mobile": 480,
+      "tablet": 768,
+      "desktop": 1024
+    }
+  },
+  "export": {
+    "includeTypescript": false,
+    "includeStorybook": false,
+    "includeTests": false
+  }
 }
