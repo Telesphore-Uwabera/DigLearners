@@ -1,0 +1,7 @@
+{
+  "projectName": "DigLearners",
+  "framework": "react",
+  "bundler": "vite",
+  "language": "javascript",
+  "styling": "css"
+}
