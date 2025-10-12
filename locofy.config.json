@@ -1,9 +1,14 @@
 {
-  "projectName": "DigLearners",
-  "framework": "react",
-  "bundler": "vite",
-  "language": "javascript",
-  "styling": "css",
-  "units": "px",
-  "fileNaming": "pascalCase"
+  "components": [
+    "./frontend/src/pages/public/Home.jsx",
+    "./frontend/src/pages/auth/Login.jsx",
+    "./frontend/src/pages/auth/Register.jsx",
+    "./frontend/src/pages/learner/LearnerDashboard.jsx",
+    "./frontend/src/pages/parent/ParentDashboard.jsx",
+    "./frontend/src/pages/teacher/TeacherDashboard.jsx",
+    "./frontend/src/pages/admin/AdminDashboard.jsx",
+    "./frontend/src/components/layout/Sidebar.jsx",
+    "./frontend/src/components/layout/AppLayout.jsx"
+  ],
+  "publicPath": "./frontend/public"
 }
