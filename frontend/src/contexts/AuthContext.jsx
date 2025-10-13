@@ -59,7 +59,13 @@ export const AuthProvider = ({ children, value: initialValue }) => {
       localStorage.setItem('authToken', result.token)
       return result
     } catch (error) {
-      setError(error.message)
+      // Enhanced error handling with specific error types
+      const errorDetails = {
+        message: error.message,
+        type: error.type || 'unknown_error',
+        status: error.status
+      }
+      setError(errorDetails)
       throw error
     } finally {
       setLoading(false)

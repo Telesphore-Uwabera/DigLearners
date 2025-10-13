@@ -98,7 +98,18 @@ router.post('/login', async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({
         success: false,
-        error: 'Email and password are required'
+        error: 'Email and password are required',
+        errorType: 'missing_credentials'
+      });
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Please enter a valid email address',
+        errorType: 'invalid_email_format'
       });
     }
 
@@ -107,7 +118,8 @@ router.post('/login', async (req, res) => {
     if (!user) {
       return res.status(401).json({
         success: false,
-        error: 'Invalid email or password'
+        error: 'No account found with this email address. Please check your email or create a new account.',
+        errorType: 'email_not_found'
       });
     }
 
@@ -116,7 +128,8 @@ router.post('/login', async (req, res) => {
     if (!isValidPassword) {
       return res.status(401).json({
         success: false,
-        error: 'Invalid email or password'
+        error: 'Incorrect password. Please try again or contact support if you need help.',
+        errorType: 'incorrect_password'
       });
     }
 
@@ -140,9 +153,30 @@ router.post('/login', async (req, res) => {
 
   } catch (error) {
     console.error('Login error:', error);
+    
+    // Handle specific database connection errors
+    if (error.name === 'SequelizeConnectionError') {
+      return res.status(503).json({
+        success: false,
+        error: 'Service temporarily unavailable. Please try again in a few moments.',
+        errorType: 'service_unavailable'
+      });
+    }
+    
+    // Handle validation errors
+    if (error.name === 'SequelizeValidationError') {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid login data provided',
+        errorType: 'validation_error'
+      });
+    }
+    
+    // Generic server error
     res.status(500).json({
       success: false,
-      error: 'Internal server error during login'
+      error: 'Internal server error during login. Please try again later.',
+      errorType: 'server_error'
     });
   }
 });

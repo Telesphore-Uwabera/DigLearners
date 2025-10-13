@@ -45,7 +45,34 @@ export const authService = {
       const response = await api.post('/auth/login', credentials)
       return response.data
     } catch (error) {
-      throw new Error(error.response?.data?.error || 'Login failed')
+      let errorMessage = 'Login failed'
+      let errorType = 'unknown_error'
+      
+      // Handle network errors
+      if (!error.response) {
+        if (error.code === 'ECONNABORTED') {
+          errorMessage = 'Connection timeout. Please check your internet connection and try again.'
+          errorType = 'timeout_error'
+        } else if (error.message.includes('Network Error')) {
+          errorMessage = 'Network error. Please check your internet connection and try again.'
+          errorType = 'network_error'
+        } else {
+          errorMessage = 'Unable to connect to server. Please try again later.'
+          errorType = 'connection_error'
+        }
+      } else {
+        // Handle API response errors
+        const errorData = error.response?.data
+        errorMessage = errorData?.error || 'Login failed'
+        errorType = errorData?.errorType || 'api_error'
+      }
+      
+      // Create enhanced error object with specific details
+      const enhancedError = new Error(errorMessage)
+      enhancedError.type = errorType
+      enhancedError.status = error.response?.status
+      
+      throw enhancedError
     }
   },
 
