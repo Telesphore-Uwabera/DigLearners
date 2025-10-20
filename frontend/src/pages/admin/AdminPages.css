@@ -356,17 +356,19 @@
 
 .admin-table th {
   background: #f8f9fa;
-  padding: 1rem;
+  padding: 0.75rem;
   text-align: left;
   font-weight: 600;
   color: #495057;
   border-bottom: 1px solid #e9ecef;
+  font-size: 0.8rem;
 }
 
 .admin-table td {
-  padding: 1rem;
+  padding: 0.75rem;
   border-bottom: 1px solid #f1f3f4;
   color: #000000;
+  font-size: 0.85rem;
 }
 
 .admin-table tr:hover {
@@ -381,8 +383,8 @@
 }
 
 .user-avatar {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   background: #FF677D;
   border-radius: 50%;
   display: flex;
@@ -393,6 +395,7 @@
   filter: none !important;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.1) !important;
   visibility: visible !important;
+  font-size: 0.8rem;
 }
 
 .user-details {
@@ -404,10 +407,11 @@
   color: #2D3748 !important;
   margin-bottom: 0.25rem;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  font-size: 0.85rem;
 }
 
 .user-email {
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   color: #4A5568 !important;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
@@ -417,9 +421,9 @@
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  padding: 0.25rem 0.75rem;
+  padding: 0.2rem 0.6rem;
   border-radius: 20px;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   font-weight: 500;
   color: white;
 }
@@ -455,7 +459,7 @@
 }
 
 .progress-text {
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   color: #000000;
   min-width: 40px;
   text-align: right;
@@ -498,7 +502,7 @@
 
 .pagination-info {
   color: #6c757d;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .btn-secondary {
