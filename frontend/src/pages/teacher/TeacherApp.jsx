@@ -4,7 +4,6 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import AppLayout from '../../components/layout/AppLayout'
 import TeacherDashboard from './TeacherDashboard'
-import MyClasses from './MyClasses'
 import Students from './Students'
 import Lessons from './Lessons'
 import Assignments from './Assignments'
@@ -22,7 +21,6 @@ const TeacherApp = () => {
     <AppLayout user={user} onLogout={logout}>
       <Routes>
         <Route path="/" element={<TeacherDashboard />} />
-        <Route path="/classes" element={<MyClasses />} />
         <Route path="/students" element={<Students />} />
         <Route path="/lessons" element={<Lessons />} />
         <Route path="/assignments" element={<Assignments />} />

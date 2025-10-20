@@ -21,7 +21,6 @@ const Sidebar = ({ user, onLogout, isOpen, onClose }) => {
       case 'teacher':
         return [
           ...baseItems,
-          { path: '/dashboard/classes', label: 'My Classes' },
           { path: '/dashboard/students', label: 'Students' },
           { path: '/dashboard/lessons', label: 'Lessons' },
           { path: '/dashboard/assignments', label: 'Assignments' },

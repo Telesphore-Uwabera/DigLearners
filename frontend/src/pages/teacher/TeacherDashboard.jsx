@@ -54,15 +54,15 @@ const TeacherDashboard = () => {
       </div>
 
       <div className="dashboard-grid">
-        <Link to="/dashboard/classes" className="dashboard-card">
+        <Link to="/dashboard/assignments" className="dashboard-card">
           <div className="card-icon">
-            <Icon name="school" size={32} />
+            <Icon name="assignment" size={32} />
           </div>
           <div className="card-content">
-            <h3>My Classes</h3>
-            <p>Manage your learning classes and assignments</p>
+            <h3>Create Work</h3>
+            <p>Create assignments and lessons for students</p>
             <div className="card-stats">
-              <span>3 classes • 95 students</span>
+              <span>24 assignments • 15 pending</span>
             </div>
           </div>
           <div className="card-arrow">→</div>

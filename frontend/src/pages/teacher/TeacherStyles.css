@@ -204,6 +204,8 @@
   border-radius: 8px;
   font-size: 0.95rem;
   transition: border-color 0.3s ease;
+  background: white;
+  color: #2D3748 !important;
 }
 
 .filter-select:focus,
@@ -211,6 +213,23 @@
   outline: none;
   border-color: #FF677D;
   box-shadow: 0 0 0 3px rgba(255, 103, 125, 0.1);
+}
+
+/* Fix dropdown option visibility */
+.filter-select option {
+  background: white !important;
+  color: #2D3748 !important;
+  padding: 0.5rem;
+}
+
+.filter-select option:hover {
+  background: #F8F9FA !important;
+  color: #2D3748 !important;
+}
+
+.filter-select option:checked {
+  background: #FF677D !important;
+  color: white !important;
 }
 
 /* Content Sections */
@@ -1355,6 +1374,169 @@
   height: 4px;
   border-radius: 2px;
   margin-top: 1rem;
+}
+
+/* ===== WEEKLY ACTIVITY ===== */
+.weekly-activity {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  border: 2px solid #E2E8F0;
+}
+
+.weekly-activity h3 {
+  color: #2D3748 !important;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 1.5rem 0;
+  text-align: center;
+}
+
+.activity-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.week-bar {
+  background: #F8F9FA;
+  border: 2px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.week-bar:hover {
+  border-color: #FF677D;
+  box-shadow: 0 4px 15px rgba(255, 103, 125, 0.1);
+}
+
+.week-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.week-label {
+  color: #2D3748 !important;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.week-lessons,
+.week-students,
+.week-hours {
+  color: #4A5568 !important;
+  font-weight: 600;
+  font-size: 0.9rem;
+  background: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  border: 1px solid #E2E8F0;
+}
+
+.week-progress-bar {
+  height: 8px;
+  background: #E2E8F0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.week-progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* ===== CLASS CARDS (GREEN STYLING) ===== */
+.class-tab {
+  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+  border: 2px solid #4CAF50;
+  border-radius: 16px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white !important;
+  text-align: left;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.class-tab:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+  border-color: #2E7D32;
+}
+
+.class-tab.active {
+  background: linear-gradient(135deg, #2E7D32, #1B5E20);
+  border-color: #1B5E20;
+  box-shadow: 0 8px 25px rgba(46, 125, 50, 0.4);
+}
+
+.class-info {
+  margin-bottom: 0.75rem;
+}
+
+.class-name {
+  display: block;
+  color: white !important;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.class-subject {
+  display: block;
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.class-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.class-stats span {
+  color: white !important;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+}
+
+/* ===== CLASS SELECTOR ===== */
+.class-selector {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  border: 2px solid #E2E8F0;
+}
+
+.class-selector h3 {
+  color: #2D3748 !important;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 1.5rem 0;
+  text-align: center;
+}
+
+.class-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 /* Recent Activity */
