@@ -26,13 +26,13 @@ const ProgressReports = () => {
             <h1>
               {currentLanguage === 'rw' 
                 ? 'Raporo y\'Imikurire' 
-                : 'Progress Reports'
+                : 'Digital Learning Reports'
               }
             </h1>
             <p>
               {currentLanguage === 'rw'
                 ? 'Reba imikurire y\'umwanya y\'umwana wese'
-                : 'Detailed learning progress for each child'
+                : 'Comprehensive digital learning progress and performance analytics'
               }
             </p>
           </div>

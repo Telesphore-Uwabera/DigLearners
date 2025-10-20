@@ -32,30 +32,30 @@ const ParentDashboard = () => {
   ];
 
   const recentActivities = [
-    { id: 1, child: "Alex", activity: "Completed Block Coding Lesson 3", time: "2 hours ago", icon: "🧩" },
-    { id: 2, child: "Emma", activity: "Earned Safety Hero Badge", time: "1 day ago", icon: "🛡️" },
-    { id: 3, child: "Alex", activity: "Achieved 7-day learning streak", time: "2 days ago", icon: "🔥" },
-    { id: 4, child: "Emma", activity: "Finished Typing Lesson 2", time: "3 days ago", icon: "⌨️" }
+    { id: 1, child: "Alex", activity: "Mastered Block Coding Fundamentals", time: "2 hours ago", icon: "🧩" },
+    { id: 2, child: "Emma", activity: "Earned Digital Safety Champion Badge", time: "1 day ago", icon: "🛡️" },
+    { id: 3, child: "Alex", activity: "Maintained 7-day learning streak", time: "2 days ago", icon: "🔥" },
+    { id: 4, child: "Emma", activity: "Completed Typing Speed Challenge", time: "3 days ago", icon: "⌨️" }
   ];
 
   return (
     <div className="parent-dashboard">
       <div className="parent-header">
         <div className="welcome-section">
-          <h1>👨‍👩‍👧‍👦 Welcome to Your Family Dashboard!</h1>
-          <p>Keep track of your children's amazing learning journey! 🌟</p>
+          <h1>👨‍👩‍👧‍👦 Welcome to Your Family Learning Hub!</h1>
+          <p>Monitor your children's digital learning progress and celebrate their achievements! 🌟</p>
         </div>
         <div className="parent-avatar">
           <div className="avatar-circle">👨‍👩‍👧‍👦</div>
-          <div className="parent-info">
-            <h3>Parent Dashboard</h3>
-            <p>Family Learning Center</p>
-          </div>
+        <div className="parent-info">
+          <h3>Parent Control Center</h3>
+          <p>Digital Learning Monitor</p>
+        </div>
         </div>
       </div>
 
       <div className="children-section">
-        <h2>👶 My Children</h2>
+        <h2>👶 My Digital Learners</h2>
         <div className="children-grid">
           {children.map(child => (
             <div key={child.id} className="child-card">
@@ -83,31 +83,31 @@ const ParentDashboard = () => {
           <div className="stat-icon">📚</div>
           <div className="stat-content">
                     <span className="stat-number">{child.lessonsCompleted}</span>
-                    <span className="stat-label">Lessons</span>
+                    <span className="stat-label">Digital Lessons</span>
           </div>
         </div>
                 <div className="stat">
           <div className="stat-icon">🏆</div>
           <div className="stat-content">
                     <span className="stat-number">{child.badges}</span>
-                    <span className="stat-label">Badges</span>
+                    <span className="stat-label">Achievements</span>
           </div>
         </div>
                 <div className="stat">
                   <div className="stat-icon">🔥</div>
           <div className="stat-content">
                     <span className="stat-number">{child.streak}</span>
-                    <span className="stat-label">Streak</span>
+                    <span className="stat-label">Learning Streak</span>
           </div>
         </div>
       </div>
 
               <div className="child-actions">
                 <Link to={`/child/${child.id}/progress`} className="action-btn primary">
-                  View Progress 📊
+                  View Learning Progress 📊
         </Link>
                 <Link to={`/child/${child.id}/achievements`} className="action-btn secondary">
-                  See Badges 🏆
+                  View Achievements 🏆
         </Link>
       </div>
 
@@ -120,7 +120,7 @@ const ParentDashboard = () => {
           </div>
 
       <div className="recent-activities">
-        <h2>🎉 Recent Family Activities</h2>
+        <h2>🎉 Recent Learning Activities</h2>
         <div className="activities-list">
           {recentActivities.map(activity => (
             <div key={activity.id} className="activity-item">
@@ -137,27 +137,27 @@ const ParentDashboard = () => {
       </div>
 
       <div className="quick-actions">
-        <h2>🎯 Quick Actions</h2>
+        <h2>🎯 Parent Quick Actions</h2>
         <div className="actions-grid">
           <Link to="/children" className="action-card action-1">
             <div className="action-icon">👶</div>
-            <span>Manage Children</span>
+            <span>Manage Digital Learners</span>
           </Link>
           <Link to="/reports" className="action-card action-2">
             <div className="action-icon">📊</div>
-            <span>Progress Reports</span>
+            <span>Learning Reports</span>
           </Link>
           <Link to="/achievements" className="action-card action-3">
             <div className="action-icon">🏆</div>
-            <span>Family Achievements</span>
+            <span>Learning Achievements</span>
           </Link>
           <Link to="/schedule" className="action-card action-4">
             <div className="action-icon">📅</div>
-            <span>Learning Schedule</span>
+            <span>Digital Learning Schedule</span>
           </Link>
           <Link to="/communication" className="action-card action-5">
             <div className="action-icon">💬</div>
-            <span>Teacher Messages</span>
+            <span>Learning Communication</span>
           </Link>
           <Link to="/settings" className="action-card action-6">
             <div className="action-icon">⚙️</div>

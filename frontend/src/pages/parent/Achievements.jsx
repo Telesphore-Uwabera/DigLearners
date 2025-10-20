@@ -50,13 +50,13 @@ const Achievements = () => {
             <h1>
               {currentLanguage === 'rw' 
                 ? 'Ibyubahiro' 
-                : 'Achievements'
+                : 'Learning Achievements'
               }
             </h1>
             <p>
               {currentLanguage === 'rw'
                 ? 'Reba ibyubahiro n\'intsinzi z\'abana banyu'
-                : 'View badges and accomplishments'
+                : 'Celebrate your children\'s digital learning milestones and accomplishments'
               }
             </p>
           </div>

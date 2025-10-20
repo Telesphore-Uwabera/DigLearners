@@ -19,13 +19,13 @@ const ChildrenOverview = () => {
             <h1>
               {currentLanguage === 'rw' 
                 ? 'Abana Banyu' 
-                : 'Children Overview'
+                : 'Digital Learners Overview'
               }
             </h1>
             <p>
               {currentLanguage === 'rw'
                 ? 'Reba imikurire y\'abana banyu n\'ibikorwa byabo'
-                : 'Monitor your children\'s progress and activities'
+                : 'Track your children\'s digital learning journey and achievements'
               }
             </p>
           </div>
@@ -40,7 +40,7 @@ const ChildrenOverview = () => {
             <div className="stat-content">
               <h3>{data.overview.totalChildren}</h3>
               <p>
-                {currentLanguage === 'rw' ? 'Abana' : 'Children'}
+                {currentLanguage === 'rw' ? 'Abana' : 'Digital Learners'}
               </p>
             </div>
           </div>
@@ -51,7 +51,7 @@ const ChildrenOverview = () => {
             <div className="stat-content">
               <h3>{data.overview.totalLessonsCompleted}</h3>
               <p>
-                {currentLanguage === 'rw' ? 'Amahugurwa Yarangije' : 'Lessons Completed'}
+                {currentLanguage === 'rw' ? 'Amahugurwa Yarangije' : 'Digital Lessons Completed'}
               </p>
             </div>
           </div>
@@ -62,7 +62,7 @@ const ChildrenOverview = () => {
             <div className="stat-content">
               <h3>{data.overview.totalBadges}</h3>
               <p>
-                {currentLanguage === 'rw' ? 'Ibyubahiro' : 'Total Badges'}
+                {currentLanguage === 'rw' ? 'Ibyubahiro' : 'Learning Achievements'}
               </p>
             </div>
           </div>
@@ -73,7 +73,7 @@ const ChildrenOverview = () => {
             <div className="stat-content">
               <h3>{data.overview.totalLearningTime}</h3>
               <p>
-                {currentLanguage === 'rw' ? 'Igihe cy\'Kwiga' : 'Learning Time'}
+                {currentLanguage === 'rw' ? 'Igihe cy\'Kwiga' : 'Digital Learning Time'}
               </p>
             </div>
           </div>

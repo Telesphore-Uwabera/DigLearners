@@ -46,13 +46,13 @@ const Schedule = () => {
             <h1>
               {currentLanguage === 'rw' 
                 ? 'Gahunda' 
-                : 'Schedule'
+                : 'Digital Learning Schedule'
               }
             </h1>
             <p>
               {currentLanguage === 'rw'
                 ? 'Reba gahunda y\'amahugurwa y\'abana banyu'
-                : 'View your children\'s learning schedule'
+                : 'Track and manage your children\'s digital learning sessions and activities'
               }
             </p>
           </div>

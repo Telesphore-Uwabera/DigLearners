@@ -20,13 +20,13 @@ const Communication = () => {
             <h1>
               {currentLanguage === 'rw' 
                 ? 'Kuvugana' 
-                : 'Communication'
+                : 'Learning Communication Hub'
               }
             </h1>
             <p>
               {currentLanguage === 'rw'
                 ? 'Reba ubutumwa n\'amakuru y\'abana banyu'
-                : 'View messages and announcements about your children'
+                : 'Stay connected with teachers and receive updates about your children\'s learning progress'
               }
             </p>
           </div>

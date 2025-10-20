@@ -28,13 +28,13 @@ const Reports = () => {
             <h1>
               {currentLanguage === 'rw' 
                 ? 'Raporo' 
-                : 'Reports'
+                : 'Learning Analytics & Reports'
               }
             </h1>
             <p>
               {currentLanguage === 'rw'
                 ? 'Reba raporo z\'imikurire y\'abana banyu'
-                : 'View detailed progress reports for your children'
+                : 'Access comprehensive learning analytics and detailed performance reports'
               }
             </p>
           </div>
