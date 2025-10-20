@@ -57,6 +57,56 @@ const Assignments = () => {
           </div>
         </div>
 
+        {/* Quick Actions */}
+        <div className="quick-actions-section">
+          <div className="quick-actions-header">
+            <h3>
+              {currentLanguage === 'rw' ? 'Ikorwa Ryihuse' : 'Quick Actions'}
+            </h3>
+            <p>
+              {currentLanguage === 'rw' 
+                ? 'Tangiza ibyo biteganyijwe bishya cyangwa genzura ibyatangijwe'
+                : 'Create new assignments or manage existing ones'
+              }
+            </p>
+          </div>
+          <div className="quick-actions-buttons">
+            <button className="quick-action-btn primary">
+              <div className="action-icon">➕</div>
+              <div className="action-content">
+                <span className="action-title">
+                  {currentLanguage === 'rw' ? 'Tangiza Icyo Biteganyijwe' : 'Create Assignment'}
+                </span>
+                <span className="action-subtitle">
+                  {currentLanguage === 'rw' ? 'Tangiza ibyo biteganyijwe bishya' : 'Create new assignment for students'}
+                </span>
+              </div>
+            </button>
+            <button className="quick-action-btn secondary">
+              <div className="action-icon">📊</div>
+              <div className="action-content">
+                <span className="action-title">
+                  {currentLanguage === 'rw' ? 'Raporo' : 'View Reports'}
+                </span>
+                <span className="action-subtitle">
+                  {currentLanguage === 'rw' ? 'Reba raporo y\'imikurire' : 'View assignment performance reports'}
+                </span>
+              </div>
+            </button>
+            <button className="quick-action-btn secondary">
+              <div className="action-icon">📋</div>
+              <div className="action-content">
+                <span className="action-title">
+                  {currentLanguage === 'rw' ? 'Genzura' : 'Grade Submissions'}
+                </span>
+                <span className="action-subtitle">
+                  {currentLanguage === 'rw' ? 'Genzura ibyatangijwe' : 'Review and grade student submissions'}
+                </span>
+              </div>
+            </button>
+          </div>
+        </div>
+
         {/* Filters */}
         <div className="filters-section">
           <div className="filter-group">

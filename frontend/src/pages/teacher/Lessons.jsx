@@ -41,8 +41,8 @@ const Lessons = () => {
 
     return (
     <div className="dashboard-container">
-    <div className="page-container">
-      <div className="page-header">
+      <div className="page-container">
+        <div className="page-header">
         <div className="header-content">
             <h1>
               {currentLanguage === 'rw' 
@@ -57,6 +57,56 @@ const Lessons = () => {
               }
             </p>
         </div>
+      </div>
+
+        {/* Quick Actions */}
+        <div className="quick-actions-section">
+          <div className="quick-actions-header">
+            <h3>
+              {currentLanguage === 'rw' ? 'Ikorwa Ryihuse' : 'Quick Actions'}
+            </h3>
+            <p>
+              {currentLanguage === 'rw' 
+                ? 'Tangiza amasomo mashya cyangwa genzura amasomo yose'
+                : 'Create new lessons or manage existing content'
+              }
+            </p>
+          </div>
+          <div className="quick-actions-buttons">
+            <button className="quick-action-btn primary">
+              <div className="action-icon">📚</div>
+              <div className="action-content">
+                <span className="action-title">
+                  {currentLanguage === 'rw' ? 'Tangiza Isomo' : 'Create Lesson'}
+                </span>
+                <span className="action-subtitle">
+                  {currentLanguage === 'rw' ? 'Tangiza isomo rishya' : 'Create new educational content'}
+                </span>
+              </div>
+            </button>
+            <button className="quick-action-btn secondary">
+              <div className="action-icon">🎯</div>
+              <div className="action-content">
+                <span className="action-title">
+                  {currentLanguage === 'rw' ? 'Gahunda' : 'Lesson Plan'}
+                </span>
+                <span className="action-subtitle">
+                  {currentLanguage === 'rw' ? 'Gena gahunda y\'isomo' : 'Create structured lesson plans'}
+                </span>
+              </div>
+            </button>
+            <button className="quick-action-btn secondary">
+              <div className="action-icon">📊</div>
+              <div className="action-content">
+                <span className="action-title">
+                  {currentLanguage === 'rw' ? 'Raporo' : 'Analytics'}
+                </span>
+                <span className="action-subtitle">
+                  {currentLanguage === 'rw' ? 'Reba imikurire y\'amasomo' : 'View lesson performance analytics'}
+                </span>
+        </div>
+        </button>
+          </div>
       </div>
 
         {/* Filters */}
