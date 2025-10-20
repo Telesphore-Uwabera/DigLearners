@@ -99,10 +99,11 @@
 }
 
 .child-selector h3 {
-  color: #2D3748;
+  color: #2D3748 !important; /* Dark gray for visibility */
   font-size: 1.5rem;
   margin-bottom: 1rem;
   text-align: center;
+  font-weight: 600;
 }
 
 .child-tabs {
@@ -159,11 +160,13 @@
 .child-name {
   font-weight: 600;
   font-size: 1.1rem;
+  color: #2D3748 !important; /* Dark gray for visibility */
 }
 
 .child-grade {
   font-size: 0.9rem;
-  opacity: 0.8;
+  color: #4A5568 !important; /* Medium gray for visibility */
+  font-weight: 500;
 }
 
 .child-stats {
@@ -172,6 +175,7 @@
   align-items: flex-end;
   font-size: 0.85rem;
   font-weight: 500;
+  color: #2D3748 !important; /* Dark gray for visibility */
 }
 
 /* ===== VIEW CONTROLS ===== */
@@ -198,6 +202,7 @@
   transition: all 0.3s ease;
   font-family: 'Comic Sans MS', cursive, sans-serif;
   font-weight: 500;
+  color: #2D3748 !important; /* Dark gray for visibility */
 }
 
 .view-btn:hover {
@@ -286,12 +291,13 @@
 .announcements-section h3,
 .upcoming-schedule h3,
 .child-schedule h3 {
-  color: #2D3748;
+  color: #2D3748 !important; /* Dark gray for visibility */
   font-size: 1.8rem;
   margin-bottom: 1.5rem;
   text-align: center;
   padding-bottom: 0.5rem;
   border-bottom: 3px solid #FF677D;
+  font-weight: 600;
 }
 
 /* ===== CHILD DETAILS ===== */
@@ -411,15 +417,17 @@
 }
 
 .child-info h3 {
-  color: #2D3748;
+  color: #2D3748 !important; /* Dark gray for visibility */
   font-size: 1.3rem;
   margin: 0 0 0.25rem 0;
+  font-weight: 600;
 }
 
 .child-info p {
-  color: #4A5568;
+  color: #4A5568 !important; /* Medium gray for visibility */
   margin: 0;
   font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .child-progress {
@@ -789,6 +797,94 @@
   justify-content: center;
 }
 
+/* Fix for message stats visibility */
+.message-stats,
+.announcement-stats {
+  color: #2D3748 !important; /* Dark gray for visibility */
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* Fix for schedule text visibility */
+.schedule-list .schedule-item,
+.schedule-content h4,
+.schedule-content p {
+  color: #2D3748 !important; /* Dark gray for visibility */
+  font-weight: 500;
+}
+
+.schedule-time .time,
+.schedule-time .date {
+  color: #4A5568 !important; /* Medium gray for visibility */
+  font-weight: 500;
+}
+
+/* Fix for reports text visibility */
+.reports-stats,
+.reports-header h3 {
+  color: #2D3748 !important; /* Dark gray for visibility */
+  font-weight: 600;
+}
+
+.reports-stats span {
+  color: #4A5568 !important; /* Medium gray for visibility */
+  font-weight: 500;
+}
+
+/* Fix for strengths and improvement sections */
+.strengths-section,
+.improvements-section,
+.strengths,
+.improvements {
+  background: #2D3748 !important; /* Dark background */
+  color: white !important;
+  padding: 1.5rem;
+  border-radius: 15px;
+  margin-bottom: 1rem;
+}
+
+.strengths-section h3,
+.improvements-section h3,
+.strengths h3,
+.improvements h3 {
+  color: white !important; /* White text on dark background */
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.strengths-section ul,
+.improvements-section ul,
+.strengths ul,
+.improvements ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.strengths-section li,
+.improvements-section li,
+.strengths li,
+.improvements li {
+  color: white !important; /* White text on dark background */
+  padding: 0.5rem 0;
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.strengths-section li:before,
+.improvements-section li:before,
+.strengths li:before,
+.improvements li:before {
+  content: "✓";
+  color: #4CAF50;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
 .comm-tab {
   background: #F7FAFC;
   border: 2px solid #E2E8F0;
@@ -1023,6 +1119,49 @@
   text-align: center;
   padding-bottom: 0.5rem;
   border-bottom: 3px solid #FF677D;
+}
+
+/* ===== COMPREHENSIVE TEXT VISIBILITY FIXES ===== */
+/* Ensure all text elements are visible with proper contrast */
+p, span, div, h1, h2, h3, h4, h5, h6, li, td, th {
+  color: inherit;
+}
+
+/* Fix for any light text on light backgrounds */
+.dashboard-container * {
+  color: inherit;
+}
+
+/* Specific fixes for common invisible text patterns */
+.schedule-item,
+.schedule-content,
+.schedule-time,
+.message-item,
+.announcement-item,
+.report-item,
+.child-card,
+.stat-card,
+.activity-item {
+  color: #2D3748 !important; /* Dark gray for visibility */
+}
+
+/* Fix for child selection cards */
+.child-tab:not(.active) {
+  color: #2D3748 !important; /* Dark gray for visibility */
+}
+
+.child-tab:not(.active) .child-name,
+.child-tab:not(.active) .child-grade,
+.child-tab:not(.active) .child-stats {
+  color: #2D3748 !important; /* Dark gray for visibility */
+}
+
+/* Fix for any remaining light text */
+.light-text,
+.faint-text,
+.muted-text {
+  color: #4A5568 !important; /* Medium gray for visibility */
+  font-weight: 500;
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
