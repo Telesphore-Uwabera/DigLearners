@@ -859,7 +859,7 @@
 }
 
 .metric-number {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 800;
   color: #2D3748;
   margin-bottom: 0.5rem;
@@ -872,7 +872,7 @@
 }
 
 .metric-label {
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   color: #4A5568;
   margin-bottom: 0.75rem;
   font-weight: 600;
@@ -888,9 +888,9 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.95rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 0.8rem;
   border-radius: 20px;
   background: rgba(76, 175, 80, 0.1);
   color: #2E7D32;
@@ -1212,7 +1212,7 @@
 }
 
 .engagement-number {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 800;
   color: #2D3748;
   margin-bottom: 0.75rem;
@@ -1221,7 +1221,7 @@
 }
 
 .engagement-label {
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   color: #4A5568;
   font-weight: 600;
   text-transform: uppercase;
