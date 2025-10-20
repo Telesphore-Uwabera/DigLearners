@@ -430,10 +430,12 @@ export default function Achievements() {
           }
 
           .category-filter-section h2 {
-            color: #2D3748;
+            color: #2D3748 !important;
             font-size: 2rem;
             margin-bottom: 1.5rem;
             text-align: center;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
           }
 
           .category-buttons {
@@ -454,6 +456,8 @@ export default function Achievements() {
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 1rem;
+            color: inherit !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
           }
 
           .category-btn:hover {
@@ -474,10 +478,12 @@ export default function Achievements() {
           }
 
           .badge-collection-section h2 {
-            color: #2D3748;
+            color: #2D3748 !important;
             font-size: 2rem;
             margin-bottom: 1.5rem;
             text-align: center;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
           }
 
           .badges-grid {
@@ -735,10 +741,12 @@ export default function Achievements() {
           }
 
           .achievement-tips-section h2 {
-            color: #2D3748;
+            color: #2D3748 !important;
             font-size: 2rem;
             margin-bottom: 1.5rem;
             text-align: center;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
           }
 
           .tips-grid {
