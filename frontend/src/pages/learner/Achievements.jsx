@@ -3,6 +3,7 @@ import { useTranslation } from '../../lib/language'
 import { mockBadges, mockAchievements, getEarnedBadges, getPendingBadges, formatDate } from '../../services/mockDataService'
 import AchievementNotification from '../../components/AchievementNotification'
 import Icon from '../../components/icons/Icon'
+import '../../components/CodePlayStyles.css'
 
 export default function Achievements() {
   const { t } = useTranslation()
