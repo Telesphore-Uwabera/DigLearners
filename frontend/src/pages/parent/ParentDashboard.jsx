@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Icon from '../../components/icons/Icon';
+import './ParentPages.css';
 
 const ParentDashboard = () => {
   const children = [

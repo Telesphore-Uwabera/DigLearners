@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from '../../lib/language';
 import { getChildrenOverviewData } from '../../services/parentMockDataService';
 import Icon from '../../components/icons/Icon';
-import '../../components/DashboardStyles.css';
+import './ParentPages.css';
 
 const ChildrenOverview = () => {
   const { t, currentLanguage } = useTranslation();
