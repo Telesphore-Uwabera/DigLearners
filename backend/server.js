@@ -9,6 +9,7 @@ const { initializeDatabase } = require('./models')
 const authRoutes = require('./api/auth')
 const contentRoutes = require('./api/content')
 const learningRoutes = require('./api/learning')
+const teacherRoutes = require('./api/teacher')
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -63,6 +64,7 @@ app.get('/api/test', (req, res) => {
 app.use('/api/auth', authRoutes)
 app.use('/api/content', contentRoutes)
 app.use('/api/learning', learningRoutes)
+app.use('/api/teacher', teacherRoutes)
 
 // Error handling middleware
 app.use((err, req, res, next) => {

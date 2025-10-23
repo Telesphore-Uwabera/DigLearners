@@ -1,19 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from '../../lib/language';
-import { getLessonsData } from '../../services/teacherMockDataService';
+import teacherApiService from '../../services/teacherApiService';
 import Icon from '../../components/icons/Icon';
 import '../../components/DashboardStyles.css';
 
 const Lessons = () => {
   const { t, currentLanguage } = useTranslation();
-  const data = getLessonsData();
-  const [selectedLesson, setSelectedLesson] = useState(data.lessons[0].id);
+  const [lessons, setLessons] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedLesson, setSelectedLesson] = useState(null);
   const [filterSubject, setFilterSubject] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
 
-  const currentLesson = data.lessons.find(lesson => lesson.id === selectedLesson);
+  useEffect(() => {
+    fetchLessons();
+  }, [filterSubject, filterStatus]);
+
+  const fetchLessons = async () => {
+    try {
+      setLoading(true);
+      const response = await teacherApiService.getLessons({
+        subject: filterSubject,
+        status: filterStatus
+      });
+      setLessons(response.lessons);
+      if (response.lessons.length > 0 && !selectedLesson) {
+        setSelectedLesson(response.lessons[0].id);
+      }
+    } catch (err) {
+      console.error('Error fetching lessons:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const currentLesson = lessons.find(lesson => lesson.id === selectedLesson);
   
-  const filteredLessons = data.lessons.filter(lesson => {
+  const filteredLessons = lessons.filter(lesson => {
     const subjectMatch = filterSubject === 'all' || lesson.subject === filterSubject;
     const statusMatch = filterStatus === 'all' || lesson.status === filterStatus;
     return subjectMatch && statusMatch;
@@ -39,7 +64,36 @@ const Lessons = () => {
     }
   };
 
+  if (loading) {
     return (
+      <div className="dashboard-container">
+        <div className="page-container">
+          <div className="loading-screen">
+            <div className="loading-spinner"></div>
+            <p>Loading lessons...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="dashboard-container">
+        <div className="page-container">
+          <div className="error-message">
+            <h2>Error loading lessons</h2>
+            <p>{error}</p>
+            <button onClick={fetchLessons} className="retry-btn">
+              Try Again
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
     <div className="dashboard-container">
       <div className="page-container">
         <div className="page-header">

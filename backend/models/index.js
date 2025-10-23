@@ -36,6 +36,7 @@ LearningClass.belongsTo(User, {
   as: 'teacher' 
 });
 
+
 // User-Progress relationship
 User.hasMany(Progress, { 
   foreignKey: 'userId', 
@@ -44,6 +45,22 @@ User.hasMany(Progress, {
 Progress.belongsTo(User, { 
   foreignKey: 'userId', 
   as: 'user' 
+});
+
+// Progress-User relationship (for student)
+Progress.belongsTo(User, { 
+  foreignKey: 'userId', 
+  as: 'student' 
+});
+
+// Teacher-Lesson relationship
+User.hasMany(Lesson, { 
+  foreignKey: 'teacherId', 
+  as: 'lessons' 
+});
+Lesson.belongsTo(User, { 
+  foreignKey: 'teacherId', 
+  as: 'teacher' 
 });
 
 // Lesson-Progress relationship
@@ -80,18 +97,18 @@ UserBadge.belongsTo(Badge, {
   as: 'badge' 
 });
 
-// User-LearningClass many-to-many relationship
+// User-LearningClass many-to-many relationship (students)
 User.belongsToMany(LearningClass, { 
   through: UserLearningClass, 
   foreignKey: 'userId', 
   otherKey: 'classId',
-  as: 'classes' 
+  as: 'enrolledClasses' 
 });
 LearningClass.belongsToMany(User, { 
   through: UserLearningClass, 
   foreignKey: 'classId', 
   otherKey: 'userId',
-  as: 'users' 
+  as: 'enrolledStudents' 
 });
 
 // UserLearningClass relationships

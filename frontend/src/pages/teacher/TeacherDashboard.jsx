@@ -1,9 +1,63 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from '../../components/icons/Icon';
+import teacherApiService from '../../services/teacherApiService';
 import '../../components/DashboardStyles.css';
 
 const TeacherDashboard = () => {
+  const [dashboardData, setDashboardData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  const fetchDashboardData = async () => {
+    try {
+      setLoading(true);
+      const response = await teacherApiService.getDashboardData();
+      setDashboardData(response.data);
+    } catch (err) {
+      console.error('Error fetching dashboard data:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="dashboard-container">
+        <div className="page-container">
+          <div className="loading-screen">
+            <div className="loading-spinner"></div>
+            <p>Loading dashboard...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="dashboard-container">
+        <div className="page-container">
+          <div className="error-message">
+            <h2>Error loading dashboard</h2>
+            <p>{error}</p>
+            <button onClick={fetchDashboardData} className="retry-btn">
+              Try Again
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const stats = dashboardData?.stats || {};
+  const recentActivity = dashboardData?.recentActivity || [];
+
   return (
     <div className="dashboard-container">
       <div className="page-container">
@@ -20,8 +74,8 @@ const TeacherDashboard = () => {
             <Icon name="assignment" size={24} />
           </div>
           <div className="stat-content">
-            <h3>15</h3>
-            <p>Pending Reviews</p>
+            <h3>{stats.draftLessons || 0}</h3>
+            <p>Draft Lessons</p>
           </div>
         </div>
         <div className="stat-card">
@@ -29,7 +83,7 @@ const TeacherDashboard = () => {
             <Icon name="student" size={24} />
           </div>
           <div className="stat-content">
-            <h3>95</h3>
+            <h3>{stats.totalStudents || 0}</h3>
             <p>Total Students</p>
           </div>
         </div>
@@ -38,8 +92,8 @@ const TeacherDashboard = () => {
             <Icon name="book" size={24} />
           </div>
           <div className="stat-content">
-            <h3>24</h3>
-            <p>Lessons Assigned</p>
+            <h3>{stats.totalLessons || 0}</h3>
+            <p>Total Lessons</p>
           </div>
         </div>
         <div className="stat-card">
@@ -47,7 +101,7 @@ const TeacherDashboard = () => {
             <Icon name="progress" size={24} />
           </div>
           <div className="stat-content">
-            <h3>87%</h3>
+            <h3>{stats.averageProgress || 0}%</h3>
             <p>Avg Progress</p>
           </div>
         </div>
@@ -142,42 +196,28 @@ const TeacherDashboard = () => {
       <div className="recent-activity">
         <h2>Recent Activity</h2>
         <div className="activity-list">
-          <div className="activity-item">
-            <div className="activity-icon">
-              <Icon name="book" size={20} />
+          {recentActivity.length > 0 ? (
+            recentActivity.map((activity, index) => (
+              <div key={index} className="activity-item">
+                <div className="activity-icon">
+                  <Icon name="book" size={20} />
+                </div>
+                <div className="activity-content">
+                  <p>
+                    <strong>{activity.student?.name || 'Student'}</strong> completed 
+                    <strong> {activity.lesson?.title || 'lesson'}</strong>
+                  </p>
+                  <span className="activity-time">
+                    {new Date(activity.createdAt).toLocaleDateString()}
+                  </span>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="no-activity">
+              <p>No recent activity</p>
             </div>
-            <div className="activity-content">
-              <p><strong>New lesson assigned:</strong> Introduction to Programming</p>
-              <span className="activity-time">2 hours ago</span>
-            </div>
-          </div>
-          <div className="activity-item">
-            <div className="activity-icon">
-              <Icon name="student" size={20} />
-            </div>
-            <div className="activity-content">
-              <p><strong>Student completed:</strong> Alice Uwimana finished "Safe Internet Browsing"</p>
-              <span className="activity-time">4 hours ago</span>
-            </div>
-          </div>
-          <div className="activity-item">
-            <div className="activity-icon">
-              <Icon name="achievement" size={20} />
-            </div>
-            <div className="activity-content">
-              <p><strong>Badge earned:</strong> Jean Baptiste earned "Fast Learner" badge</p>
-              <span className="activity-time">6 hours ago</span>
-            </div>
-          </div>
-          <div className="activity-item">
-            <div className="activity-icon">
-              <Icon name="analytics" size={20} />
-            </div>
-            <div className="activity-content">
-              <p><strong>Weekly report generated</strong> for students</p>
-              <span className="activity-time">1 day ago</span>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

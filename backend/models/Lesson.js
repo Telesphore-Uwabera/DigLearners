@@ -44,6 +44,36 @@ module.exports = (sequelize) => {
       allowNull: true,
       field: 'age_group'
     },
+    subject: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    grade: {
+      type: DataTypes.STRING(50),
+      allowNull: true
+    },
+    teacherId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      field: 'teacher_id',
+      references: {
+        model: 'users',
+        key: 'id'
+      }
+    },
+    status: {
+      type: DataTypes.ENUM('draft', 'published', 'archived'),
+      allowNull: false,
+      defaultValue: 'draft'
+    },
+    objectives: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    resources: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
     isActive: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
