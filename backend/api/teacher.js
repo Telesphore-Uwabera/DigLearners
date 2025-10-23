@@ -7,6 +7,7 @@ const router = express.Router();
 
 // Test endpoint without authentication
 router.get('/test', (req, res) => {
+  console.log('Teacher test endpoint hit');
   res.json({
     success: true,
     message: 'Teacher API is working'
