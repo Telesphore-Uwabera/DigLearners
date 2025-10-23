@@ -383,6 +383,225 @@ router.get('/students', authenticateToken, requireTeacher, async (req, res) => {
   }
 });
 
+// Get assignments
+router.get('/assignments', authenticateToken, requireTeacher, async (req, res) => {
+  try {
+    const teacherId = req.user.userId;
+    const { status, subject, grade } = req.query;
+
+    const whereClause = { teacherId };
+    if (status && status !== 'all') whereClause.status = status;
+    if (subject && subject !== 'all') whereClause.subject = subject;
+    if (grade && grade !== 'all') whereClause.grade = grade;
+
+    // For now, we'll use lessons as assignments since they serve similar purposes
+    const assignments = await Lesson.findAll({
+      where: whereClause,
+      order: [['createdAt', 'DESC']]
+    });
+
+    // Get progress data for each assignment
+    const assignmentsWithProgress = await Promise.all(assignments.map(async (assignment) => {
+      const progress = await Progress.findAll({
+        where: { lessonId: assignment.id },
+        include: [
+          {
+            model: User,
+            as: 'student',
+            attributes: ['id', 'name']
+          }
+        ]
+      });
+
+      const completedCount = progress.filter(p => p.isCompleted).length;
+      const totalStudents = progress.length;
+      const averageScore = progress.length > 0 
+        ? Math.round(progress.reduce((sum, p) => sum + (p.score || 0), 0) / progress.length)
+        : 0;
+
+      return {
+        ...assignment.toJSON(),
+        studentsCompleted: completedCount,
+        totalStudents,
+        averageScore,
+        dueDate: assignment.dueDate || null
+      };
+    }));
+
+    res.json({
+      success: true,
+      assignments: assignmentsWithProgress
+    });
+
+  } catch (error) {
+    console.error('Error fetching teacher assignments:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error fetching assignments'
+    });
+  }
+});
+
+// Create new assignment
+router.post('/assignments', authenticateToken, requireTeacher, async (req, res) => {
+  try {
+    const teacherId = req.user.userId;
+    const {
+      title,
+      subject,
+      grade,
+      content,
+      description,
+      difficulty = 'beginner',
+      estimatedDuration,
+      dueDate,
+      assignmentType = 'lesson', // lesson, puzzle, quiz, project
+      puzzleType, // drag-drop, matching, sequencing, fill-blank
+      questions = [],
+      instructions = []
+    } = req.body;
+
+    // Validate required fields
+    if (!title || !subject || !grade || !content) {
+      return res.status(400).json({
+        success: false,
+        error: 'Title, subject, grade, and content are required'
+      });
+    }
+
+    const assignment = await Lesson.create({
+      title,
+      subject,
+      grade,
+      content,
+      description,
+      difficulty,
+      estimatedDuration,
+      dueDate,
+      assignmentType,
+      puzzleType,
+      questions: JSON.stringify(questions),
+      instructions: JSON.stringify(instructions),
+      teacherId,
+      status: 'draft'
+    });
+
+    res.status(201).json({
+      success: true,
+      assignment: assignment.toJSON()
+    });
+
+  } catch (error) {
+    console.error('Error creating assignment:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error creating assignment'
+    });
+  }
+});
+
+// Update assignment
+router.put('/assignments/:id', authenticateToken, requireTeacher, async (req, res) => {
+  try {
+    const teacherId = req.user.userId;
+    const assignmentId = req.params.id;
+    const updateData = req.body;
+
+    // Check if assignment belongs to teacher
+    const assignment = await Lesson.findOne({
+      where: { id: assignmentId, teacherId }
+    });
+
+    if (!assignment) {
+      return res.status(404).json({
+        success: false,
+        error: 'Assignment not found or access denied'
+      });
+    }
+
+    // Update assignment
+    await assignment.update(updateData);
+
+    res.json({
+      success: true,
+      assignment: assignment.toJSON()
+    });
+
+  } catch (error) {
+    console.error('Error updating assignment:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error updating assignment'
+    });
+  }
+});
+
+// Publish assignment
+router.post('/assignments/:id/publish', authenticateToken, requireTeacher, async (req, res) => {
+  try {
+    const teacherId = req.user.userId;
+    const assignmentId = req.params.id;
+
+    const assignment = await Lesson.findOne({
+      where: { id: assignmentId, teacherId }
+    });
+
+    if (!assignment) {
+      return res.status(404).json({
+        success: false,
+        error: 'Assignment not found or access denied'
+      });
+    }
+
+    await assignment.update({ status: 'published' });
+
+    res.json({
+      success: true,
+      message: 'Assignment published successfully'
+    });
+
+  } catch (error) {
+    console.error('Error publishing assignment:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error publishing assignment'
+    });
+  }
+});
+
+// Delete assignment
+router.delete('/assignments/:id', authenticateToken, requireTeacher, async (req, res) => {
+  try {
+    const teacherId = req.user.userId;
+    const assignmentId = req.params.id;
+
+    const assignment = await Lesson.findOne({
+      where: { id: assignmentId, teacherId }
+    });
+
+    if (!assignment) {
+      return res.status(404).json({
+        success: false,
+        error: 'Assignment not found or access denied'
+      });
+    }
+
+    await assignment.destroy();
+
+    res.json({
+      success: true,
+      message: 'Assignment deleted successfully'
+    });
+
+  } catch (error) {
+    console.error('Error deleting assignment:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error deleting assignment'
+    });
+  }
+});
+
 // Get analytics data
 router.get('/analytics', authenticateToken, requireTeacher, async (req, res) => {
   try {

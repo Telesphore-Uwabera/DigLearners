@@ -113,9 +113,19 @@ class TeacherApiService {
     return this.makeRequest(`/teacher/analytics?period=${period}`);
   }
 
-  // Assignments API (if needed)
-  async getAssignments() {
-    return this.makeRequest('/teacher/assignments');
+  // Assignments API
+  async getAssignments(filters = {}) {
+    const queryParams = new URLSearchParams();
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value && value !== 'all') {
+        queryParams.append(key, value);
+      }
+    });
+    
+    const queryString = queryParams.toString();
+    const endpoint = queryString ? `/teacher/assignments?${queryString}` : '/teacher/assignments';
+    
+    return this.makeRequest(endpoint);
   }
 
   async createAssignment(assignmentData) {
@@ -129,6 +139,12 @@ class TeacherApiService {
     return this.makeRequest(`/teacher/assignments/${assignmentId}`, {
       method: 'PUT',
       body: JSON.stringify(updateData)
+    });
+  }
+
+  async publishAssignment(assignmentId) {
+    return this.makeRequest(`/teacher/assignments/${assignmentId}/publish`, {
+      method: 'POST'
     });
   }
 

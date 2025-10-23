@@ -1,20 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from '../../lib/language';
-import { getAssignmentsData } from '../../services/teacherMockDataService';
+import teacherApiService from '../../services/teacherApiService';
 import Icon from '../../components/icons/Icon';
+import PuzzleCreator from '../../components/puzzles/PuzzleCreator';
 import '../../components/DashboardStyles.css';
 
 const Assignments = () => {
   const { t, currentLanguage } = useTranslation();
-  const data = getAssignmentsData();
-  const [selectedAssignment, setSelectedAssignment] = useState(data.assignments[0].id);
+  const [assignments, setAssignments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedAssignment, setSelectedAssignment] = useState(null);
   const [filterStatus, setFilterStatus] = useState('all');
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [createForm, setCreateForm] = useState({
+    title: '',
+    subject: '',
+    grade: '',
+    content: '',
+    description: '',
+    difficulty: 'beginner',
+    estimatedDuration: '',
+    dueDate: '',
+    assignmentType: 'lesson',
+    puzzleType: '',
+    instructions: []
+  });
+  const [showPuzzleCreator, setShowPuzzleCreator] = useState(false);
+  const [puzzleData, setPuzzleData] = useState(null);
 
-  const currentAssignment = data.assignments.find(assign => assign.id === selectedAssignment);
+  useEffect(() => {
+    fetchAssignments();
+  }, [filterStatus]);
+
+  const fetchAssignments = async () => {
+    try {
+      setLoading(true);
+      const response = await teacherApiService.getAssignments({
+        status: filterStatus
+      });
+      setAssignments(response.assignments);
+      if (response.assignments.length > 0 && !selectedAssignment) {
+        setSelectedAssignment(response.assignments[0].id);
+      }
+    } catch (err) {
+      console.error('Error fetching assignments:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const currentAssignment = assignments.find(assign => assign.id === selectedAssignment);
   
-  const filteredAssignments = filterStatus === 'all' 
-    ? data.assignments 
-    : data.assignments.filter(assign => assign.status === filterStatus);
+  const filteredAssignments = assignments.filter(assign => {
+    const statusMatch = filterStatus === 'all' || assign.status === filterStatus;
+    return statusMatch;
+  });
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -35,6 +77,47 @@ const Assignments = () => {
     if (diffDays === 0) return { status: 'due-today', text: 'Due Today', color: '#FF9800' };
     if (diffDays <= 3) return { status: 'due-soon', text: 'Due Soon', color: '#FF9800' };
     return { status: 'upcoming', text: 'Upcoming', color: '#4CAF50' };
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const assignmentData = {
+        ...createForm,
+        content: puzzleData ? JSON.stringify(puzzleData) : createForm.content
+      };
+      await teacherApiService.createAssignment(assignmentData);
+      setShowCreateModal(false);
+      setShowPuzzleCreator(false);
+      setPuzzleData(null);
+      setCreateForm({
+        title: '',
+        subject: '',
+        grade: '',
+        content: '',
+        description: '',
+        difficulty: 'beginner',
+        estimatedDuration: '',
+        dueDate: '',
+        assignmentType: 'lesson',
+        puzzleType: '',
+        instructions: []
+      });
+      fetchAssignments();
+    } catch (err) {
+      console.error('Error creating assignment:', err);
+      setError(err.message);
+    }
+  };
+
+  const handlePuzzleSave = (puzzle) => {
+    setPuzzleData(puzzle);
+    setShowPuzzleCreator(false);
+  };
+
+  const handleCreatePuzzle = () => {
+    setShowPuzzleCreator(true);
+    setCreateForm(prev => ({ ...prev, assignmentType: 'puzzle' }));
   };
 
   return (
@@ -101,6 +184,17 @@ const Assignments = () => {
                 </span>
                 <span className="action-subtitle">
                   {currentLanguage === 'rw' ? 'Genzura ibyatangijwe' : 'Review and grade student submissions'}
+                </span>
+              </div>
+            </button>
+            <button className="quick-action-btn secondary" onClick={handleCreatePuzzle}>
+              <div className="action-icon">🧩</div>
+              <div className="action-content">
+                <span className="action-title">
+                  {currentLanguage === 'rw' ? 'Tangiza Puzzle' : 'Create Puzzle'}
+                </span>
+                <span className="action-subtitle">
+                  {currentLanguage === 'rw' ? 'Tangiza puzzle ry\'amahugurwa' : 'Create interactive puzzle lessons'}
                 </span>
               </div>
             </button>
@@ -353,6 +447,17 @@ const Assignments = () => {
             </div>
       </div>
         </div>
+        {/* Puzzle Creator Modal */}
+        {showPuzzleCreator && (
+          <div className="modal-overlay">
+            <div className="modal-content puzzle-creator-modal">
+              <PuzzleCreator 
+                onSave={handlePuzzleSave}
+                onCancel={() => setShowPuzzleCreator(false)}
+              />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

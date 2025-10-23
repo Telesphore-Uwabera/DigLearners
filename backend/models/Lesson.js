@@ -74,6 +74,30 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
       allowNull: true
     },
+    assignmentType: {
+      type: DataTypes.ENUM('lesson', 'puzzle', 'quiz', 'project'),
+      allowNull: true,
+      field: 'assignment_type',
+      defaultValue: 'lesson'
+    },
+    puzzleType: {
+      type: DataTypes.ENUM('drag-drop', 'matching', 'sequencing', 'fill-blank', 'multiple-choice'),
+      allowNull: true,
+      field: 'puzzle_type'
+    },
+    questions: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    instructions: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    dueDate: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'due_date'
+    },
     isActive: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
