@@ -317,7 +317,12 @@ const Lessons = () => {
                   {currentLanguage === 'rw' ? 'Intego' : 'Learning Objectives'}
                 </h3>
                 <ul>
-                  {currentLesson.objectives.map((objective, index) => (
+                  {(currentLesson.objectives ? 
+                    (typeof currentLesson.objectives === 'string' ? 
+                      JSON.parse(currentLesson.objectives) : 
+                      currentLesson.objectives) : 
+                    []
+                  ).map((objective, index) => (
                     <li key={index}>
                       <Icon name="target" size={16} style={{ marginRight: '8px' }} />
                       {objective}
@@ -331,7 +336,12 @@ const Lessons = () => {
                   {currentLanguage === 'rw' ? 'Ibikoresho' : 'Resources'}
                 </h3>
                 <ul>
-                  {currentLesson.resources.map((resource, index) => (
+                  {(currentLesson.resources ? 
+                    (typeof currentLesson.resources === 'string' ? 
+                      JSON.parse(currentLesson.resources) : 
+                      currentLesson.resources) : 
+                    []
+                  ).map((resource, index) => (
                     <li key={index}>
                       <Icon name="book" size={16} style={{ marginRight: '8px' }} />
                       {resource}
