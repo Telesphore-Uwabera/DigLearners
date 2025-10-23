@@ -4,6 +4,7 @@ import teacherApiService from '../../services/teacherApiService';
 import Icon from '../../components/icons/Icon';
 import PuzzleCreator from '../../components/puzzles/PuzzleCreator';
 import '../../components/DashboardStyles.css';
+import './PuzzleCreatorStyles.css';
 
 const Assignments = () => {
   const { t, currentLanguage } = useTranslation();

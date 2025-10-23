@@ -4,6 +4,7 @@ import DragDropPuzzle from './DragDropPuzzle';
 import MatchingPuzzle from './MatchingPuzzle';
 import SequencingPuzzle from './SequencingPuzzle';
 import './PuzzleStyles.css';
+import '../../pages/teacher/PuzzleCreatorStyles.css';
 
 const PuzzleCreator = ({ onSave, onCancel }) => {
   const [puzzleType, setPuzzleType] = useState('drag-drop');
