@@ -60,13 +60,15 @@ module.exports = (sequelize) => {
     updatedAt: 'updated_at',
     hooks: {
       beforeCreate: async (user) => {
-        if (user.passwordHash) {
-          user.passwordHash = await bcrypt.hash(user.passwordHash, 12);
+        if (user.password) {
+          user.passwordHash = await bcrypt.hash(user.password, 12);
+          delete user.password;
         }
       },
       beforeUpdate: async (user) => {
-        if (user.changed('passwordHash')) {
-          user.passwordHash = await bcrypt.hash(user.passwordHash, 12);
+        if (user.changed('password')) {
+          user.passwordHash = await bcrypt.hash(user.password, 12);
+          delete user.password;
         }
       }
     }

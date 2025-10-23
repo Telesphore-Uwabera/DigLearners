@@ -207,7 +207,7 @@ async function seedDatabase() {
     const teachers = [];
     for (const teacherData of sampleData.teachers) {
       const { password, ...userData } = teacherData;
-      const passwordHash = await bcrypt.hash(password, 10);
+      const passwordHash = await bcrypt.hash(password, 12);
       const teacher = await User.create({
         ...userData,
         passwordHash
@@ -221,7 +221,7 @@ async function seedDatabase() {
     const students = [];
     for (const studentData of sampleData.students) {
       const { password, ...userData } = studentData;
-      const passwordHash = await bcrypt.hash(password, 10);
+      const passwordHash = await bcrypt.hash(password, 12);
       const student = await User.create({
         ...userData,
         passwordHash
@@ -235,7 +235,7 @@ async function seedDatabase() {
     const parents = [];
     for (const parentData of sampleData.parents) {
       const { password, ...userData } = parentData;
-      const passwordHash = await bcrypt.hash(password, 10);
+      const passwordHash = await bcrypt.hash(password, 12);
       const parent = await User.create({
         ...userData,
         passwordHash
