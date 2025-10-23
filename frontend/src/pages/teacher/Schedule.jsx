@@ -53,7 +53,7 @@ const Schedule = () => {
             <p>
               {currentLanguage === 'rw'
                 ? 'Genzura gahunda y\'amasomo yose'
-                : 'Manage your teaching schedule and classes'
+                : 'Manage your teaching schedule and lessons'
               }
             </p>
           </div>
@@ -241,12 +241,12 @@ const Schedule = () => {
 
               <div className="class-info-section">
                 <h3>
-                  {currentLanguage === 'rw' ? 'Amakuru y\'Ishuuri' : 'Class Information'}
+                  {currentLanguage === 'rw' ? 'Amakuru y\'Isomo' : 'Lesson Information'}
                 </h3>
                 <div className="class-info-grid">
                   <div className="info-item">
                     <span className="info-label">
-                      {currentLanguage === 'rw' ? 'Ishuuri:' : 'Class:'}
+                      {currentLanguage === 'rw' ? 'Urwego:' : 'Grade:'}
                     </span>
                     <span className="info-value">{currentSchedule.class}</span>
                   </div>

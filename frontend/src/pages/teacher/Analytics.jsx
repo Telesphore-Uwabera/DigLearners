@@ -12,7 +12,6 @@ const Analytics = () => {
   const views = [
     { key: 'overview', label: currentLanguage === 'rw' ? 'Incamake' : 'Overview' },
     { key: 'students', label: currentLanguage === 'rw' ? 'Abanyeshuri' : 'Students' },
-    { key: 'classes', label: currentLanguage === 'rw' ? 'Amashuri' : 'Classes' },
     { key: 'performance', label: currentLanguage === 'rw' ? 'Imikurire' : 'Performance' }
   ];
 
@@ -170,52 +169,6 @@ const Analytics = () => {
           </div>
         )}
 
-        {/* Classes Tab */}
-        {selectedView === 'classes' && (
-          <div className="classes-section">
-            <h3>
-              {currentLanguage === 'rw' ? 'Imikurire y\'Amashuri' : 'Class Performance'}
-            </h3>
-            <div className="classes-performance-grid">
-              {data.classPerformance.map((classPerf, index) => (
-                <div key={index} className="class-performance-card">
-                  <div className="class-header">
-                    <h4>{classPerf.className}</h4>
-                    <div className="class-progress">
-                      <span>{classPerf.averageProgress}%</span>
-                    </div>
-                  </div>
-                  <div className="class-stats">
-                    <div className="stat-item">
-                      <span className="stat-label">
-                        {currentLanguage === 'rw' ? 'Abanyeshuri:' : 'Students:'}
-                      </span>
-                      <span className="stat-value">{classPerf.activeStudents}/{classPerf.totalStudents}</span>
-                    </div>
-                    <div className="stat-item">
-                      <span className="stat-label">
-                        {currentLanguage === 'rw' ? 'Amasomo yarangije:' : 'Lessons completed:'}
-                      </span>
-                      <span className="stat-value">{classPerf.lessonsCompleted}</span>
-                    </div>
-                    <div className="stat-item">
-                      <span className="stat-label">
-                        {currentLanguage === 'rw' ? 'Incamake ryose:' : 'Average score:'}
-                      </span>
-                      <span className="stat-value">{classPerf.averageScore}%</span>
-                    </div>
-                  </div>
-                  <div className="class-progress-bar">
-                    <div 
-                      className="progress-fill" 
-                      style={{ width: `${classPerf.averageProgress}%` }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* Performance Tab */}
         {selectedView === 'performance' && (

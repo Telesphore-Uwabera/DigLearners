@@ -17,11 +17,11 @@ const TeacherDashboard = () => {
       <div className="stats-grid">
         <div className="stat-card">
           <div className="stat-icon">
-            <Icon name="school" size={24} />
+            <Icon name="assignment" size={24} />
           </div>
           <div className="stat-content">
-            <h3>3</h3>
-            <p>Active Classes</p>
+            <h3>15</h3>
+            <p>Pending Reviews</p>
           </div>
         </div>
         <div className="stat-card">
@@ -147,7 +147,7 @@ const TeacherDashboard = () => {
               <Icon name="book" size={20} />
             </div>
             <div className="activity-content">
-              <p><strong>New lesson assigned:</strong> Introduction to Programming - Class B</p>
+              <p><strong>New lesson assigned:</strong> Introduction to Programming</p>
               <span className="activity-time">2 hours ago</span>
             </div>
           </div>
@@ -174,7 +174,7 @@ const TeacherDashboard = () => {
               <Icon name="analytics" size={20} />
             </div>
             <div className="activity-content">
-              <p><strong>Weekly report generated</strong> for Class A</p>
+              <p><strong>Weekly report generated</strong> for students</p>
               <span className="activity-time">1 day ago</span>
             </div>
           </div>
