@@ -385,18 +385,22 @@ const Lessons = () => {
             {currentLanguage === 'rw' ? 'Ibyiciro' : 'Subject Categories'}
           </h3>
           <div className="categories-grid">
-            {data.categories.map((category, index) => (
-              <div key={index} className="category-card">
-                <div className="category-header">
-                  <h4>{category.name}</h4>
-                  <span className="category-count">{category.count} {currentLanguage === 'rw' ? 'amasomo' : 'lessons'}</span>
+            {subjects.filter(subject => subject !== 'all').map((subject, index) => {
+              const count = lessons.filter(lesson => lesson.subject === subject).length;
+              const colors = ['#FF677D', '#F8B400', '#4CAF50', '#2196F3', '#9C27B0'];
+              return (
+                <div key={index} className="category-card">
+                  <div className="category-header">
+                    <h4>{subject}</h4>
+                    <span className="category-count">{count} {currentLanguage === 'rw' ? 'amasomo' : 'lessons'}</span>
+                  </div>
+                  <div 
+                    className="category-color" 
+                    style={{ backgroundColor: colors[index % colors.length] }}
+                  ></div>
                 </div>
-                <div 
-                  className="category-color" 
-                  style={{ backgroundColor: category.color }}
-                ></div>
-            </div>
-          ))}
+              );
+            })}
           </div>
         </div>
 
@@ -411,7 +415,7 @@ const Lessons = () => {
                 <Icon name="book" size={24} />
               </div>
               <div className="stat-content">
-                <h3>{data.summary.totalLessons}</h3>
+                <h3>{lessons.length}</h3>
                 <p>
                   {currentLanguage === 'rw' ? 'Amasomo Byose' : 'Total Lessons'}
                 </p>
@@ -422,7 +426,7 @@ const Lessons = () => {
                 <Icon name="check" size={24} />
               </div>
               <div className="stat-content">
-                <h3>{data.summary.publishedLessons}</h3>
+                <h3>{lessons.filter(lesson => lesson.status === 'published').length}</h3>
                 <p>
                   {currentLanguage === 'rw' ? 'Yasohowe' : 'Published'}
                 </p>
@@ -433,7 +437,7 @@ const Lessons = () => {
                 <Icon name="assignment" size={24} />
               </div>
               <div className="stat-content">
-                <h3>{data.summary.draftLessons}</h3>
+                <h3>{lessons.filter(lesson => lesson.status === 'draft').length}</h3>
                 <p>
                   {currentLanguage === 'rw' ? 'Ntibyasohowe' : 'Draft'}
                 </p>
@@ -444,7 +448,7 @@ const Lessons = () => {
                 <Icon name="analytics" size={24} />
               </div>
               <div className="stat-content">
-                <h3>{data.summary.averageCompletion}%</h3>
+                <h3>{Math.round(lessons.reduce((sum, lesson) => sum + (lesson.averageScore || 0), 0) / lessons.length) || 0}%</h3>
                 <p>
                   {currentLanguage === 'rw' ? 'Imikurire Ryose' : 'Average Completion'}
                 </p>
