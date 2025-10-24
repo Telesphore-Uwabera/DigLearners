@@ -193,6 +193,138 @@ const TeacherDashboard = () => {
         </Link>
       </div>
 
+      {/* Student Progress Monitoring Section */}
+      <div className="student-progress-section">
+        <h2>📊 Student Progress Monitoring</h2>
+        <div className="progress-monitoring-grid">
+          <div className="progress-card">
+            <div className="progress-header">
+              <h3>👥 Grade 3 Students</h3>
+              <span className="progress-count">12 students</span>
+            </div>
+            <div className="progress-stats">
+              <div className="progress-stat">
+                <span className="stat-number">85%</span>
+                <span className="stat-label">Average Progress</span>
+              </div>
+              <div className="progress-stat">
+                <span className="stat-number">8</span>
+                <span className="stat-label">Lessons Completed</span>
+              </div>
+            </div>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{width: '85%'}}></div>
+            </div>
+          </div>
+          
+          <div className="progress-card">
+            <div className="progress-header">
+              <h3>👥 Grade 4 Students</h3>
+              <span className="progress-count">15 students</span>
+            </div>
+            <div className="progress-stats">
+              <div className="progress-stat">
+                <span className="stat-number">92%</span>
+                <span className="stat-label">Average Progress</span>
+              </div>
+              <div className="progress-stat">
+                <span className="stat-number">12</span>
+                <span className="stat-label">Lessons Completed</span>
+              </div>
+            </div>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{width: '92%'}}></div>
+            </div>
+          </div>
+          
+          <div className="progress-card">
+            <div className="progress-header">
+              <h3>👥 Grade 5 Students</h3>
+              <span className="progress-count">18 students</span>
+            </div>
+            <div className="progress-stats">
+              <div className="progress-stat">
+                <span className="stat-number">78%</span>
+                <span className="stat-label">Average Progress</span>
+              </div>
+              <div className="progress-stat">
+                <span className="stat-number">6</span>
+                <span className="stat-label">Lessons Completed</span>
+              </div>
+            </div>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{width: '78%'}}></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Individual Student Progress */}
+      <div className="individual-progress-section">
+        <h2>👨‍🎓 Individual Student Progress</h2>
+        <div className="student-list">
+          <div className="student-progress-item">
+            <div className="student-info">
+              <div className="student-avatar">👦</div>
+              <div className="student-details">
+                <h4>Alex Johnson</h4>
+                <p>Grade 3 • Explorer Level</p>
+              </div>
+            </div>
+            <div className="student-progress">
+              <div className="progress-stats">
+                <span className="points">⭐ 850 points</span>
+                <span className="lessons">📚 12 lessons</span>
+                <span className="badges">🏆 5 badges</span>
+              </div>
+              <div className="progress-bar">
+                <div className="progress-fill" style={{width: '85%'}}></div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="student-progress-item">
+            <div className="student-info">
+              <div className="student-avatar">👧</div>
+              <div className="student-details">
+                <h4>Emma Smith</h4>
+                <p>Grade 4 • Adventurer Level</p>
+              </div>
+            </div>
+            <div className="student-progress">
+              <div className="progress-stats">
+                <span className="points">⭐ 420 points</span>
+                <span className="lessons">📚 8 lessons</span>
+                <span className="badges">🏆 3 badges</span>
+              </div>
+              <div className="progress-bar">
+                <div className="progress-fill" style={{width: '70%'}}></div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="student-progress-item">
+            <div className="student-info">
+              <div className="student-avatar">👦</div>
+              <div className="student-details">
+                <h4>David Wilson</h4>
+                <p>Grade 5 • Pathfinder Level</p>
+              </div>
+            </div>
+            <div className="student-progress">
+              <div className="progress-stats">
+                <span className="points">⭐ 1200 points</span>
+                <span className="lessons">📚 15 lessons</span>
+                <span className="badges">🏆 8 badges</span>
+              </div>
+              <div className="progress-bar">
+                <div className="progress-fill" style={{width: '95%'}}></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="recent-activity">
         <h2>Recent Activity</h2>
         <div className="activity-list">

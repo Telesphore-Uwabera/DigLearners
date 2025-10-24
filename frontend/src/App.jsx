@@ -10,7 +10,6 @@ import Login from './pages/auth/Login'
 import Enroll from './pages/auth/Enroll'
 import LearnerApp from './pages/learner/LearnerApp'
 import TeacherApp from './pages/teacher/TeacherApp'
-import ParentApp from './pages/parent/ParentApp'
 import AdminApp from './pages/admin/AdminApp'
 import TermsAndConditions from './pages/legal/TermsAndConditions'
 import PrivacyPolicy from './pages/legal/PrivacyPolicy'
@@ -137,7 +136,6 @@ function AppRoutes() {
           <ProtectedRoute>
             {user?.role === 'learner' && <LearnerApp />}
             {user?.role === 'teacher' && <TeacherApp />}
-            {user?.role === 'parent' && <ParentApp />}
             {user?.role === 'admin' && <AdminApp />}
             {!user && <Navigate to="/login" replace />}
           </ProtectedRoute>

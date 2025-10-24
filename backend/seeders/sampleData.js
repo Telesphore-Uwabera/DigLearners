@@ -57,21 +57,6 @@ const sampleData = {
     }
   ],
 
-  // Sample Parents
-  parents: [
-    {
-      fullName: 'John Mukasa',
-      email: 'john@parent.rw',
-      password: 'parent123',
-      role: 'parent'
-    },
-    {
-      fullName: 'Marie Uwimana',
-      email: 'marie@parent.rw',
-      password: 'parent123',
-      role: 'parent'
-    }
-  ],
 
   // Sample Lessons
   lessons: [
@@ -230,19 +215,6 @@ async function seedDatabase() {
       console.log(`✅ Created student: ${student.fullName}`);
     }
 
-    // Create parents
-    console.log('👨‍👩‍👧‍👦 Creating parents...');
-    const parents = [];
-    for (const parentData of sampleData.parents) {
-      const { password, ...userData } = parentData;
-      const passwordHash = await bcrypt.hash(password, 12);
-      const parent = await User.create({
-        ...userData,
-        passwordHash
-      });
-      parents.push(parent);
-      console.log(`✅ Created parent: ${parent.fullName}`);
-    }
 
     // Create lessons
     console.log('📚 Creating lessons...');
@@ -330,7 +302,6 @@ async function seedDatabase() {
     console.log('\n📋 Summary:');
     console.log(`👨‍🏫 Teachers: ${teachers.length}`);
     console.log(`👨‍🎓 Students: ${students.length}`);
-    console.log(`👨‍👩‍👧‍👦 Parents: ${parents.length}`);
     console.log(`📚 Lessons: ${lessons.length}`);
     console.log(`🏆 Badges: ${badges.length}`);
     console.log(`🏫 Classes: ${classes.length}`);
@@ -339,7 +310,6 @@ async function seedDatabase() {
     console.log('\n🔑 Default Login Credentials:');
     console.log('Teacher: pierre@diglearners.rw / teacher123');
     console.log('Student: alice@student.rw / student123');
-    console.log('Parent: john@parent.rw / parent123');
 
   } catch (error) {
     console.error('❌ Error seeding database:', error);

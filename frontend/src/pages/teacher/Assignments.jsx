@@ -407,7 +407,7 @@ const Assignments = () => {
                 <Icon name="assignment" size={24} />
               </div>
               <div className="stat-content">
-                <h3>{data.summary.totalAssignments}</h3>
+                <h3>{assignments.length}</h3>
                 <p>
                   {currentLanguage === 'rw' ? 'Ibyo Biteganyijwe Byose' : 'Total Assignments'}
                 </p>
@@ -418,7 +418,7 @@ const Assignments = () => {
                 <Icon name="check" size={24} />
               </div>
               <div className="stat-content">
-                <h3>{data.summary.activeAssignments}</h3>
+                <h3>{assignments.filter(a => a.status === 'active').length}</h3>
                 <p>
                   {currentLanguage === 'rw' ? 'Bikora' : 'Active'}
                 </p>
@@ -429,7 +429,7 @@ const Assignments = () => {
                 <Icon name="calendar" size={24} />
               </div>
               <div className="stat-content">
-                <h3>{data.summary.upcomingAssignments}</h3>
+                <h3>{assignments.filter(a => a.status === 'upcoming').length}</h3>
                 <p>
                   {currentLanguage === 'rw' ? 'Bitegereje' : 'Upcoming'}
                 </p>
@@ -440,12 +440,12 @@ const Assignments = () => {
                 <Icon name="analytics" size={24} />
               </div>
               <div className="stat-content">
-                <h3>{data.summary.totalSubmissions}</h3>
+                <h3>{assignments.reduce((sum, a) => sum + (a.submissions || 0), 0)}</h3>
                 <p>
                   {currentLanguage === 'rw' ? 'Ibyatangijwe Byose' : 'Total Submissions'}
                 </p>
-              </div>
-            </div>
+      </div>
+        </div>
       </div>
         </div>
         {/* Puzzle Creator Modal */}

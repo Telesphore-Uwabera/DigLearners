@@ -117,8 +117,8 @@ const LearnerDashboard = () => {
                 <div className="course-info">
                   <h3>{course.title}</h3>
                   <p>{course.description}</p>
-                </div>
-              </div>
+            </div>
+          </div>
               
               <div className="course-progress">
                 <div className="progress-bar">
@@ -129,27 +129,27 @@ const LearnerDashboard = () => {
                       backgroundColor: course.color 
                     }}
                   ></div>
-                </div>
+            </div>
                 <span className="progress-text">{course.progress}% Complete</span>
-              </div>
+          </div>
               
               <div className="course-stats">
                 <div className="stat">
                   <span className="stat-number">{course.completed}</span>
                   <span className="stat-label">of {course.lessons} lessons</span>
-                </div>
+            </div>
                 <div className="difficulty-badge" style={{ backgroundColor: course.color }}>
                   {course.difficulty}
-                </div>
-              </div>
+            </div>
+          </div>
               
               <Link to={`/lesson/${course.id}`} className="start-course-btn" style={{ backgroundColor: course.color }}>
                 {course.completed > 0 ? 'Continue Learning! 🚀' : 'Start Course! 🎉'}
-              </Link>
-            </div>
-          ))}
-        </div>
+        </Link>
       </div>
+          ))}
+            </div>
+          </div>
 
       <div className="achievements-section">
         <h2>🏆 My Achievements</h2>
@@ -160,12 +160,12 @@ const LearnerDashboard = () => {
               <div className="achievement-info">
                 <h4>{achievement.title}</h4>
                 <p>{achievement.description}</p>
-              </div>
-              <div className="achievement-badge">✅</div>
             </div>
+              <div className="achievement-badge">✅</div>
+          </div>
           ))}
-        </div>
-      </div>
+            </div>
+          </div>
 
       <div className="quick-actions">
         <h2>🎯 Quick Actions</h2>
@@ -186,8 +186,8 @@ const LearnerDashboard = () => {
             <div className="action-icon">📚</div>
             <span>All Lessons</span>
           </Link>
-        </div>
-      </div>
+            </div>
+          </div>
 
       <style dangerouslySetInnerHTML={{
         __html: `

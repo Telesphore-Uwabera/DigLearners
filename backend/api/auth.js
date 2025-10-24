@@ -13,7 +13,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'diglearners-secret-key-2024';
 // Register endpoint 
 router.post('/register', async (req, res) => {
   try {
-    const { fullName, email, password, role = 'learner', childName, childEmail, childPassword } = req.body;
+    const { fullName, email, password, role = 'learner' } = req.body;
 
     // Validate input
     if (!fullName || !email || !password) {
@@ -40,7 +40,7 @@ router.post('/register', async (req, res) => {
       });
     }
 
-    // Create new user (parent or regular user)
+    // Create new user
     const user = await User.create({
       fullName,
       email,
@@ -48,36 +48,10 @@ router.post('/register', async (req, res) => {
       role
     });
 
-    // If parent is enrolling a child, create child account
-    let childUser = null;
-    if (role === 'parent' && childName && childEmail && childPassword) {
-      // Check if child email already exists
-      const existingChild = await User.findByEmail(childEmail);
-      if (existingChild) {
-        // Delete the parent account we just created since enrollment failed
-        await user.destroy();
-        return res.status(400).json({
-          success: false,
-          error: 'A user with this child email already exists'
-        });
-      }
-
-      // Create child account
-      childUser = await User.create({
-        fullName: childName,
-        email: childEmail,
-        passwordHash: childPassword, // Will be hashed by model hook
-        role: 'learner'
-      });
-    }
-
     res.status(201).json({
       success: true,
-      message: childUser 
-        ? 'Parent and child accounts created successfully! Please login to continue.'
-        : 'User registered successfully! Please login to continue.',
-      user: user.toJSON(),
-      childUser: childUser ? childUser.toJSON() : null
+      message: 'User registered successfully! Please login to continue.',
+      user: user.toJSON()
     });
 
   } catch (error) {

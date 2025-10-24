@@ -96,8 +96,6 @@ The system comes with pre-configured test accounts:
 | **Student** | `jean@student.rw` | `student123` | Access to lessons and learning activities |
 | **Student** | `grace@student.rw` | `student123` | Access to lessons and learning activities |
 | **Student** | `peter@student.rw` | `student123` | Access to lessons and learning activities |
-| **Parent** | `john@parent.rw` | `parent123` | Child progress monitoring and reports |
-| **Parent** | `marie@parent.rw` | `parent123` | Child progress monitoring and reports |
 
 **Note**: These are default credentials for development/testing. In production, these should be changed or removed.
 

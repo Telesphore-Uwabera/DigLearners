@@ -77,12 +77,10 @@ const translations = {
     // Roles
     'role.learner': 'Learner',
     'role.teacher': 'Teacher',
-    'role.parent': 'Parent',
     'role.admin': 'Administrator',
     'role.selectRole': 'Select your role',
     'role.roleDescription.learner': 'I am a student learning digital literacy',
     'role.roleDescription.teacher': 'I am a teacher managing students and lessons',
-    'role.roleDescription.parent': 'I am a parent monitoring my child\'s progress',
     'role.roleDescription.admin': 'I am an administrator managing the platform',
 
     // Student Dashboard
@@ -349,12 +347,10 @@ const translations = {
     // Roles
     'role.learner': 'Umunyeshuri',
     'role.teacher': 'Umwarimu',
-    'role.parent': 'Umubyeyi',
     'role.admin': 'Umuyobozi',
     'role.selectRole': 'Hitamo uruhare rwawe',
     'role.roleDescription.learner': 'Ndi umunyeshuri wiga ubumenyi bwa digital',
     'role.roleDescription.teacher': 'Ndi umwarimu wita ku banyeshuri n\'amasomo',
-    'role.roleDescription.parent': 'Ndi umubyeyi witegereza intambwe y\'umwana wanjye',
     'role.roleDescription.admin': 'Ndi umuyobozi wita ku sisiteme',
 
     // Student Dashboard
