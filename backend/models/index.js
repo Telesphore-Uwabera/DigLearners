@@ -23,6 +23,7 @@ const Badge = require('./Badge')(sequelize);
 const UserBadge = require('./UserBadge')(sequelize);
 const UserLearningClass = require('./UserLearningClass')(sequelize);
 const ClassLesson = require('./ClassLesson')(sequelize);
+const GamifiedContent = require('./GamifiedContent')(sequelize);
 
 // Define relationships based on ERD diagram
 
@@ -169,27 +170,36 @@ const initializeDatabase = async () => {
 // Seed initial data
 const seedInitialData = async () => {
   try {
-    // Check if data already exists
     const userCount = await User.count();
     if (userCount > 0) {
       console.log('Database already has data, skipping seed.');
       return;
     }
 
+    console.log('Seeding initial data...');
+
     // Create default admin user
     const adminUser = await User.create({
-      fullName: 'System Administrator',
-      email: 'admin@diglearners.rw',
-      passwordHash: 'admin123', // Will be hashed by hook
+      fullName: 'Telesphore Uwabera',
+      email: 'telesphore91073@gmail.com',
+      passwordHash: '91073@Tecy', // Will be hashed by hook
       role: 'admin'
     });
 
     // Create sample teacher
     const teacherUser = await User.create({
-      fullName: 'Sample Teacher',
-      email: 'teacher@diglearners.rw',
+      fullName: 'Pierre Nkurunziza',
+      email: 'pierre@diglearners.rw',
       passwordHash: 'teacher123',
       role: 'teacher'
+    });
+
+    // Create sample student
+    const studentUser = await User.create({
+      fullName: 'Telesphore Uwabera',
+      email: 'telesphore@alustudent.com',
+      passwordHash: 'student123',
+      role: 'learner'
     });
 
     // Create sample learning class
@@ -316,5 +326,6 @@ module.exports = {
   UserBadge,
   UserLearningClass,
   ClassLesson,
+  GamifiedContent,
   initializeDatabase
 };

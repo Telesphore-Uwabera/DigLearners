@@ -44,7 +44,7 @@ router.post('/register', async (req, res) => {
     const user = await User.create({
       fullName,
       email,
-      passwordHash: password, // Will be hashed by model hook
+      password: password, // Will be hashed by model hook
       role
     });
 

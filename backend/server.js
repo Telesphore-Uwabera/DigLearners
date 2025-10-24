@@ -10,6 +10,7 @@ const authRoutes = require('./api/auth')
 const contentRoutes = require('./api/content')
 const learningRoutes = require('./api/learning')
 const teacherRoutes = require('./api/teacher')
+const gamifiedRoutes = require('./api/gamified')
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -65,6 +66,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/content', contentRoutes)
 app.use('/api/learning', learningRoutes)
 app.use('/api/teacher', teacherRoutes)
+app.use('/api/gamified', gamifiedRoutes)
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -125,8 +127,9 @@ const startServer = async () => {
       console.log(`Learning API: http://localhost:${PORT}/api/learning`)
       console.log('═══════════════════════════════════════════════════════')
       console.log('Default credentials:')
-      console.log('  Admin: admin@diglearners.rw / admin123')
-      console.log('  Teacher: teacher@diglearners.rw / teacher123')
+      console.log('  Admin: telesphore91073@gmail.com / 91073@Tecy')
+      console.log('  Teacher: pierre@diglearners.rw / teacher123')
+      console.log('  Student: telesphore@alustudent.com / student123')
       console.log('═══════════════════════════════════════════════════════')
     })
   } catch (error) {

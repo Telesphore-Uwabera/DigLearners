@@ -2,6 +2,7 @@
 const express = require('express');
 const { Lesson, LearningClass, Progress, User, ClassLesson } = require('../models');
 const { authenticateToken, requireTeacher } = require('../middleware/auth');
+const { Op } = require('sequelize');
 
 const router = express.Router();
 
@@ -12,6 +13,158 @@ router.get('/test', (req, res) => {
     success: true,
     message: 'Teacher API is working'
   });
+});
+
+// Register a child/student
+router.post('/register-child', authenticateToken, requireTeacher, async (req, res) => {
+  try {
+    const { fullName, email, password, grade, age } = req.body;
+
+    // Validate input
+    if (!fullName || !email || !password || !grade) {
+      return res.status(400).json({
+        success: false,
+        error: 'Full name, email, password, and grade are required'
+      });
+    }
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        error: 'A user with this email already exists'
+      });
+    }
+
+    // Create child account
+    const child = await User.create({
+      fullName,
+      email,
+      password: password, // Will be hashed by model hook
+      role: 'learner',
+      grade,
+      age: age || null
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'Child registered successfully',
+      data: {
+        id: child.id,
+        fullName: child.fullName,
+        email: child.email,
+        grade: child.grade,
+        age: child.age,
+        role: child.role
+      }
+    });
+
+  } catch (error) {
+    console.error('Child registration error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error during child registration'
+    });
+  }
+});
+
+// Get all students registered by teacher
+router.get('/students', authenticateToken, requireTeacher, async (req, res) => {
+  try {
+    const students = await User.findAll({
+      where: { role: 'learner' },
+      attributes: ['id', 'fullName', 'email', 'grade', 'age', 'totalPoints', 'createdAt'],
+      order: [['createdAt', 'DESC']]
+    });
+
+    res.json({
+      success: true,
+      data: students
+    });
+
+  } catch (error) {
+    console.error('Error fetching students:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error'
+    });
+  }
+});
+
+// Update student profile
+router.put('/students/:studentId', authenticateToken, requireTeacher, async (req, res) => {
+  try {
+    const { studentId } = req.params;
+    const { fullName, email, grade, age } = req.body;
+
+    // Validate input
+    if (!fullName || !email || !grade) {
+      return res.status(400).json({
+        success: false,
+        error: 'Full name, email, and grade are required'
+      });
+    }
+
+    // Find the student
+    const student = await User.findOne({
+      where: { 
+        id: studentId, 
+        role: 'learner' 
+      }
+    });
+
+    if (!student) {
+      return res.status(404).json({
+        success: false,
+        error: 'Student not found'
+      });
+    }
+
+    // Check if email is already taken by another user
+    if (email !== student.email) {
+      const existingUser = await User.findOne({ 
+        where: { 
+          email, 
+          id: { [Op.ne]: studentId } 
+        } 
+      });
+      
+      if (existingUser) {
+        return res.status(400).json({
+          success: false,
+          error: 'Email is already taken by another user'
+        });
+      }
+    }
+
+    // Update student
+    await student.update({
+      fullName,
+      email,
+      grade,
+      age: age || null
+    });
+
+    res.json({
+      success: true,
+      message: 'Student profile updated successfully',
+      data: {
+        id: student.id,
+        fullName: student.fullName,
+        email: student.email,
+        grade: student.grade,
+        age: student.age
+      }
+    });
+
+  } catch (error) {
+    console.error('Student update error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error during student update'
+    });
+  }
 });
 
 // Get teacher dashboard data

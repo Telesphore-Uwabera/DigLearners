@@ -1,6 +1,7 @@
 // Sample Data Seeder for DigLearners
-const { User, Lesson, LearningClass, Progress, Badge } = require('../models');
+const { User, Lesson, LearningClass, Progress, Badge, GamifiedContent } = require('../models');
 const bcrypt = require('bcryptjs');
+const sampleGamifiedContent = require('./gamifiedContentData');
 
 const sampleData = {
   // Sample Admin
@@ -330,6 +331,16 @@ async function seedDatabase() {
     }
     console.log(`✅ Created ${progressData.length} progress records`);
 
+    // Create gamified content
+    console.log('🎮 Creating gamified content...');
+    const gamifiedContent = [];
+    for (const contentData of sampleGamifiedContent) {
+      const content = await GamifiedContent.create(contentData);
+      gamifiedContent.push(content);
+      console.log(`✅ Created gamified content: ${content.title}`);
+    }
+    console.log(`✅ Created ${gamifiedContent.length} gamified content items`);
+
     console.log('🎉 Database seeding completed successfully!');
     console.log('\n📋 Summary:');
     console.log(`⚙️ Admins: ${admins.length}`);
@@ -339,6 +350,7 @@ async function seedDatabase() {
     console.log(`🏆 Badges: ${badges.length}`);
     console.log(`🏫 Classes: ${classes.length}`);
     console.log(`📊 Progress Records: ${progressData.length}`);
+    console.log(`🎮 Gamified Content: ${gamifiedContent.length}`);
 
     console.log('\n🔑 Default Login Credentials:');
     console.log('Admin: telesphore91073@gmail.com / 91073@Tecy');

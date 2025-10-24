@@ -9,6 +9,8 @@ import Assignments from './Assignments'
 import Leaderboard from './Leaderboard'
 import Achievements from './Achievements'
 import Progress from './Progress'
+import AgeGroupSelector from '../../components/AgeGroupSelector'
+import GamesDashboard from './GamesDashboard'
 
 const LearnerApp = () => {
   const { user, logout } = useAuth()
@@ -21,6 +23,8 @@ const LearnerApp = () => {
     <AppLayout user={user} onLogout={logout}>
       <Routes>
         <Route path="/" element={<LearnerDashboard />} />
+        <Route path="/age-select" element={<AgeGroupSelector />} />
+        <Route path="/games" element={<GamesDashboard />} />
         <Route path="/lessons" element={<MyLessons />} />
         <Route path="/progress" element={<Progress />} />
         <Route path="/assignments" element={<Assignments />} />

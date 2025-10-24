@@ -1,8 +1,18 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Icon from '../../components/icons/Icon';
 
 const LearnerDashboard = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if user has selected an age group
+    const selectedAgeGroup = localStorage.getItem('selectedAgeGroup');
+    if (!selectedAgeGroup) {
+      // Redirect to age group selection
+      navigate('/dashboard/age-select');
+    }
+  }, [navigate]);
   const codingCourses = [
     {
       id: 1,
@@ -185,6 +195,10 @@ const LearnerDashboard = () => {
           <Link to="/lessons" className="action-btn action-4">
             <div className="action-icon">📚</div>
             <span>All Lessons</span>
+          </Link>
+          <Link to="/games" className="action-btn action-5">
+            <div className="action-icon">🎮</div>
+            <span>Play Games</span>
           </Link>
             </div>
           </div>

@@ -153,6 +153,27 @@ class TeacherApiService {
       method: 'DELETE'
     });
   }
+
+  // Child registration
+  async registerChild(childData) {
+    return this.makeRequest('/teacher/register-child', {
+      method: 'POST',
+      body: JSON.stringify(childData)
+    });
+  }
+
+  // Get all students
+  async getStudents() {
+    return this.makeRequest('/teacher/students');
+  }
+
+  // Update student profile
+  async updateStudent(studentId, studentData) {
+    return this.makeRequest(`/teacher/students/${studentId}`, {
+      method: 'PUT',
+      body: JSON.stringify(studentData)
+    });
+  }
 }
 
 // Create and export singleton instance
