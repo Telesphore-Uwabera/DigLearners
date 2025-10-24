@@ -89,9 +89,10 @@ The system comes with pre-configured test accounts:
 
 | Role | Email | Password | Access Level |
 |------|-------|----------|--------------|
-| **Admin** | `admin@diglearners.rw` | `admin123` | Full platform access, user management, content creation |
+| **Admin** | `telesphore91073@gmail.com` | `91073@Tecy` | Full platform access, user management, content creation |
 | **Teacher** | `pierre@diglearners.rw` | `teacher123` | Class management, student oversight, lesson assignment |
 | **Teacher** | `marie@diglearners.rw` | `teacher123` | Class management, student oversight, lesson assignment |
+| **Student** | `telesphore@alustudent.com` | `student123` | Access to lessons and learning activities |
 | **Student** | `alice@student.rw` | `student123` | Access to lessons and learning activities |
 | **Student** | `jean@student.rw` | `student123` | Access to lessons and learning activities |
 | **Student** | `grace@student.rw` | `student123` | Access to lessons and learning activities |

@@ -3,6 +3,16 @@ const { User, Lesson, LearningClass, Progress, Badge } = require('../models');
 const bcrypt = require('bcryptjs');
 
 const sampleData = {
+  // Sample Admin
+  admin: [
+    {
+      fullName: 'Telesphore Uwabera',
+      email: 'telesphore91073@gmail.com',
+      password: '91073@Tecy',
+      role: 'admin'
+    }
+  ],
+
   // Sample Teachers
   teachers: [
     {
@@ -23,6 +33,14 @@ const sampleData = {
 
   // Sample Students
   students: [
+    {
+      fullName: 'Telesphore Uwabera',
+      email: 'telesphore@alustudent.com',
+      password: 'student123',
+      role: 'learner',
+      grade: 'Grade 3',
+      age: 8
+    },
     {
       fullName: 'Alice Uwimana',
       email: 'alice@student.rw',
@@ -187,6 +205,20 @@ async function seedDatabase() {
   try {
     console.log('🌱 Starting database seeding...');
 
+    // Create admin
+    console.log('⚙️ Creating admin...');
+    const admins = [];
+    for (const adminData of sampleData.admin) {
+      const { password, ...userData } = adminData;
+      const passwordHash = await bcrypt.hash(password, 12);
+      const admin = await User.create({
+        ...userData,
+        passwordHash
+      });
+      admins.push(admin);
+      console.log(`✅ Created admin: ${admin.fullName}`);
+    }
+
     // Create teachers
     console.log('👨‍🏫 Creating teachers...');
     const teachers = [];
@@ -300,6 +332,7 @@ async function seedDatabase() {
 
     console.log('🎉 Database seeding completed successfully!');
     console.log('\n📋 Summary:');
+    console.log(`⚙️ Admins: ${admins.length}`);
     console.log(`👨‍🏫 Teachers: ${teachers.length}`);
     console.log(`👨‍🎓 Students: ${students.length}`);
     console.log(`📚 Lessons: ${lessons.length}`);
@@ -308,8 +341,9 @@ async function seedDatabase() {
     console.log(`📊 Progress Records: ${progressData.length}`);
 
     console.log('\n🔑 Default Login Credentials:');
+    console.log('Admin: telesphore91073@gmail.com / 91073@Tecy');
     console.log('Teacher: pierre@diglearners.rw / teacher123');
-    console.log('Student: alice@student.rw / student123');
+    console.log('Student: telesphore@alustudent.com / student123');
 
   } catch (error) {
     console.error('❌ Error seeding database:', error);
