@@ -78,8 +78,8 @@ const LearnerDashboard = () => {
 
   const handleGameStart = (game) => {
     localStorage.setItem('selectedGame', JSON.stringify(game));
-    // For now, just show an alert - in a real app, this would navigate to the game
-    alert(`Starting ${game.title}! 🎮`);
+    // Navigate to the game player with the game data
+    navigate(`/dashboard/game/${game.id}`, { state: { game } });
   };
 
   return (
