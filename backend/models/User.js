@@ -25,6 +25,13 @@ module.exports = (sequelize) => {
         isEmail: true
       }
     },
+    password: {
+      type: DataTypes.VIRTUAL,
+      allowNull: true,
+      validate: {
+        len: [6, 100]
+      }
+    },
     passwordHash: {
       type: DataTypes.STRING(255),
       allowNull: false,
@@ -74,16 +81,22 @@ module.exports = (sequelize) => {
     createdAt: 'created_at',
     updatedAt: 'updated_at',
     hooks: {
-      beforeCreate: async (user) => {
+      beforeValidate: async (user) => {
         if (user.password) {
-          user.passwordHash = await bcrypt.hash(user.password, 12);
-          delete user.password;
+          const hashedPassword = await bcrypt.hash(user.password, 12);
+          user.passwordHash = hashedPassword;
+        }
+      },
+      beforeCreate: async (user) => {
+        if (user.password && !user.passwordHash) {
+          const hashedPassword = await bcrypt.hash(user.password, 12);
+          user.passwordHash = hashedPassword;
         }
       },
       beforeUpdate: async (user) => {
         if (user.changed('password')) {
-          user.passwordHash = await bcrypt.hash(user.password, 12);
-          delete user.password;
+          const hashedPassword = await bcrypt.hash(user.password, 12);
+          user.passwordHash = hashedPassword;
         }
       }
     }

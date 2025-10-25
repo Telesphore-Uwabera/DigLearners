@@ -485,7 +485,7 @@ router.get('/assignments', authenticateToken, requireTeacher, async (req, res) =
           {
             model: User,
             as: 'student',
-            attributes: ['id', 'name']
+            attributes: ['id', 'fullName']
           }
         ]
       });

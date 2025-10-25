@@ -13,7 +13,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'diglearners-secret-key-2024';
 // Register endpoint 
 router.post('/register', async (req, res) => {
   try {
-    const { fullName, email, password, role = 'learner' } = req.body;
+    const { fullName, email, password, role = 'learner', grade, age } = req.body;
 
     // Validate input
     if (!fullName || !email || !password) {
@@ -40,13 +40,24 @@ router.post('/register', async (req, res) => {
       });
     }
 
-    // Create new user
-    const user = await User.create({
+    // Create user data object
+    const userData = {
       fullName,
       email,
       password: password, // Will be hashed by model hook
       role
-    });
+    };
+
+    // Add grade and age if provided (for learners)
+    if (grade) {
+      userData.grade = grade;
+    }
+    if (age) {
+      userData.age = parseInt(age);
+    }
+
+    // Create new user
+    const user = await User.create(userData);
 
     res.status(201).json({
       success: true,

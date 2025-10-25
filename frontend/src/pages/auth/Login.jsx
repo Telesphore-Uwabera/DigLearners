@@ -11,6 +11,7 @@ const Login = ({ onLogin }) => {
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState(false)
 
   // Helper functions for error handling
   const getErrorClass = (error) => {
@@ -72,11 +73,18 @@ const Login = ({ onLogin }) => {
     e.preventDefault()
     setLoading(true)
     setError('')
+    setSuccess(false)
 
     try {
       const result = await onLogin(formData)
       if (!result.success) {
         setError(result.error || t('auth.loginError'))
+      } else {
+        setSuccess(true)
+        // Show success message briefly before redirect
+        setTimeout(() => {
+          // The redirect will be handled by the auth context
+        }, 1500)
       }
     } catch (err) {
       // Enhanced error handling for specific error types
@@ -100,6 +108,22 @@ const Login = ({ onLogin }) => {
         
         <form onSubmit={handleSubmit} className="login-form">
           <h2>{t('auth.login')}</h2>
+          
+          {success && (
+            <div className="success-message">
+              <div className="success-icon">
+                🎉
+              </div>
+              <div className="success-content">
+                <div className="success-title">
+                  Login Successful!
+                </div>
+                <div className="success-text">
+                  Welcome back! Redirecting to your dashboard...
+                </div>
+              </div>
+            </div>
+          )}
           
           {error && (
             <div className={`error-message ${getErrorClass(error)}`}>
@@ -164,10 +188,22 @@ const Login = ({ onLogin }) => {
           
           <button 
             type="submit" 
-            className="login-button"
-            disabled={loading}
+            className={`login-button ${success ? 'success' : ''}`}
+            disabled={loading || success}
           >
-            {loading ? t('common.loading') : t('auth.login')}
+            {success ? (
+              <>
+                <span>✅</span>
+                Login Successful!
+              </>
+            ) : loading ? (
+              <>
+                <span className="loading-spinner">⏳</span>
+                {t('common.loading')}
+              </>
+            ) : (
+              t('auth.login')
+            )}
           </button>
         </form>
         
@@ -318,6 +354,54 @@ const Login = ({ onLogin }) => {
             padding-top: 0.5rem;
             border-top: 1px solid rgba(0, 0, 0, 0.1);
           }
+
+          .success-message {
+            background: linear-gradient(135deg, #d1fae5, #ecfdf5);
+            color: #065f46;
+            border: 2px solid #10b981;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+            animation: successSlide 0.5s ease-out;
+          }
+
+          @keyframes successSlide {
+            from {
+              opacity: 0;
+              transform: translateY(-20px) scale(0.95);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0) scale(1);
+            }
+          }
+
+          .success-icon {
+            font-size: 1.5rem;
+            margin-top: 0.125rem;
+            flex-shrink: 0;
+          }
+
+          .success-content {
+            flex: 1;
+          }
+
+          .success-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #065f46;
+          }
+
+          .success-text {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: #047857;
+          }
           
           .login-button {
             width: 100%;
@@ -340,6 +424,23 @@ const Login = ({ onLogin }) => {
           .login-button:disabled {
             background: #9ca3af;
             cursor: not-allowed;
+          }
+
+          .login-button.success {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+          }
+
+          .loading-spinner {
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 0.5rem;
+          }
+
+          @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
           }
           
           .remember-me {
