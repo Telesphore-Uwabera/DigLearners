@@ -258,6 +258,160 @@ const sampleGamifiedContent = [
     badgeReward: "Digital Artist",
     thumbnail: "/images/art-game.png",
     tags: ["art", "creativity", "digital", "primary"]
+  },
+
+  // Additional Games for Better Coverage
+  {
+    title: "Typing Speed Challenge",
+    description: "Improve your typing skills with fun challenges and games",
+    grade: "Grade 4",
+    ageGroup: "7+",
+    gameType: "interactive",
+    difficulty: "intermediate",
+    subject: "Digital Literacy",
+    content: {
+      gameType: "typing-challenge",
+      levels: [
+        { name: "Beginner", wpm: 10, words: ["cat", "dog", "sun", "fun"] },
+        { name: "Intermediate", wpm: 20, words: ["computer", "keyboard", "mouse", "screen"] },
+        { name: "Advanced", wpm: 30, words: ["programming", "technology", "education", "learning"] }
+      ]
+    },
+    instructions: "Type the words as fast and accurately as you can!",
+    learningObjectives: "Improve typing speed and accuracy",
+    estimatedTime: 15,
+    pointsReward: 40,
+    badgeReward: "Speed Typist",
+    thumbnail: "/images/typing-game.png",
+    tags: ["typing", "speed", "accuracy", "primary"]
+  },
+  {
+    title: "Password Security Hero",
+    description: "Learn to create strong passwords and stay safe online",
+    grade: "Grade 5",
+    ageGroup: "7+",
+    gameType: "quiz",
+    difficulty: "intermediate",
+    subject: "Digital Literacy",
+    content: {
+      gameType: "security-quiz",
+      scenarios: [
+        {
+          question: "Which password is stronger?",
+          options: ["123456", "password", "MyDog2024!", "abc123"],
+          correct: 2,
+          explanation: "Strong passwords have letters, numbers, and symbols!"
+        },
+        {
+          question: "Should you share your password with friends?",
+          options: ["Yes, always", "Only with best friends", "Never", "Sometimes"],
+          correct: 2,
+          explanation: "Never share passwords with anyone!"
+        }
+      ]
+    },
+    instructions: "Answer questions about password security!",
+    learningObjectives: "Learn password security best practices",
+    estimatedTime: 12,
+    pointsReward: 35,
+    badgeReward: "Security Expert",
+    thumbnail: "/images/security-game.png",
+    tags: ["security", "passwords", "safety", "primary"]
+  },
+  {
+    title: "Math Adventure Island",
+    description: "Explore a magical island while solving math problems",
+    grade: "Grade 3",
+    ageGroup: "5-6",
+    gameType: "puzzle",
+    difficulty: "intermediate",
+    subject: "Math",
+    content: {
+      gameType: "adventure-math",
+      islands: [
+        { name: "Addition Atoll", problems: ["3+4", "5+2", "7+1"] },
+        { name: "Subtraction Shore", problems: ["8-3", "9-4", "6-2"] },
+        { name: "Multiplication Mountain", problems: ["2x3", "4x2", "3x3"] }
+      ]
+    },
+    instructions: "Solve math problems to unlock new islands!",
+    learningObjectives: "Practice arithmetic operations",
+    estimatedTime: 25,
+    pointsReward: 45,
+    badgeReward: "Math Explorer",
+    thumbnail: "/images/math-island.png",
+    tags: ["math", "adventure", "arithmetic", "kindergarten"]
+  },
+  {
+    title: "Story Builder Workshop",
+    description: "Create your own digital stories with characters and scenes",
+    grade: "Grade 4",
+    ageGroup: "7+",
+    gameType: "creative",
+    difficulty: "beginner",
+    subject: "Language",
+    content: {
+      gameType: "story-creation",
+      elements: {
+        characters: ["Princess", "Dragon", "Knight", "Wizard"],
+        settings: ["Castle", "Forest", "Mountain", "Village"],
+        objects: ["Sword", "Magic Wand", "Treasure", "Book"]
+      }
+    },
+    instructions: "Choose characters, settings, and objects to create your story!",
+    learningObjectives: "Develop creative writing and storytelling skills",
+    estimatedTime: 30,
+    pointsReward: 50,
+    badgeReward: "Story Master",
+    thumbnail: "/images/story-game.png",
+    tags: ["story", "creative", "writing", "primary"]
+  },
+  {
+    title: "Robot Programming Lab",
+    description: "Program a virtual robot to complete challenges",
+    grade: "Grade 6",
+    ageGroup: "7+",
+    gameType: "simulation",
+    difficulty: "advanced",
+    subject: "Digital Literacy",
+    content: {
+      gameType: "robot-programming",
+      commands: ["move", "turn_left", "turn_right", "pick_up", "drop"],
+      challenges: [
+        { name: "Navigate Maze", goal: "Reach the exit" },
+        { name: "Collect Items", goal: "Collect all stars" },
+        { name: "Sort Objects", goal: "Sort by color" }
+      ]
+    },
+    instructions: "Drag and drop commands to program your robot!",
+    learningObjectives: "Learn basic programming logic and sequencing",
+    estimatedTime: 35,
+    pointsReward: 65,
+    badgeReward: "Robot Commander",
+    thumbnail: "/images/robot-game.png",
+    tags: ["programming", "logic", "robots", "primary"]
+  },
+  {
+    title: "Music Maker Studio",
+    description: "Create digital music and learn about sound and rhythm",
+    grade: "Grade 5",
+    ageGroup: "7+",
+    gameType: "creative",
+    difficulty: "intermediate",
+    subject: "Art",
+    content: {
+      gameType: "music-creation",
+      instruments: ["Piano", "Drums", "Guitar", "Flute"],
+      notes: ["C", "D", "E", "F", "G", "A", "B"],
+      rhythms: ["Quarter", "Half", "Whole", "Eighth"]
+    },
+    instructions: "Create your own music using digital instruments!",
+    learningObjectives: "Learn about music, rhythm, and digital creation",
+    estimatedTime: 20,
+    pointsReward: 40,
+    badgeReward: "Music Maker",
+    thumbnail: "/images/music-game.png",
+    tags: ["music", "creativity", "rhythm", "primary"]
   }
 ];
 

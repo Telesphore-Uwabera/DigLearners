@@ -83,8 +83,8 @@ const GamesDashboard = () => {
   const handleGameStart = (game) => {
     // Store the selected game in localStorage
     localStorage.setItem('selectedGame', JSON.stringify(game));
-    // Navigate to game interface
-    window.location.href = `/dashboard/game/${game.id}`;
+    // For now, show success message - in a real app, this would navigate to the game
+    alert(`🎮 Starting "${game.title}"! \n\n🎯 Objective: ${game.learningObjectives}\n⭐ Reward: ${game.pointsReward} points\n🏆 Badge: ${game.badgeReward || 'None'}\n\nHave fun learning! 🚀`);
   };
 
   if (loading) {

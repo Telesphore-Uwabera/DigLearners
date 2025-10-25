@@ -171,145 +171,163 @@ const initializeDatabase = async () => {
 const seedInitialData = async () => {
   try {
     const userCount = await User.count();
-    if (userCount > 0) {
-      console.log('Database already has data, skipping seed.');
-      return;
+    const gamifiedCount = await GamifiedContent.count();
+    
+    // Always reseed gamified content to ensure we have the latest games
+    console.log('Clearing and reseeding gamified content...');
+    await GamifiedContent.destroy({ where: {} });
+    
+    // Only create users if they don't exist
+    if (userCount === 0) {
+      console.log('Creating initial users...');
+      
+      // Create default admin user
+      const adminUser = await User.create({
+        fullName: 'Telesphore Uwabera',
+        email: 'telesphore91073@gmail.com',
+        passwordHash: '91073@Tecy', // Will be hashed by hook
+        role: 'admin'
+      });
+
+      // Create sample teacher
+      const teacherUser = await User.create({
+        fullName: 'Pierre Nkurunziza',
+        email: 'pierre@diglearners.rw',
+        passwordHash: 'teacher123',
+        role: 'teacher'
+      });
+
+      // Create sample student
+      const studentUser = await User.create({
+        fullName: 'Telesphore Uwabera',
+        email: 'telesphore@alustudent.com',
+        passwordHash: 'student123',
+        role: 'learner'
+      });
+    } else {
+      console.log('Users already exist, skipping user creation...');
     }
 
-    console.log('Seeding initial data...');
+    // Skip lesson and class creation if users already exist
+    if (userCount === 0) {
+      // Create sample learning class
+      const sampleClass = await LearningClass.create({
+        name: 'Digital Literacy Class',
+        teacherId: teacherUser.id,
+        description: 'Introduction to digital literacy for students',
+        grade: null
+      });
 
-    // Create default admin user
-    const adminUser = await User.create({
-      fullName: 'Telesphore Uwabera',
-      email: 'telesphore91073@gmail.com',
-      passwordHash: '91073@Tecy', // Will be hashed by hook
-      role: 'admin'
-    });
+      // Create sample lessons
+      const lessons = [
+        {
+          title: 'Introduction to Typing',
+          moduleType: 'typing',
+          content: '<h1>Welcome to Typing!</h1><p>Learn the basics of keyboard typing.</p>',
+          description: 'Basic typing skills for beginners',
+          difficulty: 'beginner',
+          ageGroup: '6-8',
+          order: 1
+        },
+        {
+          title: 'Safe Internet Browsing',
+          moduleType: 'safety',
+          content: '<h1>Stay Safe Online</h1><p>Learn how to browse the internet safely.</p>',
+          description: 'Internet safety fundamentals',
+          difficulty: 'beginner',
+          ageGroup: '6-8',
+          order: 2
+        },
+        {
+          title: 'Block Coding Basics',
+          moduleType: 'coding',
+          content: '<h1>Start Coding!</h1><p>Learn programming with visual blocks.</p>',
+          description: 'Introduction to programming concepts',
+          difficulty: 'beginner',
+          ageGroup: '6-8',
+          order: 3
+        }
+      ];
 
-    // Create sample teacher
-    const teacherUser = await User.create({
-      fullName: 'Pierre Nkurunziza',
-      email: 'pierre@diglearners.rw',
-      passwordHash: 'teacher123',
-      role: 'teacher'
-    });
-
-    // Create sample student
-    const studentUser = await User.create({
-      fullName: 'Telesphore Uwabera',
-      email: 'telesphore@alustudent.com',
-      passwordHash: 'student123',
-      role: 'learner'
-    });
-
-    // Create sample learning class
-    const sampleClass = await LearningClass.create({
-      name: 'Digital Literacy Class',
-      teacherId: teacherUser.id,
-      description: 'Introduction to digital literacy for students',
-      grade: null
-    });
-
-    // Create sample lessons
-    const lessons = [
-      {
-        title: 'Introduction to Typing',
-        moduleType: 'typing',
-        content: '<h1>Welcome to Typing!</h1><p>Learn the basics of keyboard typing.</p>',
-        description: 'Basic typing skills for beginners',
-        difficulty: 'beginner',
-        ageGroup: '6-8',
-        order: 1
-      },
-      {
-        title: 'Safe Internet Browsing',
-        moduleType: 'safety',
-        content: '<h1>Stay Safe Online</h1><p>Learn how to browse the internet safely.</p>',
-        description: 'Internet safety fundamentals',
-        difficulty: 'beginner',
-        ageGroup: '6-8',
-        order: 2
-      },
-      {
-        title: 'Block Coding Basics',
-        moduleType: 'coding',
-        content: '<h1>Start Coding!</h1><p>Learn programming with visual blocks.</p>',
-        description: 'Introduction to programming concepts',
-        difficulty: 'beginner',
-        ageGroup: '6-8',
-        order: 3
+      for (const lessonData of lessons) {
+        const lesson = await Lesson.create(lessonData);
+        // Assign lesson to class
+        await ClassLesson.assignLessonToClass(sampleClass.id, lesson.id, teacherUser.id);
       }
-    ];
-
-    for (const lessonData of lessons) {
-      const lesson = await Lesson.create(lessonData);
-      // Assign lesson to class
-      await ClassLesson.assignLessonToClass(sampleClass.id, lesson.id, teacherUser.id);
     }
 
-    // Create sample badges
-    const badges = [
-      {
-        name: 'First Step',
-        description: 'Completed your first lesson!',
-        criteria: 'Complete any lesson',
-        icon: '🌟',
-        points: 20,
-        category: 'achievement',
-        requirements: { minLessons: 1 }
-      },
-      {
-        name: 'Typing Master',
-        description: 'Achieved 40 WPM in a typing lesson!',
-        criteria: 'Reach 40 WPM in typing',
-        icon: 'computer',
-        points: 50,
-        category: 'achievement',
-        requirements: { lessonType: 'typing', minScore: 40 }
-      },
-      {
-        name: 'Safe Surfer',
-        description: 'Successfully navigated 5 safe browsing scenarios!',
-        criteria: 'Complete 5 safety lessons',
-        icon: 'shield',
-        points: 40,
-        category: 'achievement',
-        requirements: { lessonType: 'safety', minLessons: 5 }
-      },
-      {
-        name: 'Code Wizard',
-        description: 'Solved 10 coding puzzles!',
-        criteria: 'Complete 10 coding lessons',
-        icon: '🧙',
-        points: 60,
-        category: 'achievement',
-        requirements: { lessonType: 'coding', minLessons: 10 }
-      },
-      {
-        name: '7-Day Streak',
-        description: 'Logged in for 7 consecutive days!',
-        criteria: '7 consecutive days of activity',
-        icon: 'lightning',
-        points: 30,
-        category: 'milestone',
-        requirements: { streakDays: 7 }
-      },
-      {
-        name: 'Perfect Score',
-        description: 'Scored 100% on any lesson!',
-        criteria: 'Get 100% score on any lesson',
-        icon: '💯',
-        points: 25,
-        category: 'achievement',
-        requirements: { minScore: 100 }
-      }
-    ];
+    // Create sample badges only if users don't exist
+    if (userCount === 0) {
+      const badges = [
+        {
+          name: 'First Step',
+          description: 'Completed your first lesson!',
+          criteria: 'Complete any lesson',
+          icon: '🌟',
+          points: 20,
+          category: 'achievement',
+          requirements: { minLessons: 1 }
+        },
+        {
+          name: 'Typing Master',
+          description: 'Achieved 40 WPM in a typing lesson!',
+          criteria: 'Reach 40 WPM in typing',
+          icon: 'computer',
+          points: 50,
+          category: 'achievement',
+          requirements: { lessonType: 'typing', minScore: 40 }
+        },
+        {
+          name: 'Safe Surfer',
+          description: 'Successfully navigated 5 safe browsing scenarios!',
+          criteria: 'Complete 5 safety lessons',
+          icon: 'shield',
+          points: 40,
+          category: 'achievement',
+          requirements: { lessonType: 'safety', minLessons: 5 }
+        },
+        {
+          name: 'Code Wizard',
+          description: 'Solved 10 coding puzzles!',
+          criteria: 'Complete 10 coding lessons',
+          icon: '🧙',
+          points: 60,
+          category: 'achievement',
+          requirements: { lessonType: 'coding', minLessons: 10 }
+        },
+        {
+          name: '7-Day Streak',
+          description: 'Logged in for 7 consecutive days!',
+          criteria: '7 consecutive days of activity',
+          icon: 'lightning',
+          points: 30,
+          category: 'milestone',
+          requirements: { streakDays: 7 }
+        },
+        {
+          name: 'Perfect Score',
+          description: 'Scored 100% on any lesson!',
+          criteria: 'Get 100% score on any lesson',
+          icon: '💯',
+          points: 25,
+          category: 'achievement',
+          requirements: { minScore: 100 }
+        }
+      ];
 
-    for (const badgeData of badges) {
-      await Badge.create(badgeData);
+      for (const badgeData of badges) {
+        await Badge.create(badgeData);
+      }
+    }
+
+    // Seed gamified content
+    const sampleGamifiedContent = require('../seeders/gamifiedContentData');
+    for (const contentData of sampleGamifiedContent) {
+      await GamifiedContent.create(contentData);
     }
 
     console.log('Initial data seeded successfully.');
+    console.log(`Seeded ${sampleGamifiedContent.length} gamified content items.`);
 
   } catch (error) {
     console.error('Error seeding initial data:', error);
