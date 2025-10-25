@@ -19,11 +19,11 @@ router.get('/age-group/:ageGroup', authenticateToken, async (req, res) => {
     const { ageGroup } = req.params;
     
     // Validate age group
-    const validAgeGroups = ['0-2', '3-4', '5-6', '7+'];
+    const validAgeGroups = ['6-7', '7-8', '8-9', '9-10', '10-11', '11-12'];
     if (!validAgeGroups.includes(ageGroup)) {
       return res.status(400).json({
         success: false,
-        error: 'Invalid age group. Must be one of: 0-2, 3-4, 5-6, 7+'
+        error: 'Invalid age group. Must be one of: 6-7, 7-8, 8-9, 9-10, 10-11, 11-12'
       });
     }
 

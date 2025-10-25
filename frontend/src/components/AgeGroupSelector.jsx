@@ -11,32 +11,46 @@ const AgeGroupSelector = () => {
 
   const ageGroups = [
     {
-      id: '0-2',
-      label: '0-2',
-      description: 'Early Learning',
-      icon: '👶',
+      id: '6-7',
+      label: '6-7 years',
+      description: 'Grade 1 - Early Elementary',
+      icon: '🌟',
       color: '#fbbf24'
     },
     {
-      id: '3-4',
-      label: '3-4',
-      description: 'Pre-K',
-      icon: '🧸',
+      id: '7-8',
+      label: '7-8 years',
+      description: 'Grade 2 - Elementary',
+      icon: '🎨',
       color: '#f59e0b'
     },
     {
-      id: '5-6',
-      label: '5-6',
-      description: 'Kindergarten',
-      icon: '🎨',
+      id: '8-9',
+      label: '8-9 years',
+      description: 'Grade 3 - Elementary',
+      icon: '🚀',
       color: '#10b981'
     },
     {
-      id: '7+',
-      label: '7+',
-      description: 'Primary School',
-      icon: '🎓',
+      id: '9-10',
+      label: '9-10 years',
+      description: 'Grade 4 - Elementary',
+      icon: '🧩',
       color: '#3b82f6'
+    },
+    {
+      id: '10-11',
+      label: '10-11 years',
+      description: 'Grade 5 - Upper Elementary',
+      icon: '🎯',
+      color: '#8b5cf6'
+    },
+    {
+      id: '11-12',
+      label: '11-12 years',
+      description: 'Grade 6 - Upper Elementary',
+      icon: '🎓',
+      color: '#ef4444'
     }
   ];
 

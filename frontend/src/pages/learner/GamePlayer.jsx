@@ -239,16 +239,55 @@ const getGameTypeIcon = (gameType) => {
   }
 };
 
-// Simple game components for different game types
+// Enhanced game components for different game types and grades
 const PuzzleGame = ({ game, onComplete, onProgress }) => {
   const [currentPuzzle, setCurrentPuzzle] = useState(0);
   const [solved, setSolved] = useState(false);
 
-  const puzzles = [
-    { question: "What comes next? 🐶 🐱 🐶 ?", answer: "🐱", options: ["🐶", "🐱", "🐭", "🐹"] },
-    { question: "Which shape is different?", answer: "🔺", options: ["🔴", "🔴", "🔺", "🔴"] },
-    { question: "Complete the pattern: 🌟 ⭐ 🌟 ?", answer: "⭐", options: ["🌟", "⭐", "💫", "✨"] }
-  ];
+  // Generate age-appropriate puzzles based on game content and grade
+  const generatePuzzles = () => {
+    const grade = game.grade;
+    
+    if (grade === 'Grade 1') {
+      return [
+        { question: "What shape is this? ⭕", answer: "Circle", options: ["Circle", "Square", "Triangle", "Rectangle"] },
+        { question: "What color is this? 🔴", answer: "Red", options: ["Red", "Blue", "Green", "Yellow"] },
+        { question: "Count the stars: ⭐⭐⭐", answer: "3", options: ["1", "2", "3", "4"] }
+      ];
+    } else if (grade === 'Grade 2') {
+      return [
+        { question: "What comes next? 🐶 🐱 🐶 ?", answer: "🐱", options: ["🐶", "🐱", "🐭", "🐹"] },
+        { question: "Which is different?", answer: "🔺", options: ["🔴", "🔴", "🔺", "🔴"] },
+        { question: "Complete: A, B, C, ?", answer: "D", options: ["D", "E", "F", "G"] }
+      ];
+    } else if (grade === 'Grade 3') {
+      return [
+        { question: "2 × 3 = ?", answer: "6", options: ["5", "6", "7", "8"] },
+        { question: "Which word rhymes with 'cat'?", answer: "hat", options: ["dog", "hat", "car", "sun"] },
+        { question: "What's the missing number? 2, 4, 6, ?", answer: "8", options: ["7", "8", "9", "10"] }
+      ];
+    } else if (grade === 'Grade 4') {
+      return [
+        { question: "What is 1/2 of 8?", answer: "4", options: ["2", "3", "4", "5"] },
+        { question: "Which is a noun?", answer: "book", options: ["run", "happy", "book", "quickly"] },
+        { question: "12 ÷ 3 = ?", answer: "4", options: ["3", "4", "5", "6"] }
+      ];
+    } else if (grade === 'Grade 5') {
+      return [
+        { question: "What is 0.5 + 0.3?", answer: "0.8", options: ["0.7", "0.8", "0.9", "1.0"] },
+        { question: "Which is the main idea?", answer: "The story is about friendship", options: ["The boy was tall", "The story is about friendship", "It was sunny", "They ate lunch"] },
+        { question: "15 × 4 = ?", answer: "60", options: ["50", "55", "60", "65"] }
+      ];
+    } else {
+      return [
+        { question: "Solve: x + 5 = 12", answer: "x = 7", options: ["x = 6", "x = 7", "x = 8", "x = 9"] },
+        { question: "Which is a metaphor?", answer: "Time is money", options: ["The cat ran", "Time is money", "She is tall", "I like pizza"] },
+        { question: "What is 25% of 80?", answer: "20", options: ["15", "20", "25", "30"] }
+      ];
+    }
+  };
+
+  const puzzles = generatePuzzles();
 
   const handleAnswer = (answer) => {
     if (answer === puzzles[currentPuzzle].answer) {
@@ -303,11 +342,106 @@ const QuizGame = ({ game, onComplete, onProgress }) => {
   const [score, setScore] = useState(0);
   const [answered, setAnswered] = useState(false);
 
-  const questions = [
-    { question: "What should you do before crossing the street?", answer: "Look both ways", options: ["Run quickly", "Look both ways", "Close your eyes", "Jump"] },
-    { question: "Which is a safe password?", answer: "MyDog123!", options: ["123", "password", "MyDog123!", "abc"] },
-    { question: "What color means 'stop' in traffic lights?", answer: "Red", options: ["Green", "Yellow", "Red", "Blue"] }
-  ];
+  // Generate grade-appropriate quiz questions
+  const generateQuestions = () => {
+    const grade = game.grade;
+    const subject = game.subject;
+    
+    if (grade === 'Grade 1') {
+      if (subject === 'Math') {
+        return [
+          { question: "How many fingers do you have?", answer: "10", options: ["8", "9", "10", "11"] },
+          { question: "What comes after 5?", answer: "6", options: ["4", "5", "6", "7"] },
+          { question: "Which is bigger: 3 or 7?", answer: "7", options: ["3", "7", "Same", "Don't know"] }
+        ];
+      } else if (subject === 'Digital Literacy') {
+        return [
+          { question: "What do you use to click on a computer?", answer: "Mouse", options: ["Keyboard", "Mouse", "Screen", "Speaker"] },
+          { question: "Where do you see pictures on a computer?", answer: "Screen", options: ["Keyboard", "Mouse", "Screen", "Speaker"] },
+          { question: "What makes sounds on a computer?", answer: "Speaker", options: ["Keyboard", "Mouse", "Screen", "Speaker"] }
+        ];
+      }
+    } else if (grade === 'Grade 2') {
+      if (subject === 'Math') {
+        return [
+          { question: "What is 5 + 3?", answer: "8", options: ["6", "7", "8", "9"] },
+          { question: "What is 10 - 4?", answer: "6", options: ["5", "6", "7", "8"] },
+          { question: "How many sides does a triangle have?", answer: "3", options: ["2", "3", "4", "5"] }
+        ];
+      } else if (subject === 'Language') {
+        return [
+          { question: "Which letter comes after B?", answer: "C", options: ["A", "C", "D", "E"] },
+          { question: "What sound does 'M' make?", answer: "mmm", options: ["aaa", "mmm", "sss", "rrr"] },
+          { question: "Which word starts with 'S'?", answer: "Sun", options: ["Cat", "Dog", "Sun", "Ball"] }
+        ];
+      }
+    } else if (grade === 'Grade 3') {
+      if (subject === 'Math') {
+        return [
+          { question: "What is 4 × 3?", answer: "12", options: ["10", "11", "12", "13"] },
+          { question: "What is 15 ÷ 3?", answer: "5", options: ["4", "5", "6", "7"] },
+          { question: "Which number is even?", answer: "8", options: ["7", "8", "9", "11"] }
+        ];
+      } else if (subject === 'Science') {
+        return [
+          { question: "What do plants need to grow?", answer: "Water and sunlight", options: ["Only water", "Water and sunlight", "Only soil", "Only air"] },
+          { question: "Which animal is a mammal?", answer: "Dog", options: ["Fish", "Bird", "Dog", "Butterfly"] },
+          { question: "What happens to water when it gets very cold?", answer: "It becomes ice", options: ["It disappears", "It becomes ice", "It becomes hot", "Nothing"] }
+        ];
+      }
+    } else if (grade === 'Grade 4') {
+      if (subject === 'Math') {
+        return [
+          { question: "What is 1/4 + 1/4?", answer: "1/2", options: ["1/8", "1/4", "1/2", "1"] },
+          { question: "What is 25 × 4?", answer: "100", options: ["90", "95", "100", "105"] },
+          { question: "How many minutes are in 2 hours?", answer: "120", options: ["100", "110", "120", "130"] }
+        ];
+      } else if (subject === 'Social Studies') {
+        return [
+          { question: "What is the capital of Rwanda?", answer: "Kigali", options: ["Butare", "Kigali", "Gisenyi", "Ruhengeri"] },
+          { question: "Which continent is Rwanda in?", answer: "Africa", options: ["Asia", "Europe", "Africa", "America"] },
+          { question: "What language do most Rwandans speak?", answer: "Kinyarwanda", options: ["English", "French", "Kinyarwanda", "Swahili"] }
+        ];
+      }
+    } else if (grade === 'Grade 5') {
+      if (subject === 'Math') {
+        return [
+          { question: "What is 0.25 + 0.75?", answer: "1.0", options: ["0.9", "1.0", "1.1", "1.2"] },
+          { question: "What is 20% of 50?", answer: "10", options: ["8", "9", "10", "11"] },
+          { question: "What is the area of a rectangle 5×3?", answer: "15", options: ["12", "13", "15", "18"] }
+        ];
+      } else if (subject === 'Science') {
+        return [
+          { question: "What is the process plants use to make food?", answer: "Photosynthesis", options: ["Respiration", "Photosynthesis", "Digestion", "Circulation"] },
+          { question: "Which planet is closest to the sun?", answer: "Mercury", options: ["Venus", "Earth", "Mercury", "Mars"] },
+          { question: "What gas do we breathe in?", answer: "Oxygen", options: ["Carbon dioxide", "Oxygen", "Nitrogen", "Hydrogen"] }
+        ];
+      }
+    } else if (grade === 'Grade 6') {
+      if (subject === 'Math') {
+        return [
+          { question: "If x + 7 = 15, what is x?", answer: "8", options: ["6", "7", "8", "9"] },
+          { question: "What is 3² + 4²?", answer: "25", options: ["23", "24", "25", "26"] },
+          { question: "What is 60% of 80?", answer: "48", options: ["46", "47", "48", "49"] }
+        ];
+      } else if (subject === 'Digital Literacy') {
+        return [
+          { question: "What does HTML stand for?", answer: "HyperText Markup Language", options: ["High Tech Modern Language", "HyperText Markup Language", "Home Tool Markup Language", "Hard Text Making Language"] },
+          { question: "Which is a safe way to create passwords?", answer: "Use letters, numbers, and symbols", options: ["Use your name only", "Use 123456", "Use letters, numbers, and symbols", "Use your birthday"] },
+          { question: "What should you do if someone online asks for personal information?", answer: "Tell a trusted adult", options: ["Give them the information", "Tell a trusted adult", "Ignore them", "Ask for their information too"] }
+        ];
+      }
+    }
+    
+    // Default questions if no specific match
+    return [
+      { question: "What should you do before crossing the street?", answer: "Look both ways", options: ["Run quickly", "Look both ways", "Close your eyes", "Jump"] },
+      { question: "Which is a safe password?", answer: "MyDog123!", options: ["123", "password", "MyDog123!", "abc"] },
+      { question: "What color means 'stop' in traffic lights?", answer: "Red", options: ["Green", "Yellow", "Red", "Blue"] }
+    ];
+  };
+
+  const questions = generateQuestions();
 
   const handleAnswer = (answer) => {
     setAnswered(true);

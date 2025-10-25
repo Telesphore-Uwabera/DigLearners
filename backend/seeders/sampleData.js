@@ -32,8 +32,45 @@ const sampleData = {
     }
   ],
 
-  // Sample Students
+  // Sample Students - Different Grades and Ages
   students: [
+    // Grade 1 Students (Ages 6-7)
+    {
+      fullName: 'Emma Mukamana',
+      email: 'emma@student.rw',
+      password: 'student123',
+      role: 'learner',
+      grade: 'Grade 1',
+      age: 6
+    },
+    {
+      fullName: 'David Nshimiyimana',
+      email: 'david@student.rw',
+      password: 'student123',
+      role: 'learner',
+      grade: 'Grade 1',
+      age: 7
+    },
+    
+    // Grade 2 Students (Ages 7-8)
+    {
+      fullName: 'Sarah Uwimana',
+      email: 'sarah@student.rw',
+      password: 'student123',
+      role: 'learner',
+      grade: 'Grade 2',
+      age: 7
+    },
+    {
+      fullName: 'Kevin Habimana',
+      email: 'kevin@student.rw',
+      password: 'student123',
+      role: 'learner',
+      grade: 'Grade 2',
+      age: 8
+    },
+    
+    // Grade 3 Students (Ages 8-9)
     {
       fullName: 'Telesphore Uwabera',
       email: 'telesphore@alustudent.com',
@@ -56,8 +93,10 @@ const sampleData = {
       password: 'student123',
       role: 'learner',
       grade: 'Grade 3',
-      age: 8
+      age: 9
     },
+    
+    // Grade 4 Students (Ages 9-10)
     {
       fullName: 'Grace Niyonsaba',
       email: 'grace@student.rw',
@@ -72,7 +111,51 @@ const sampleData = {
       password: 'student123',
       role: 'learner',
       grade: 'Grade 4',
+      age: 10
+    },
+    {
+      fullName: 'Lily Mukamana',
+      email: 'lily@student.rw',
+      password: 'student123',
+      role: 'learner',
+      grade: 'Grade 4',
       age: 9
+    },
+    
+    // Grade 5 Students (Ages 10-11)
+    {
+      fullName: 'Samuel Niyonsenga',
+      email: 'samuel@student.rw',
+      password: 'student123',
+      role: 'learner',
+      grade: 'Grade 5',
+      age: 10
+    },
+    {
+      fullName: 'Maria Uwimana',
+      email: 'maria@student.rw',
+      password: 'student123',
+      role: 'learner',
+      grade: 'Grade 5',
+      age: 11
+    },
+    
+    // Grade 6 Students (Ages 11-12)
+    {
+      fullName: 'Daniel Hakizimana',
+      email: 'daniel@student.rw',
+      password: 'student123',
+      role: 'learner',
+      grade: 'Grade 6',
+      age: 11
+    },
+    {
+      fullName: 'Ruth Nyirahabimana',
+      email: 'ruth@student.rw',
+      password: 'student123',
+      role: 'learner',
+      grade: 'Grade 6',
+      age: 12
     }
   ],
 
