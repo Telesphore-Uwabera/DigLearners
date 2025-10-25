@@ -3,6 +3,7 @@ import { useTranslation } from '../../lib/language';
 import { getStudentsData } from '../../services/teacherMockDataService';
 import Icon from '../../components/icons/Icon';
 import '../../components/DashboardStyles.css';
+import './TeacherStyles.css';
 
 const Students = () => {
   const { t, currentLanguage } = useTranslation();
@@ -33,7 +34,7 @@ const Students = () => {
   const grades = ['all', 'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6'];
 
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-container students-page">
       <div className="page-container">
         <div className="page-header">
           <div className="header-content">

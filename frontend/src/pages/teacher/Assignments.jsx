@@ -5,6 +5,7 @@ import Icon from '../../components/icons/Icon';
 import PuzzleCreator from '../../components/puzzles/PuzzleCreator';
 import '../../components/DashboardStyles.css';
 import './PuzzleCreatorStyles.css';
+import './TeacherStyles.css';
 
 const Assignments = () => {
   const { t, currentLanguage } = useTranslation();
@@ -122,7 +123,7 @@ const Assignments = () => {
   };
 
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-container assignments-page">
     <div className="page-container">
       <div className="page-header">
           <div className="header-content">
@@ -229,9 +230,34 @@ const Assignments = () => {
           </div>
         </div>
 
+        {/* Loading State */}
+        {loading && (
+          <div className="loading-container">
+            <div className="spinner"></div>
+            <p>Loading assignments...</p>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && (
+          <div className="error-container">
+            <p>Error loading assignments: {error}</p>
+            <button onClick={fetchAssignments} className="action-btn primary">
+              Retry
+            </button>
+          </div>
+        )}
+
         {/* Assignments Grid */}
-        <div className="assignments-grid">
-          {filteredAssignments.map((assignment) => {
+        {!loading && !error && (
+          <div className="assignments-grid">
+            {filteredAssignments.length === 0 ? (
+              <div className="no-assignments">
+                <h3>No assignments found</h3>
+                <p>Create your first assignment to get started!</p>
+              </div>
+            ) : (
+              filteredAssignments.map((assignment) => {
             const dueStatus = getDueDateStatus(assignment.dueDate);
             return (
               <div 
@@ -302,28 +328,30 @@ const Assignments = () => {
                 </div>
               </div>
             );
-          })}
-        </div>
+          })
+            )}
+          </div>
+        )}
 
         {/* Selected Assignment Details */}
-        {currentAssignment && (
+        {currentAssignment && !loading && !error && (
           <div className="assignment-details">
             <div className="assignment-detail-header">
               <div className="assignment-info">
-                <h2>{currentAssignment.title}</h2>
-                <p>{currentAssignment.class}</p>
+                <h2>{currentAssignment.title || 'Untitled Assignment'}</h2>
+                <p>{currentAssignment.class || 'No class assigned'}</p>
                 <div className="assignment-meta-detail">
                   <span>
                     <Icon name="calendar" size={16} style={{ marginRight: '4px' }} />
-                    {new Date(currentAssignment.dueDate).toLocaleDateString()}
+                    {currentAssignment.dueDate ? new Date(currentAssignment.dueDate).toLocaleDateString() : 'No due date'}
                   </span>
                   <span>
                     <Icon name="users" size={16} style={{ marginRight: '4px' }} />
-                    {currentAssignment.totalStudents} {currentLanguage === 'rw' ? 'abanyeshuri' : 'students'}
+                    {currentAssignment.totalStudents || 0} {currentLanguage === 'rw' ? 'abanyeshuri' : 'students'}
                   </span>
                   <span>
                     <Icon name="check" size={16} style={{ marginRight: '4px' }} />
-                    {currentAssignment.submitted} {currentLanguage === 'rw' ? 'yatangije' : 'submitted'}
+                    {currentAssignment.submitted || 0} {currentLanguage === 'rw' ? 'yatangije' : 'submitted'}
                   </span>
                 </div>
               </div>
@@ -345,7 +373,7 @@ const Assignments = () => {
                 <h3>
                   {currentLanguage === 'rw' ? 'Ibisobanuro' : 'Description'}
                 </h3>
-                <p>{currentAssignment.description}</p>
+                <p>{currentAssignment.description || 'No description available'}</p>
               </div>
 
               <div className="instructions-section">
@@ -353,7 +381,7 @@ const Assignments = () => {
                   {currentLanguage === 'rw' ? 'Amabwiriza' : 'Instructions'}
                 </h3>
                 <ol>
-                  {currentAssignment.instructions.map((instruction, index) => (
+                  {(currentAssignment.instructions || []).map((instruction, index) => (
                     <li key={index}>{instruction}</li>
                   ))}
                 </ol>
@@ -364,7 +392,7 @@ const Assignments = () => {
                   {currentLanguage === 'rw' ? 'Ibyatangijwe' : 'Submissions'}
                 </h3>
                 <div className="submissions-list">
-                  {currentAssignment.submissions.map((submission, index) => (
+                  {(currentAssignment.submissions || []).map((submission, index) => (
                     <div key={index} className="submission-item">
                       <div className="submission-header">
                         <span className="student-name">{submission.studentName}</span>
