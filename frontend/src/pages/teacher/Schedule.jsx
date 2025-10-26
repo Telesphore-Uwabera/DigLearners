@@ -22,12 +22,12 @@ const Schedule = () => {
       setLoading(true);
       // For now, we'll create a mock schedule based on lessons and assignments
       const [lessonsResponse, assignmentsResponse] = await Promise.all([
-        teacherApiService.getLessons().catch(() => ({ data: [] })),
-        teacherApiService.getAssignments().catch(() => ({ data: [] }))
+        teacherApiService.getLessons().catch(() => ({ lessons: [] })),
+        teacherApiService.getAssignments().catch(() => ({ assignments: [] }))
       ]);
 
-      const lessons = lessonsResponse.data || [];
-      const assignments = assignmentsResponse.data || [];
+      const lessons = lessonsResponse.lessons || [];
+      const assignments = assignmentsResponse.assignments || [];
 
       // Create schedule items from lessons and assignments
       const scheduleItems = [
@@ -164,23 +164,29 @@ const Schedule = () => {
               {currentLanguage === 'rw' ? 'Gahunda Itegereje' : 'Upcoming Schedule'}
             </h3>
             <div className="schedule-list">
-              {data.upcoming.map((item) => (
-                <div key={item.id} className="schedule-item">
-                  <div className="schedule-time">
-                    <span className="time">{item.time}</span>
-                    <span className="date">{new Date(item.date).toLocaleDateString()}</span>
+              {schedule.length > 0 ? (
+                schedule.slice(0, 5).map((item) => (
+                  <div key={item.id} className="schedule-item">
+                    <div className="schedule-time">
+                      <span className="time">{item.time}</span>
+                      <span className="date">{new Date(item.date).toLocaleDateString()}</span>
+                    </div>
+                    <div className="schedule-content">
+                      <h4>{item.title}</h4>
+                      <p>{item.class} • {item.type}</p>
+                    </div>
+                    <div className="schedule-type">
+                      <span className="type-badge">
+                        <Icon name={item.type === 'lesson' ? 'book' : 'assignment'} size={16} />
+                      </span>
+                    </div>
                   </div>
-                  <div className="schedule-content">
-                    <h4>{item.title}</h4>
-                    <p>{item.class} • {item.students} {currentLanguage === 'rw' ? 'abanyeshuri' : 'students'}</p>
-                  </div>
-                  <div className="schedule-type">
-                    <span className="type-badge">
-                      <Icon name="book" size={16} />
-                    </span>
-                  </div>
+                ))
+              ) : (
+                <div className="no-schedule">
+                  <p>No upcoming schedule items</p>
                 </div>
-              ))}
+              )}
             </div>
           </div>
 
@@ -366,7 +372,7 @@ const Schedule = () => {
                   <Icon name="calendar" size={24} />
                 </div>
                 <div className="stat-content">
-                  <h3>{data.summary.totalScheduled}</h3>
+                  <h3>{schedule.length}</h3>
                   <p>
                     {currentLanguage === 'rw' ? 'Amasomo Yateguwe' : 'Total Scheduled'}
                   </p>
@@ -377,7 +383,12 @@ const Schedule = () => {
                   <Icon name="analytics" size={24} />
                 </div>
                 <div className="stat-content">
-                  <h3>{data.summary.thisWeek}</h3>
+                  <h3>{schedule.filter(item => {
+                    const itemDate = new Date(item.date);
+                    const now = new Date();
+                    const weekFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+                    return itemDate >= now && itemDate <= weekFromNow;
+                  }).length}</h3>
                   <p>
                     {currentLanguage === 'rw' ? 'Icyumweru Giki' : 'This Week'}
                   </p>
@@ -388,7 +399,7 @@ const Schedule = () => {
                   <Icon name="users" size={24} />
                 </div>
                 <div className="stat-content">
-                  <h3>{data.summary.totalStudents}</h3>
+                  <h3>{schedule.filter(item => item.type === 'lesson').length}</h3>
                   <p>
                     {currentLanguage === 'rw' ? 'Abanyeshuri Byose' : 'Total Students'}
                   </p>
@@ -399,7 +410,7 @@ const Schedule = () => {
                   <Icon name="clock" size={24} />
                 </div>
                 <div className="stat-content">
-                  <h3>{data.summary.totalHours}</h3>
+                  <h3>{schedule.filter(item => item.type === 'assignment').length}</h3>
                   <p>
                     {currentLanguage === 'rw' ? 'Igihe Byose' : 'Total Hours'}
                   </p>

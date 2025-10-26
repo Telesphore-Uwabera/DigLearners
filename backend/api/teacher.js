@@ -193,20 +193,150 @@ router.put('/students/:studentId', authenticateToken, requireTeacher, async (req
 // Get teacher dashboard data
 router.get('/dashboard', authenticateToken, requireTeacher, async (req, res) => {
   try {
-    // Simple test response first
+    const teacherId = req.user.userId;
+
+    // Get real data from database
+    const [
+      totalStudents,
+      totalLessons,
+      publishedLessons,
+      draftLessons,
+      totalAssignments,
+      pendingAssignments,
+      completedAssignments,
+      averageProgress,
+      upcomingDeadlines
+    ] = await Promise.all([
+      // Total students enrolled in teacher's classes
+      User.count({
+        where: { role: 'learner' },
+        include: [
+          {
+            model: LearningClass,
+            as: 'enrolledClasses',
+            where: { teacherId },
+            required: true
+          }
+        ]
+      }),
+      
+      // Total lessons created by teacher
+      Lesson.count({ where: { teacherId } }),
+      
+      // Published lessons
+      Lesson.count({ where: { teacherId, status: 'published' } }),
+      
+      // Draft lessons
+      Lesson.count({ where: { teacherId, status: 'draft' } }),
+      
+      // Total assignments (using lessons as assignments)
+      Lesson.count({ where: { teacherId } }),
+      
+      // Pending assignments (lessons with incomplete progress)
+      Lesson.count({
+        where: { teacherId },
+        include: [
+          {
+            model: Progress,
+            as: 'progress',
+            where: { isCompleted: false },
+            required: true
+          }
+        ]
+      }),
+      
+      // Completed assignments
+      Lesson.count({
+        where: { teacherId },
+        include: [
+          {
+            model: Progress,
+            as: 'progress',
+            where: { isCompleted: true },
+            required: true
+          }
+        ]
+      }),
+      
+      // Average progress calculation
+      Progress.findAll({
+        where: { isCompleted: true },
+        include: [
+          {
+            model: Lesson,
+            as: 'lesson',
+            where: { teacherId },
+            required: true
+          }
+        ]
+      }).then(progresses => {
+        if (progresses.length === 0) return 0;
+        const totalScore = progresses.reduce((sum, p) => sum + (p.score || 0), 0);
+        return Math.round(totalScore / progresses.length);
+      }),
+      
+      // Upcoming deadlines (lessons with due dates in next 7 days)
+      Lesson.count({
+        where: {
+          teacherId,
+          dueDate: {
+            [Op.gte]: new Date(),
+            [Op.lte]: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+          }
+        }
+      })
+    ]);
+
+    // Get recent lessons
+    const recentLessons = await Lesson.findAll({
+      where: { teacherId },
+      order: [['createdAt', 'DESC']],
+      limit: 5
+    });
+
+    // Get recent activity (progress updates)
+    const recentActivity = await Progress.findAll({
+      where: {
+        createdAt: {
+          [Op.gte]: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+        }
+      },
+      include: [
+        {
+          model: Lesson,
+          as: 'lesson',
+          where: { teacherId },
+          required: true,
+          attributes: ['title']
+        },
+        {
+          model: User,
+          as: 'student',
+          attributes: ['fullName']
+        }
+      ],
+      order: [['createdAt', 'DESC']],
+      limit: 10
+    });
+
     res.json({
       success: true,
       data: {
         stats: {
-          totalStudents: 4,
-          totalLessons: 4,
-          totalClasses: 2,
-          publishedLessons: 2,
-          draftLessons: 2,
-          averageProgress: 75
+          totalStudents,
+          totalLessons,
+          totalClasses: 0, // Not implemented yet
+          publishedLessons,
+          draftLessons,
+          averageProgress: await averageProgress,
+          totalAssignments,
+          pendingAssignments,
+          completedAssignments,
+          upcomingDeadlines,
+          pendingReviews: pendingAssignments // Same as pending assignments for now
         },
-        recentLessons: [],
-        recentActivity: []
+        recentLessons,
+        recentActivity
       }
     });
 
