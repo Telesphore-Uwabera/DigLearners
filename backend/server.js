@@ -11,6 +11,7 @@ const contentRoutes = require('./api/content')
 const learningRoutes = require('./api/learning')
 const teacherRoutes = require('./api/teacher')
 const gamifiedRoutes = require('./api/gamified')
+const adminRoutes = require('./api/admin')
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -67,6 +68,7 @@ app.use('/api/content', contentRoutes)
 app.use('/api/learning', learningRoutes)
 app.use('/api/teacher', teacherRoutes)
 app.use('/api/gamified', gamifiedRoutes)
+app.use('/api/admin', adminRoutes)
 
 // Error handling middleware
 app.use((err, req, res, next) => {
