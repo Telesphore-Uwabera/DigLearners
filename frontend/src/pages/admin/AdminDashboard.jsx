@@ -123,18 +123,6 @@ const AdminDashboard = () => {
           </div>
           <div className="card-arrow">→</div>
         </Link>
-        
-        <Link to="/dashboard/security" className="dashboard-card">
-          <div className="card-icon">🔒</div>
-          <div className="card-content">
-            <h3>Security</h3>
-            <p>Monitor security and access logs</p>
-            <div className="card-stats">
-              <span>System secure</span>
-            </div>
-          </div>
-          <div className="card-arrow">→</div>
-        </Link>
       </div>
 
       <div className="content-section">

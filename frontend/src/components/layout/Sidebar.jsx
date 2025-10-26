@@ -31,11 +31,8 @@ const Sidebar = ({ user, onLogout, isOpen, onClose }) => {
       case 'learner':
         return [
           ...baseItems,
-          { path: '/dashboard/lessons', label: 'My Lessons' },
-          { path: '/dashboard/progress', label: 'Progress' },
-          { path: '/dashboard/achievements', label: 'Badges' },
-          { path: '/dashboard/assignments', label: 'Assignments' },
-          { path: '/dashboard/leaderboard', label: 'Leaderboard' }
+          { path: '/dashboard/games', label: 'My Games' },
+          { path: '/dashboard/achievements', label: 'Badges' }
         ];
       
       case 'parent':
