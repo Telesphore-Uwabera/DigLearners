@@ -25,8 +25,13 @@ const ContentManagement = () => {
     try {
       setLoading(true);
       const response = await adminApiService.getContent();
-      if (response.data) {
-        setContent(response.data);
+      if (response.success && response.content) {
+        // The API returns content as an array, we need to structure it properly
+        setContent({
+          lessons: response.content,
+          assignments: [],
+          quizzes: []
+        });
       } else {
         // Fallback data
         setContent({
@@ -51,7 +56,7 @@ const ContentManagement = () => {
 
   const filteredLessons = content.lessons.filter(lesson => {
     const matchesSearch = lesson.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         lesson.category.toLowerCase().includes(searchTerm.toLowerCase());
+                         (lesson.subject && lesson.subject.toLowerCase().includes(searchTerm.toLowerCase()));
     const matchesStatus = statusFilter === 'all' || lesson.status === statusFilter;
     
     return matchesSearch && matchesStatus;

@@ -17,18 +17,26 @@ const AdminDashboard = () => {
     try {
       setLoading(true);
       const response = await adminApiService.getDashboardData();
-      setDashboardData(response.data);
+      if (response.success && response.data) {
+        setDashboardData(response.data);
+      } else {
+        throw new Error('Invalid response format');
+      }
     } catch (err) {
       console.error('Error fetching dashboard data:', err);
       setError(err.message);
       // Set fallback data
       setDashboardData({
-        totalUsers: 245,
-        activeLearners: 180,
-        teachers: 15,
-        totalLessons: 42,
-        totalContent: 156,
-        systemHealth: 'Good'
+        stats: {
+          totalUsers: 0,
+          totalTeachers: 0,
+          totalStudents: 0,
+          totalLessons: 0,
+          totalClasses: 0,
+          activeUsers: 0
+        },
+        recentUsers: [],
+        recentLessons: []
       });
     } finally {
       setLoading(false);
@@ -77,7 +85,7 @@ const AdminDashboard = () => {
             <Icon name="users" size={24} />
           </div>
           <div className="stat-content">
-            <h3>{dashboardData?.totalUsers || 245}</h3>
+            <h3>{dashboardData?.stats?.totalUsers || 0}</h3>
             <p>Total Users</p>
           </div>
         </div>
@@ -86,7 +94,7 @@ const AdminDashboard = () => {
             <Icon name="student" size={24} />
           </div>
           <div className="stat-content">
-            <h3>{dashboardData?.activeLearners || 180}</h3>
+            <h3>{dashboardData?.stats?.totalStudents || 0}</h3>
             <p>Active Learners</p>
           </div>
         </div>
@@ -95,7 +103,7 @@ const AdminDashboard = () => {
             <Icon name="teacher" size={24} />
           </div>
           <div className="stat-content">
-            <h3>{dashboardData?.teachers || 15}</h3>
+            <h3>{dashboardData?.stats?.totalTeachers || 0}</h3>
             <p>Teachers</p>
           </div>
         </div>
@@ -104,7 +112,7 @@ const AdminDashboard = () => {
             <Icon name="book" size={24} />
           </div>
           <div className="stat-content">
-            <h3>{dashboardData?.totalLessons || 42}</h3>
+            <h3>{dashboardData?.stats?.totalLessons || 0}</h3>
             <p>Total Lessons</p>
           </div>
         </div>
@@ -119,7 +127,7 @@ const AdminDashboard = () => {
             <h3>User Management</h3>
             <p>Manage all users, roles, and permissions</p>
             <div className="card-stats">
-              <span>245 total users</span>
+              <span>{dashboardData?.stats?.totalUsers || 0} total users</span>
             </div>
           </div>
           <div className="card-arrow">→</div>
@@ -133,7 +141,7 @@ const AdminDashboard = () => {
             <h3>Content Management</h3>
             <p>Create and manage educational content</p>
             <div className="card-stats">
-              <span>42 lessons available</span>
+              <span>{dashboardData?.stats?.totalLessons || 0} lessons available</span>
             </div>
           </div>
           <div className="card-arrow">→</div>
