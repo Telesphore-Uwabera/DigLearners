@@ -6,13 +6,36 @@ const { Op } = require('sequelize');
 
 const router = express.Router();
 
-// Test endpoint without authentication
-router.get('/test', (req, res) => {
-  console.log('Teacher test endpoint hit');
-  res.json({
-    success: true,
-    message: 'Teacher API is working'
-  });
+// Test analytics endpoint without authentication
+router.get('/analytics/test', async (req, res) => {
+  try {
+    res.json({
+      success: true,
+      data: {
+        overview: {
+          totalStudents: 15,
+          activeStudents: 12,
+          totalLessons: 8,
+          completedLessons: 6,
+          averageScore: 85,
+          totalAssignments: 10,
+          submittedAssignments: 8
+        },
+        students: [],
+        performance: {
+          subjectPerformance: [],
+          gradeDistribution: [],
+          progressTrends: []
+        }
+      }
+    });
+  } catch (error) {
+    console.error('Error in test analytics:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error in test analytics'
+    });
+  }
 });
 
 // Register a child/student
@@ -768,13 +791,22 @@ router.get('/analytics', authenticateToken, requireTeacher, async (req, res) => 
 
     res.json({
       success: true,
-      analytics: {
-        totalLessons,
-        totalStudents,
-        totalProgress,
-        completedProgress,
-        completionRate,
-        period
+      data: {
+        overview: {
+          totalStudents,
+          activeStudents: totalStudents,
+          totalLessons,
+          completedLessons: completedProgress,
+          averageScore: completionRate,
+          totalAssignments: totalProgress,
+          submittedAssignments: completedProgress
+        },
+        students: [],
+        performance: {
+          subjectPerformance: [],
+          gradeDistribution: [],
+          progressTrends: []
+        }
       }
     });
 

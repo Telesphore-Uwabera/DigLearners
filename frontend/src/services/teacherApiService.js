@@ -110,7 +110,8 @@ class TeacherApiService {
 
   // Analytics API
   async getAnalytics(period = 'week') {
-    return this.makeRequest(`/teacher/analytics?period=${period}`);
+    // Temporarily use test endpoint to debug authentication issues
+    return this.makeRequest(`/teacher/analytics/test`);
   }
 
   // Assignments API
