@@ -148,7 +148,7 @@ const Analytics = () => {
             <Icon name="users" size={32} />
           </div>
           <div className="metric-content">
-            <div className="metric-number">{analytics.overview.totalUsers.toLocaleString()}</div>
+            <div className="metric-number">{(analytics.overview.totalUsers || 0).toLocaleString()}</div>
             <div className="metric-label">Total Users</div>
             <div className="metric-change positive">
               <Icon name="arrow-up" size={16} />
@@ -162,7 +162,7 @@ const Analytics = () => {
             <Icon name="check" size={32} />
           </div>
           <div className="metric-content">
-            <div className="metric-number">{analytics.overview.activeUsers.toLocaleString()}</div>
+            <div className="metric-number">{(analytics.overview.activeUsers || 0).toLocaleString()}</div>
             <div className="metric-label">Active Users</div>
             <div className="metric-change positive">
               <Icon name="arrow-up" size={16} />
@@ -190,7 +190,7 @@ const Analytics = () => {
             <Icon name="achievement" size={32} />
           </div>
           <div className="metric-content">
-            <div className="metric-number">{analytics.overview.completedLessons.toLocaleString()}</div>
+            <div className="metric-number">{(analytics.overview.completedLessons || 0).toLocaleString()}</div>
             <div className="metric-label">Completed Lessons</div>
             <div className="metric-change positive">
               <Icon name="arrow-up" size={16} />
