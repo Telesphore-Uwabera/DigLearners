@@ -750,7 +750,7 @@ router.get('/analytics', authenticateToken, requireTeacher, async (req, res) => 
       include: [
         {
           model: LearningClass,
-          as: 'classes',
+          as: 'enrolledClasses',
           where: { teacherId }
         }
       ]
