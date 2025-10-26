@@ -39,7 +39,12 @@ const Schedule = () => {
           time: '09:00',
           status: 'scheduled',
           description: lesson.description,
-          class: lesson.grade || 'All Classes'
+          class: lesson.grade || 'All Classes',
+          subject: lesson.subject || 'General',
+          duration: `${lesson.estimatedDuration || 30} minutes`,
+          classroom: 'Virtual Classroom',
+          students: lesson.totalStudents || 0,
+          objectives: lesson.objectives ? JSON.parse(lesson.objectives) : []
         })),
         ...assignments.map(assignment => ({
           id: `assignment-${assignment.id}`,
@@ -49,7 +54,12 @@ const Schedule = () => {
           time: '14:00',
           status: 'scheduled',
           description: assignment.description,
-          class: assignment.grade || 'All Classes'
+          class: assignment.grade || 'All Classes',
+          subject: assignment.subject || 'General',
+          duration: `${assignment.estimatedDuration || 30} minutes`,
+          classroom: 'Virtual Classroom',
+          students: assignment.totalStudents || 0,
+          objectives: assignment.objectives ? JSON.parse(assignment.objectives) : []
         }))
       ];
 
@@ -321,7 +331,7 @@ const Schedule = () => {
                     {currentLanguage === 'rw' ? 'Intego' : 'Learning Objectives'}
                   </h3>
                   <ul>
-                    {currentSchedule.objectives.map((objective, index) => (
+                    {(currentSchedule?.objectives || []).map((objective, index) => (
                       <li key={index}>
                         <Icon name="target" size={16} style={{ marginRight: '8px' }} />
                         {objective}
