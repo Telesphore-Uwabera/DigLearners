@@ -10,7 +10,8 @@ const ContentManagement = () => {
   const [content, setContent] = useState({
     lessons: [],
     assignments: [],
-    quizzes: []
+    quizzes: [],
+    courses: []
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -30,14 +31,16 @@ const ContentManagement = () => {
         setContent({
           lessons: response.content,
           assignments: [],
-          quizzes: []
+          quizzes: [],
+          courses: []
         });
       } else {
         // Fallback data
         setContent({
           lessons: [],
           assignments: [],
-          quizzes: []
+          quizzes: [],
+          courses: []
         });
       }
     } catch (err) {
@@ -47,7 +50,8 @@ const ContentManagement = () => {
       setContent({
         lessons: [],
         assignments: [],
-        quizzes: []
+        quizzes: [],
+        courses: []
       });
     } finally {
       setLoading(false);
