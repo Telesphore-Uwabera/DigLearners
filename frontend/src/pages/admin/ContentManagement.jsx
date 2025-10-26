@@ -1,15 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from '../../lib/language';
 import Icon from '../../components/icons/Icon';
-import adminMockDataService from '../../services/adminMockDataService';
+import adminApiService from '../../services/adminApiService';
 import './AdminPages.css';
 
 const ContentManagement = () => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('lessons');
-  const [content] = useState(adminMockDataService.getContent());
+  const [content, setContent] = useState({
+    lessons: [],
+    assignments: [],
+    quizzes: []
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+
+  useEffect(() => {
+    fetchContent();
+  }, []);
+
+  const fetchContent = async () => {
+    try {
+      setLoading(true);
+      const response = await adminApiService.getContent();
+      if (response.data) {
+        setContent(response.data);
+      } else {
+        // Fallback data
+        setContent({
+          lessons: [],
+          assignments: [],
+          quizzes: []
+        });
+      }
+    } catch (err) {
+      console.error('Error fetching content:', err);
+      setError(err.message);
+      // Use empty fallback data
+      setContent({
+        lessons: [],
+        assignments: [],
+        quizzes: []
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filteredLessons = content.lessons.filter(lesson => {
     const matchesSearch = lesson.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -36,6 +74,33 @@ const ContentManagement = () => {
       default: return '#9E9E9E';
     }
   };
+
+  if (loading) {
+    return (
+      <div className="admin-page">
+        <div className="loading-container">
+          <div className="spinner"></div>
+          <h2>Loading Content...</h2>
+          <p>Fetching content data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="admin-page">
+        <div className="error-container">
+          <div className="error-icon">⚠️</div>
+          <h2>Error Loading Content</h2>
+          <p>{error}</p>
+          <button onClick={fetchContent} className="retry-button">
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="admin-page">
