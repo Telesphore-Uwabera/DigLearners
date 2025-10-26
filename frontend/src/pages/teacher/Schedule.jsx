@@ -39,17 +39,17 @@ const Schedule = () => {
           time: '09:00',
           status: 'scheduled',
           description: lesson.description,
-          class: lesson.class || 'All Classes'
+          class: lesson.grade || 'All Classes'
         })),
         ...assignments.map(assignment => ({
           id: `assignment-${assignment.id}`,
           title: assignment.title,
           type: 'assignment',
-          date: assignment.dueDate,
+          date: assignment.dueDate || assignment.createdAt,
           time: '14:00',
           status: 'scheduled',
           description: assignment.description,
-          class: assignment.class || 'All Classes'
+          class: assignment.grade || 'All Classes'
         }))
       ];
 
@@ -96,11 +96,13 @@ const Schedule = () => {
 
   if (loading) {
     return (
-      <div className="schedule-page">
-        <div className="loading-container">
-          <div className="spinner"></div>
-          <h2>Loading Schedule...</h2>
-          <p>Fetching your schedule...</p>
+      <div className="dashboard-container">
+        <div className="page-container">
+          <div className="loading-container">
+            <div className="spinner"></div>
+            <h2>Loading Schedule...</h2>
+            <p>Fetching your schedule...</p>
+          </div>
         </div>
       </div>
     );
@@ -108,22 +110,24 @@ const Schedule = () => {
 
   if (error) {
     return (
-      <div className="schedule-page">
-        <div className="error-container">
-          <div className="error-icon">⚠️</div>
-          <h2>Error Loading Schedule</h2>
-          <p>{error}</p>
-          <button onClick={fetchSchedule} className="retry-button">
-            Try Again
-          </button>
+      <div className="dashboard-container">
+        <div className="page-container">
+          <div className="error-container">
+            <div className="error-icon">⚠️</div>
+            <h2>Error Loading Schedule</h2>
+            <p>{error}</p>
+            <button onClick={fetchSchedule} className="retry-button">
+              Try Again
+            </button>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="schedule-page">
-      <div className="schedule-container">
+    <div className="dashboard-container">
+      <div className="page-container">
         <div className="schedule-main">
           <div className="schedule-header">
             <h1>
