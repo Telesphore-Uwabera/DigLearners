@@ -1,9 +1,66 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from '../../components/icons/Icon';
+import adminApiService from '../../services/adminApiService';
 import '../../components/DashboardStyles.css';
 
 const AdminDashboard = () => {
+  const [dashboardData, setDashboardData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  const fetchDashboardData = async () => {
+    try {
+      setLoading(true);
+      const response = await adminApiService.getDashboardData();
+      setDashboardData(response.data);
+    } catch (err) {
+      console.error('Error fetching dashboard data:', err);
+      setError(err.message);
+      // Set fallback data
+      setDashboardData({
+        totalUsers: 245,
+        activeLearners: 180,
+        teachers: 15,
+        totalLessons: 42,
+        totalContent: 156,
+        systemHealth: 'Good'
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+  if (loading) {
+    return (
+      <div className="dashboard-container">
+        <div className="loading-container">
+          <div className="spinner"></div>
+          <h2>Loading Dashboard...</h2>
+          <p>Fetching latest data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="dashboard-container">
+        <div className="error-container">
+          <div className="error-icon">⚠️</div>
+          <h2>Error Loading Dashboard</h2>
+          <p>{error}</p>
+          <button onClick={fetchDashboardData} className="retry-button">
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="dashboard-container">
       <div className="page-container">
@@ -20,7 +77,7 @@ const AdminDashboard = () => {
             <Icon name="users" size={24} />
           </div>
           <div className="stat-content">
-            <h3>245</h3>
+            <h3>{dashboardData?.totalUsers || 245}</h3>
             <p>Total Users</p>
           </div>
         </div>
@@ -29,7 +86,7 @@ const AdminDashboard = () => {
             <Icon name="student" size={24} />
           </div>
           <div className="stat-content">
-            <h3>180</h3>
+            <h3>{dashboardData?.activeLearners || 180}</h3>
             <p>Active Learners</p>
           </div>
         </div>
@@ -38,7 +95,7 @@ const AdminDashboard = () => {
             <Icon name="teacher" size={24} />
           </div>
           <div className="stat-content">
-            <h3>15</h3>
+            <h3>{dashboardData?.teachers || 15}</h3>
             <p>Teachers</p>
           </div>
         </div>
@@ -47,7 +104,7 @@ const AdminDashboard = () => {
             <Icon name="book" size={24} />
           </div>
           <div className="stat-content">
-            <h3>42</h3>
+            <h3>{dashboardData?.totalLessons || 42}</h3>
             <p>Total Lessons</p>
           </div>
         </div>
