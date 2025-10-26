@@ -76,10 +76,10 @@ const ContentManagement = () => {
   };
 
   const getLevelColor = (level) => {
-    switch (level) {
-      case 'Beginner': return '#4CAF50';
-      case 'Intermediate': return '#FF9800';
-      case 'Advanced': return '#F44336';
+    switch (level?.toLowerCase()) {
+      case 'beginner': return '#4CAF50';
+      case 'intermediate': return '#FF9800';
+      case 'advanced': return '#F44336';
       default: return '#9E9E9E';
     }
   };
@@ -226,12 +226,12 @@ const ContentManagement = () => {
               </div>
               
               <div className="content-meta">
-                <span className="category-badge">{lesson.category}</span>
+                <span className="category-badge">{lesson.subject || lesson.moduleType}</span>
                 <span 
                   className="level-badge" 
-                  style={{ backgroundColor: getLevelColor(lesson.level) }}
+                  style={{ backgroundColor: getLevelColor(lesson.difficulty) }}
                 >
-                  {lesson.level}
+                  {lesson.difficulty}
                 </span>
                 <span 
                   className="status-badge" 
@@ -244,29 +244,29 @@ const ContentManagement = () => {
               <div className="content-details">
                 <div className="detail-item">
                   <Icon name="clock" size={16} />
-                  <span>{lesson.duration}</span>
+                  <span>{lesson.estimatedDuration || 'N/A'} min</span>
                 </div>
                 <div className="detail-item">
                   <Icon name="eye" size={16} />
-                  <span>{lesson.views} views</span>
+                  <span>{lesson.views || 0} views</span>
                 </div>
                 <div className="detail-item">
                   <Icon name="check" size={16} />
-                  <span>{lesson.completions} completions</span>
+                  <span>{lesson.completions || 0} completions</span>
                 </div>
                 <div className="detail-item">
                   <Icon name="star" size={16} />
-                  <span>{lesson.rating}/5</span>
+                  <span>{lesson.rating || 0}/5</span>
                 </div>
               </div>
               
               <div className="content-footer">
                 <div className="author-info">
                   <Icon name="teacher" size={16} />
-                  <span>By {lesson.author}</span>
+                  <span>By {lesson.teacher?.fullName || 'Unknown'}</span>
                 </div>
                 <div className="last-updated">
-                  Updated {new Date(lesson.lastUpdated).toLocaleDateString()}
+                  Updated {new Date(lesson.updatedAt).toLocaleDateString()}
                 </div>
               </div>
             </div>
