@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from '../../lib/language'
-import { mockBadges, mockAchievements, getEarnedBadges, getPendingBadges, formatDate } from '../../services/mockDataService'
+import learnerApiService from '../../services/learnerApiService'
 import AchievementNotification from '../../components/AchievementNotification'
 import Icon from '../../components/icons/Icon'
 import '../../components/CodePlayStyles.css'
@@ -10,6 +10,31 @@ export default function Achievements() {
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [showNotification, setShowNotification] = useState(false)
   const [currentBadge, setCurrentBadge] = useState(null)
+  const [badges, setBadges] = useState([])
+  const [achievements, setAchievements] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    fetchAchievements()
+  }, [])
+
+  const fetchAchievements = async () => {
+    try {
+      setLoading(true)
+      const response = await learnerApiService.getAchievements()
+      setBadges(response.data.badges || [])
+      setAchievements(response.data.achievements || [])
+    } catch (err) {
+      console.error('Error fetching achievements:', err)
+      setError(err.message)
+      // Set fallback data
+      setBadges([])
+      setAchievements([])
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const categories = [
     { id: 'all', name: 'All Badges', icon: 'achievement', color: '#FF677D' },
@@ -20,9 +45,9 @@ export default function Achievements() {
 
   const getFilteredBadges = () => {
     if (selectedCategory === 'all') {
-      return mockBadges
+      return badges
     }
-    return mockBadges.filter(badge => badge.category === selectedCategory)
+    return badges.filter(badge => badge.category === selectedCategory)
   }
 
   const simulateAchievement = (badge) => {
@@ -35,9 +60,40 @@ export default function Achievements() {
     setCurrentBadge(null)
   }
 
-  const earnedBadges = getEarnedBadges()
-  const pendingBadges = getPendingBadges()
-  const completionRate = Math.round((earnedBadges.length / mockBadges.length) * 100)
+  const earnedBadges = badges.filter(badge => badge.isEarned)
+  const pendingBadges = badges.filter(badge => !badge.isEarned)
+  const completionRate = badges.length > 0 ? Math.round((earnedBadges.length / badges.length) * 100) : 0
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString()
+  }
+
+  if (loading) {
+    return (
+      <div className="kid-achievements-page">
+        <div className="loading-container">
+          <div className="spinner"></div>
+          <h2>Loading Achievements...</h2>
+          <p>Fetching your badges and achievements...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="kid-achievements-page">
+        <div className="error-container">
+          <div className="error-icon">⚠️</div>
+          <h2>Error Loading Achievements</h2>
+          <p>{error}</p>
+          <button onClick={fetchAchievements} className="retry-button">
+            Try Again
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="kid-achievements-page">
@@ -101,7 +157,7 @@ export default function Achievements() {
       <div className="recent-achievements-section">
         <h2>🎉 Recent Achievements</h2>
         <div className="recent-badges-grid">
-          {mockAchievements.recentAchievements.map(achievement => (
+          {(achievements || []).map(achievement => (
             <div key={achievement.id} className="recent-badge-card">
               <div className="badge-icon-large">{achievement.icon}</div>
               <div className="badge-info">

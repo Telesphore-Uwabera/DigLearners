@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import gamifiedApiService from '../../services/gamifiedApiService';
+import learnerApiService from '../../services/learnerApiService';
 
 const LearnerDashboard = () => {
   const navigate = useNavigate();
@@ -9,11 +10,12 @@ const LearnerDashboard = () => {
   const [gamifiedContent, setGamifiedContent] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userStats, setUserStats] = useState({
-    totalPoints: 850,
-    badgesEarned: 5,
-    gamesCompleted: 12,
-    currentStreak: 7
+    totalPoints: 0,
+    badgesEarned: 0,
+    gamesCompleted: 0,
+    currentStreak: 0
   });
+  const [recentBadges, setRecentBadges] = useState([]);
 
   useEffect(() => {
     // Check if user has selected an age group
@@ -24,12 +26,22 @@ const LearnerDashboard = () => {
       return;
     }
     
-    fetchGamifiedContent();
+    fetchDashboardData();
   }, [navigate]);
 
-  const fetchGamifiedContent = async () => {
+  const fetchDashboardData = async () => {
     try {
       setLoading(true);
+      
+      // Fetch user stats and recent badges
+      const [statsResponse, badgesResponse] = await Promise.all([
+        learnerApiService.getDashboardData().catch(() => ({ data: { stats: userStats } })),
+        learnerApiService.getAchievements().catch(() => ({ data: { badges: [] } }))
+      ]);
+
+      setUserStats(statsResponse.data.stats || userStats);
+      setRecentBadges((badgesResponse.data.badges || []).slice(0, 3));
+
       // Try to get user's grade-specific content first
       try {
         const response = await gamifiedApiService.getMyContent();
@@ -43,17 +55,11 @@ const LearnerDashboard = () => {
         }
       }
     } catch (error) {
-      console.error('Error fetching gamified content:', error);
+      console.error('Error fetching dashboard data:', error);
     } finally {
       setLoading(false);
     }
   };
-
-  const recentBadges = [
-    { id: 1, title: "First Steps", icon: "👶", description: "Completed your first lesson!", earnedAt: "2 days ago" },
-    { id: 2, title: "Block Master", icon: "🧩", description: "Finished 5 block coding lessons!", earnedAt: "1 week ago" },
-    { id: 3, title: "Speed Demon", icon: "⚡", description: "Typed 30 words per minute!", earnedAt: "3 days ago" }
-  ];
 
   const getGameTypeIcon = (gameType) => {
     switch (gameType) {

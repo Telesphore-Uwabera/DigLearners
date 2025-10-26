@@ -1,17 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from '../../lib/language';
-import { getScheduleData } from '../../services/teacherMockDataService';
+import teacherApiService from '../../services/teacherApiService';
 import Icon from '../../components/icons/Icon';
 import '../../components/DashboardStyles.css';
 import './TeacherStyles.css';
 
 const Schedule = () => {
   const { t, currentLanguage } = useTranslation();
-  const data = getScheduleData();
+  const [schedule, setSchedule] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [viewMode, setViewMode] = useState('week'); // week, month
-  const [selectedSchedule, setSelectedSchedule] = useState(data.schedule[0].id);
+  const [selectedSchedule, setSelectedSchedule] = useState(null);
 
-  const currentSchedule = data.schedule.find(sched => sched.id === selectedSchedule);
+  useEffect(() => {
+    fetchSchedule();
+  }, []);
+
+  const fetchSchedule = async () => {
+    try {
+      setLoading(true);
+      // For now, we'll create a mock schedule based on lessons and assignments
+      const [lessonsResponse, assignmentsResponse] = await Promise.all([
+        teacherApiService.getLessons().catch(() => ({ data: [] })),
+        teacherApiService.getAssignments().catch(() => ({ data: [] }))
+      ]);
+
+      const lessons = lessonsResponse.data || [];
+      const assignments = assignmentsResponse.data || [];
+
+      // Create schedule items from lessons and assignments
+      const scheduleItems = [
+        ...lessons.map(lesson => ({
+          id: `lesson-${lesson.id}`,
+          title: lesson.title,
+          type: 'lesson',
+          date: lesson.createdAt,
+          time: '09:00',
+          status: 'scheduled',
+          description: lesson.description,
+          class: lesson.class || 'All Classes'
+        })),
+        ...assignments.map(assignment => ({
+          id: `assignment-${assignment.id}`,
+          title: assignment.title,
+          type: 'assignment',
+          date: assignment.dueDate,
+          time: '14:00',
+          status: 'scheduled',
+          description: assignment.description,
+          class: assignment.class || 'All Classes'
+        }))
+      ];
+
+      setSchedule(scheduleItems);
+      if (scheduleItems.length > 0) {
+        setSelectedSchedule(scheduleItems[0].id);
+      }
+    } catch (err) {
+      console.error('Error fetching schedule:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const currentSchedule = schedule.find(sched => sched.id === selectedSchedule);
 
   const getWeekDates = () => {
     const today = new Date();
@@ -26,7 +80,7 @@ const Schedule = () => {
   };
 
   const getScheduleByDate = (date) => {
-    return data.schedule.filter(item => 
+    return schedule.filter(item => 
       new Date(item.date).toDateString() === new Date(date).toDateString()
     );
   };
@@ -39,6 +93,33 @@ const Schedule = () => {
       default: return '#9E9E9E';
     }
   };
+
+  if (loading) {
+    return (
+      <div className="schedule-page">
+        <div className="loading-container">
+          <div className="spinner"></div>
+          <h2>Loading Schedule...</h2>
+          <p>Fetching your schedule...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="schedule-page">
+        <div className="error-container">
+          <div className="error-icon">⚠️</div>
+          <h2>Error Loading Schedule</h2>
+          <p>{error}</p>
+          <button onClick={fetchSchedule} className="retry-button">
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="schedule-page">
@@ -152,7 +233,7 @@ const Schedule = () => {
                 {currentLanguage === 'rw' ? 'Gahunda y\'Ukwezi' : 'Monthly Schedule'}
               </h3>
               <div className="schedule-list">
-                {data.schedule.map((item) => (
+                {schedule.map((item) => (
                   <div 
                     key={item.id} 
                     className={`schedule-item ${selectedSchedule === item.id ? 'selected' : ''}`}

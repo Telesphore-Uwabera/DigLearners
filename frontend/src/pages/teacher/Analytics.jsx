@@ -1,19 +1,95 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from '../../lib/language';
-import { getAnalyticsData } from '../../services/teacherMockDataService';
+import teacherApiService from '../../services/teacherApiService';
 import Icon from '../../components/icons/Icon';
 import '../../components/DashboardStyles.css';
 
 const Analytics = () => {
   const { t, currentLanguage } = useTranslation();
-  const data = getAnalyticsData();
+  const [analyticsData, setAnalyticsData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [selectedView, setSelectedView] = useState('overview');
+
+  useEffect(() => {
+    fetchAnalytics();
+  }, []);
+
+  const fetchAnalytics = async () => {
+    try {
+      setLoading(true);
+      const response = await teacherApiService.getAnalytics();
+      setAnalyticsData(response.data);
+    } catch (err) {
+      console.error('Error fetching analytics:', err);
+      setError(err.message);
+      // Set fallback data
+      setAnalyticsData({
+        overview: {
+          totalStudents: 0,
+          activeStudents: 0,
+          totalLessons: 0,
+          completedLessons: 0,
+          averageScore: 0,
+          totalAssignments: 0,
+          submittedAssignments: 0
+        },
+        students: [],
+        performance: {
+          subjectPerformance: [],
+          gradeDistribution: [],
+          progressTrends: []
+        }
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const views = [
     { key: 'overview', label: currentLanguage === 'rw' ? 'Incamake' : 'Overview' },
     { key: 'students', label: currentLanguage === 'rw' ? 'Abanyeshuri' : 'Students' },
     { key: 'performance', label: currentLanguage === 'rw' ? 'Imikurire' : 'Performance' }
   ];
+
+  if (loading) {
+    return (
+      <div className="dashboard-container">
+        <div className="loading-container">
+          <div className="spinner"></div>
+          <h2>Loading Analytics...</h2>
+          <p>Fetching analytics data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="dashboard-container">
+        <div className="error-container">
+          <div className="error-icon">⚠️</div>
+          <h2>Error Loading Analytics</h2>
+          <p>{error}</p>
+          <button onClick={fetchAnalytics} className="retry-button">
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!analyticsData) {
+    return (
+      <div className="dashboard-container">
+        <div className="error-container">
+          <div className="error-icon">📊</div>
+          <h2>No Analytics Data</h2>
+          <p>No analytics data available at this time.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="dashboard-container">
@@ -57,7 +133,7 @@ const Analytics = () => {
                   <Icon name="users" size={24} />
                 </div>
                 <div className="stat-content">
-                  <h3>{data.overview.totalStudents}</h3>
+                  <h3>{analyticsData.overview.totalStudents}</h3>
                   <p>
                     {currentLanguage === 'rw' ? 'Abanyeshuri Byose' : 'Total Students'}
                   </p>
@@ -68,7 +144,7 @@ const Analytics = () => {
                   <Icon name="check" size={24} />
                 </div>
                 <div className="stat-content">
-                  <h3>{data.overview.activeStudents}</h3>
+                  <h3>{analyticsData.overview.activeStudents}</h3>
                   <p>
                     {currentLanguage === 'rw' ? 'Bakora' : 'Active Students'}
                   </p>
@@ -79,7 +155,7 @@ const Analytics = () => {
                   <Icon name="book" size={24} />
                 </div>
                 <div className="stat-content">
-                  <h3>{data.overview.totalLessons}</h3>
+                  <h3>{analyticsData.overview.totalLessons}</h3>
                   <p>
                     {currentLanguage === 'rw' ? 'Amasomo Byose' : 'Total Lessons'}
                   </p>
@@ -90,7 +166,7 @@ const Analytics = () => {
                   <Icon name="clock" size={24} />
                 </div>
                 <div className="stat-content">
-                  <h3>{data.overview.totalHours}</h3>
+                  <h3>{analyticsData.overview.totalAssignments || 0}</h3>
                   <p>
                     {currentLanguage === 'rw' ? 'Igihe Byose' : 'Total Hours'}
                   </p>
@@ -103,7 +179,7 @@ const Analytics = () => {
                 {currentLanguage === 'rw' ? 'Ikorwa ry\'Icyumweru' : 'Weekly Activity'}
               </h3>
               <div className="activity-chart">
-                {data.weeklyActivity.map((week, index) => (
+                {(analyticsData.weeklyActivity || []).map((week, index) => (
                   <div key={index} className="week-bar">
                     <div className="week-info">
                       <span className="week-label">{week.week}</span>
@@ -131,7 +207,7 @@ const Analytics = () => {
               {currentLanguage === 'rw' ? 'Imikurire y\'Abanyeshuri' : 'Student Progress'}
             </h3>
             <div className="students-progress-list">
-              {data.studentProgress.map((student, index) => (
+              {(analyticsData.studentProgress || []).map((student, index) => (
                 <div key={index} className="student-progress-item">
                   <div className="student-info">
                     <div className="student-avatar">
@@ -178,7 +254,7 @@ const Analytics = () => {
                 {currentLanguage === 'rw' ? 'Abakora Neza' : 'Top Performers'}
               </h3>
               <div className="performers-list">
-                {data.topPerformers.map((performer, index) => (
+                {(analyticsData.topPerformers || []).map((performer, index) => (
                   <div key={index} className="performer-item">
                     <div className="performer-rank">
                       <span className="rank-number">#{index + 1}</span>
@@ -217,7 +293,7 @@ const Analytics = () => {
                 {currentLanguage === 'rw' ? 'Bakeneye Ubufasha' : 'Needs Attention'}
               </h3>
               <div className="attention-list">
-                {data.needsAttention.map((student, index) => (
+                {(analyticsData.needsAttention || []).map((student, index) => (
                   <div key={index} className="attention-item">
                     <div className="attention-info">
                       <h4>{student.name}</h4>
@@ -256,7 +332,7 @@ const Analytics = () => {
                 <Icon name="analytics" size={24} />
               </div>
               <div className="stat-content">
-                <h3>{data.overview.averageProgress}%</h3>
+                <h3>{analyticsData.overview.averageScore || 0}%</h3>
                 <p>
                   {currentLanguage === 'rw' ? 'Imikurire Ryose' : 'Average Progress'}
                 </p>
@@ -267,7 +343,7 @@ const Analytics = () => {
                 <Icon name="book" size={24} />
               </div>
               <div className="stat-content">
-                <h3>{data.overview.completedLessons}</h3>
+                <h3>{analyticsData.overview.completedLessons || 0}</h3>
                 <p>
                   {currentLanguage === 'rw' ? 'Amasomo Yarangije' : 'Completed Lessons'}
                 </p>
@@ -278,7 +354,7 @@ const Analytics = () => {
                 <Icon name="clock" size={24} />
               </div>
               <div className="stat-content">
-                <h3>{data.overview.totalHours}</h3>
+                <h3>{analyticsData.overview.submittedAssignments || 0}</h3>
                 <p>
                   {currentLanguage === 'rw' ? 'Igihe Byose' : 'Total Hours'}
                 </p>
@@ -289,7 +365,7 @@ const Analytics = () => {
                 <Icon name="users" size={24} />
               </div>
               <div className="stat-content">
-                <h3>{data.overview.activeStudents}</h3>
+                <h3>{analyticsData.overview.activeStudents || 0}</h3>
                 <p>
                   {currentLanguage === 'rw' ? 'Abanyeshuri Bakora' : 'Active Students'}
                 </p>
