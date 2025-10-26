@@ -37,7 +37,7 @@ const Lessons = () => {
   };
 
   const currentLesson = lessons.find(lesson => lesson.id === selectedLesson);
-  
+
   const filteredLessons = lessons.filter(lesson => {
     const subjectMatch = filterSubject === 'all' || lesson.subject === filterSubject;
     const statusMatch = filterStatus === 'all' || lesson.status === filterStatus;
@@ -67,11 +67,11 @@ const Lessons = () => {
   if (loading) {
     return (
       <div className="dashboard-container">
-        <div className="page-container">
+      <div className="page-container">
           <div className="loading-screen">
             <div className="loading-spinner"></div>
-            <p>Loading lessons...</p>
-          </div>
+          <p>Loading lessons...</p>
+        </div>
         </div>
       </div>
     );
@@ -95,8 +95,8 @@ const Lessons = () => {
 
   return (
     <div className="dashboard-container">
-      <div className="page-container">
-        <div className="page-header">
+    <div className="page-container">
+      <div className="page-header">
         <div className="header-content">
             <h1>
               {currentLanguage === 'rw' 

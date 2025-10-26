@@ -101,7 +101,7 @@ const LearnerDashboard = () => {
           <div className="loading-container">
             <div className="spinner"></div>
             <p>Loading your games...</p>
-          </div>
+        </div>
         ) : (
           <div className="games-grid">
             {gamifiedContent.length > 0 ? (
@@ -109,8 +109,8 @@ const LearnerDashboard = () => {
                 <div key={game.id} className="game-card">
                   <div className="game-icon-large">
                     {getGameTypeIcon(game.gameType)}
-                  </div>
-                  
+      </div>
+
                   <h3 className="game-title">{game.title}</h3>
                   <p className="game-description">{game.description}</p>
                   
@@ -120,8 +120,8 @@ const LearnerDashboard = () => {
                     </div>
                     <div className="reward-item">
                       <span>⏱️ {game.estimatedTime || 10} min</span>
-                    </div>
-                  </div>
+          </div>
+        </div>
 
                   <button 
                     className="play-button-large"
@@ -129,18 +129,18 @@ const LearnerDashboard = () => {
                   >
                     🎮 PLAY NOW!
                   </button>
-                </div>
+          </div>
               ))
             ) : (
               <div className="no-games">
                 <div className="no-games-icon">🎮</div>
                 <h3>Loading games...</h3>
                 <p>Getting your fun games ready!</p>
-              </div>
+        </div>
             )}
           </div>
         )}
-      </div>
+        </div>
 
       {/* Simple Badges at Bottom */}
       <div className="simple-badges">
@@ -150,7 +150,7 @@ const LearnerDashboard = () => {
             <div key={badge.id} className="badge-simple">
               <div className="badge-icon">{badge.icon}</div>
               <span>{badge.title}</span>
-            </div>
+          </div>
           ))}
         </div>
       </div>

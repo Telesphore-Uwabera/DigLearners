@@ -1,13 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from '../../lib/language';
 import Icon from '../../components/icons/Icon';
-import adminMockDataService from '../../services/adminMockDataService';
+import adminApiService from '../../services/adminApiService';
 import './AdminPages.css';
 
 const Analytics = () => {
   const { t } = useTranslation();
-  const [analytics] = useState(adminMockDataService.getAnalytics());
+  const [analytics, setAnalytics] = useState({
+    overview: {
+      totalUsers: 0,
+      activeUsers: 0,
+      totalLessons: 0,
+      completedLessons: 0,
+      averageEngagement: 0,
+      systemHealth: 'Good'
+    },
+    userEngagement: [],
+    contentPerformance: [],
+    systemMetrics: []
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [selectedPeriod, setSelectedPeriod] = useState('30d');
+
+  useEffect(() => {
+    fetchAnalytics();
+  }, [selectedPeriod]);
+
+  const fetchAnalytics = async () => {
+    try {
+      setLoading(true);
+      const response = await adminApiService.getAnalytics(selectedPeriod);
+      if (response.data) {
+        setAnalytics(response.data);
+      } else {
+        // Set fallback data
+        setAnalytics({
+          overview: {
+            totalUsers: 0,
+            activeUsers: 0,
+            totalLessons: 0,
+            completedLessons: 0,
+            averageEngagement: 0,
+            systemHealth: 'Good'
+          },
+          userEngagement: [],
+          contentPerformance: [],
+          systemMetrics: []
+        });
+      }
+    } catch (err) {
+      console.error('Error fetching analytics:', err);
+      setError(err.message);
+      // Set fallback data
+      setAnalytics({
+        overview: {
+          totalUsers: 0,
+          activeUsers: 0,
+          totalLessons: 0,
+          completedLessons: 0,
+          averageEngagement: 0,
+          systemHealth: 'Good'
+        },
+        userEngagement: [],
+        contentPerformance: [],
+        systemMetrics: []
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getEngagementColor = (value, max) => {
     const percentage = (value / max) * 100;
@@ -15,6 +77,33 @@ const Analytics = () => {
     if (percentage >= 60) return '#FF9800';
     return '#F44336';
   };
+
+  if (loading) {
+    return (
+      <div className="admin-page">
+        <div className="loading-container">
+          <div className="spinner"></div>
+          <h2>Loading Analytics...</h2>
+          <p>Fetching analytics data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="admin-page">
+        <div className="error-container">
+          <div className="error-icon">⚠️</div>
+          <h2>Error Loading Analytics</h2>
+          <p>{error}</p>
+          <button onClick={fetchAnalytics} className="retry-button">
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="admin-page">

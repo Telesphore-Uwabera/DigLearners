@@ -1,14 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from '../../lib/language';
 import Icon from '../../components/icons/Icon';
-import adminMockDataService from '../../services/adminMockDataService';
+import adminApiService from '../../services/adminApiService';
 import './AdminPages.css';
 
 const Reports = () => {
   const { t } = useTranslation();
-  const [reports] = useState(adminMockDataService.getReports());
+  const [reports, setReports] = useState({
+    userReports: [],
+    systemReports: [],
+    scheduledReports: []
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('user');
   const [selectedReport, setSelectedReport] = useState(null);
+
+  useEffect(() => {
+    fetchReports();
+  }, []);
+
+  const fetchReports = async () => {
+    try {
+      setLoading(true);
+      const response = await adminApiService.getReports();
+      if (response.data) {
+        setReports(response.data);
+      } else {
+        // Set fallback data
+        setReports({
+          userReports: [],
+          systemReports: [],
+          scheduledReports: []
+        });
+      }
+    } catch (err) {
+      console.error('Error fetching reports:', err);
+      setError(err.message);
+      // Set fallback data
+      setReports({
+        userReports: [],
+        systemReports: [],
+        scheduledReports: []
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const reportTabs = [
     { id: 'user', label: 'User Reports', icon: 'users' },
@@ -38,6 +76,33 @@ const Reports = () => {
     if (size === 'N/A') return 'N/A';
     return size;
   };
+
+  if (loading) {
+    return (
+      <div className="admin-page">
+        <div className="loading-container">
+          <div className="spinner"></div>
+          <h2>Loading Reports...</h2>
+          <p>Fetching report data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="admin-page">
+        <div className="error-container">
+          <div className="error-icon">⚠️</div>
+          <h2>Error Loading Reports</h2>
+          <p>{error}</p>
+          <button onClick={fetchReports} className="retry-button">
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="admin-page">

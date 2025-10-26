@@ -229,13 +229,13 @@ const TeacherDashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <div className="page-container">
-        <div className="page-header">
-          <div className="header-content">
-            <h1>Teacher Dashboard</h1>
-            <p>Welcome back! Here's an overview of your teaching activities</p>
-          </div>
+    <div className="page-container">
+      <div className="page-header">
+        <div className="header-content">
+          <h1>Teacher Dashboard</h1>
+          <p>Welcome back! Here's an overview of your teaching activities</p>
         </div>
+      </div>
 
       <div className="stats-grid">
         <div className="stat-card">
@@ -948,8 +948,8 @@ const TeacherDashboard = () => {
               <div className="student-details">
                 <h4>Emma Smith</h4>
                 <p>Grade 4 • Adventurer Level</p>
-              </div>
             </div>
+          </div>
             <div className="student-progress">
               <div className="progress-stats">
                 <span className="points">⭐ 420 points</span>
@@ -968,8 +968,8 @@ const TeacherDashboard = () => {
               <div className="student-details">
                 <h4>David Wilson</h4>
                 <p>Grade 5 • Pathfinder Level</p>
-              </div>
             </div>
+          </div>
             <div className="student-progress">
               <div className="progress-stats">
                 <span className="points">⭐ 1200 points</span>
@@ -978,7 +978,7 @@ const TeacherDashboard = () => {
               </div>
               <div className="progress-bar">
                 <div className="progress-fill" style={{width: '95%'}}></div>
-              </div>
+            </div>
             </div>
           </div>
         </div>
@@ -1009,9 +1009,9 @@ const TeacherDashboard = () => {
               <p>No recent activity</p>
             </div>
           )}
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };
