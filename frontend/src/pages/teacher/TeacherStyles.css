@@ -349,6 +349,11 @@
   color: white;
 }
 
+.activity-icon svg {
+  fill: white;
+  color: white;
+}
+
 .activity-content {
   flex: 1;
 }
@@ -2109,6 +2114,11 @@
   border-radius: 12px;
   color: white;
 }
+
+.stat-icon svg {
+  fill: white;
+  color: white;
+}
 .stat-content h3 {
   font-size: 1.1rem;
   font-weight: 700;
@@ -2176,6 +2186,12 @@
   background: linear-gradient(135deg, #FFF0F3, #FFF8E8);
   border-radius: 16px;
   border: 2px solid #FF677D;
+  color: #FF677D;
+}
+
+.card-icon svg {
+  fill: #FF677D;
+  color: #FF677D;
 }
 .card-content {
   flex: 1;
