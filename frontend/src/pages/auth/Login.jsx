@@ -208,7 +208,7 @@ const Login = ({ onLogin }) => {
         </form>
         
         <div className="login-footer">
-          <p>Haven't you enrolled your child yet? <a href="/enroll">Enroll your child here</a></p>
+          <p>Student not registered yet? <a href="/enroll">Register the student here</a></p>
         </div>
       </div>
       
