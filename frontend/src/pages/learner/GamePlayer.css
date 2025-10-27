@@ -220,6 +220,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #2d3748;
 }
 
 /* Puzzle Game */
@@ -449,6 +450,9 @@
   border-radius: 12px;
   margin: 1.5rem 0;
   text-align: left;
+  color: #2d3748;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
 .continue-button {
