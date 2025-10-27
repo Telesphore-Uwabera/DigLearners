@@ -1,0 +1,13 @@
+{
+  "projectType": "react",
+  "framework": "vite",
+  "srcDir": "frontend/src",
+  "pagesDir": "frontend/src/pages",
+  "componentsDir": "frontend/src/components",
+  "publicDir": "frontend/public",
+  "styles": "css",
+  "routing": "react-router-dom",
+  "outputDir": "frontend/src/locofy_imports",
+  "assetsPath": "public/assets",
+  "useTypescript": false
+}
