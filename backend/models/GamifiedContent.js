@@ -31,7 +31,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(20),
       allowNull: false,
       validate: {
-        isIn: [['0-2', '3-4', '5-6', '7+']]
+        isIn: [['0-2', '3-4', '5-6', '6-7', '7-8', '8-9', '9-10', '10-11', '11-12', '7+', 'young', 'elementary', 'middle', 'high']]
       },
       field: 'age_group'
     },
