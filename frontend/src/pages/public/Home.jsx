@@ -120,7 +120,7 @@ const Home = () => {
             </Link>
           </div>
           <div className="parent-note">
-            <p>👨‍👩‍👧‍👦 <strong>{t('welcome.forParents')}</strong> {t('welcome.parentNote')}</p>
+            <p>👨‍🏫 <strong>{t('welcome.forParents')}</strong> {t('welcome.parentNote')}</p>
           </div>
         </div>
       </section>
