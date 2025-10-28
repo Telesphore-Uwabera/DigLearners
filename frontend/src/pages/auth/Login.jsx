@@ -177,9 +177,20 @@ const Login = ({ onLogin }) => {
       
       <style dangerouslySetInnerHTML={{
         __html: `
+          /* Kid-Friendly Color Palette - Consistent with website */
+          :root {
+            --primary-color: #FF677D;      /* Vibrant Pink */
+            --secondary-color: #F8B400;    /* Golden Yellow */
+            --third-color: #B9FBC0;        /* Soft Mint Green */
+            --accent-pink: #FFB3BA;        /* Light Pink */
+            --accent-mauve: #D4A5A5;       /* Muted Rose */
+            --text-dark: #2D3748;
+            --text-light: #4A5568;
+          }
+
           .login-page {
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #FFB3BA, #B9FBC0);
             background-attachment: fixed;
             display: flex;
             align-items: center;
@@ -241,7 +252,7 @@ const Login = ({ onLogin }) => {
           }
           
           .login-header h1 {
-            background: linear-gradient(135deg, #FF677D, #F8B400);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -262,13 +273,13 @@ const Login = ({ onLogin }) => {
           }
           
           .login-header p {
-            color: #6b7280;
+            color: var(--text-light);
             font-size: 1.2rem;
             font-weight: 500;
           }
           
           .login-form h2 {
-            color: #374151;
+            color: var(--text-dark);
             margin-bottom: 1.5rem;
             text-align: center;
           }
@@ -280,7 +291,7 @@ const Login = ({ onLogin }) => {
           .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            color: #374151;
+            color: var(--text-dark);
             font-weight: 500;
           }
           
@@ -295,7 +306,7 @@ const Login = ({ onLogin }) => {
           
           .form-group input:focus {
             outline: none;
-            border-color: #FF677D;
+            border-color: var(--primary-color);
           }
           
           .error-message {
@@ -519,7 +530,7 @@ const Login = ({ onLogin }) => {
           }
           
           .login-footer a {
-            color: #FF677D;
+            color: var(--primary-color);
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
@@ -539,7 +550,7 @@ const Login = ({ onLogin }) => {
           }
 
           .login-type-selection h2 {
-            color: #374151;
+            color: var(--text-dark);
             margin-bottom: 1rem;
             font-size: 2rem;
             font-weight: bold;
@@ -547,7 +558,7 @@ const Login = ({ onLogin }) => {
           }
 
           .selection-subtitle {
-            color: #6b7280;
+            color: var(--text-light);
             margin-bottom: 2.5rem;
             font-size: 1.1rem;
             line-height: 1.5;
@@ -590,29 +601,29 @@ const Login = ({ onLogin }) => {
           }
 
           .login-type-button:hover {
-            border-color: #FF677D;
+            border-color: var(--primary-color);
             transform: translateY(-4px) scale(1.02);
             box-shadow: 0 8px 30px rgba(255, 103, 125, 0.3);
           }
 
           .teacher-button {
-            border-left: 6px solid #059669;
+            border-left: 6px solid var(--third-color);
           }
 
           .teacher-button:hover {
-            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
-            border-color: #059669;
-            box-shadow: 0 8px 30px rgba(5, 150, 105, 0.3);
+            background: linear-gradient(135deg, #f0fdf4, var(--third-color));
+            border-color: var(--third-color);
+            box-shadow: 0 8px 30px rgba(185, 251, 192, 0.4);
           }
 
           .student-button {
-            border-left: 6px solid #4F46E5;
+            border-left: 6px solid var(--secondary-color);
           }
 
           .student-button:hover {
-            background: linear-gradient(135deg, #eef2ff, #e0e7ff);
-            border-color: #4F46E5;
-            box-shadow: 0 8px 30px rgba(79, 70, 229, 0.3);
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border-color: var(--secondary-color);
+            box-shadow: 0 8px 30px rgba(248, 180, 0, 0.4);
           }
 
           .button-icon {
@@ -643,7 +654,7 @@ const Login = ({ onLogin }) => {
 
           .button-content h3 {
             margin: 0 0 0.75rem 0;
-            color: #374151;
+            color: var(--text-dark);
             font-size: 1.4rem;
             font-weight: bold;
             transition: color 0.3s ease;
@@ -654,12 +665,12 @@ const Login = ({ onLogin }) => {
           }
 
           .student-button:hover .button-content h3 {
-            color: #3730A3;
+            color: #d97706;
           }
 
           .button-content p {
             margin: 0;
-            color: #6b7280;
+            color: var(--text-light);
             font-size: 1rem;
             line-height: 1.4;
             transition: color 0.3s ease;
@@ -670,7 +681,7 @@ const Login = ({ onLogin }) => {
           }
 
           .student-button:hover .button-content p {
-            color: #312e81;
+            color: #92400e;
           }
 
           .back-button-container {
@@ -693,8 +704,8 @@ const Login = ({ onLogin }) => {
           }
 
           .back-button:hover {
-            color: #FF677D;
-            border-color: #FF677D;
+            color: var(--primary-color);
+            border-color: var(--primary-color);
             background: linear-gradient(135deg, #fff5f5, #fef2f2);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(255, 103, 125, 0.2);
