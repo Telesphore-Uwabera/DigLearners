@@ -56,14 +56,28 @@ router.post('/register', async (req, res) => {
       userData.age = parseInt(age);
     }
 
+    // Generate registration code for learners (students)
+    if (role === 'learner') {
+      userData.registrationCode = await User.generateUniqueRegistrationCode();
+    }
+
     // Create new user
     const user = await User.create(userData);
 
-    res.status(201).json({
+    // Prepare response
+    const response = {
       success: true,
       message: 'User registered successfully! Please login to continue.',
       user: user.toJSON()
-    });
+    };
+
+    // Include registration code in response for learners
+    if (role === 'learner' && user.registrationCode) {
+      response.registrationCode = user.registrationCode;
+      response.message = `Student registered successfully! Registration code: ${user.registrationCode}`;
+    }
+
+    res.status(201).json(response);
 
   } catch (error) {
     console.error('Registration error:', error);
@@ -77,7 +91,7 @@ router.post('/register', async (req, res) => {
 // Login endpoint - Handles both teacher and student login
 router.post('/login', async (req, res) => {
   try {
-    const { email, password, fullName, grade, loginType } = req.body;
+    const { email, password, fullName, grade, registrationCode, loginType } = req.body;
 
     // Handle teacher login (email/password)
     if (loginType === 'teacher' || (!loginType && email && password && !fullName && !grade)) {
@@ -149,30 +163,30 @@ router.post('/login', async (req, res) => {
     }
 
     // Handle student login (question-based)
-    if (loginType === 'student' || (!loginType && fullName && grade && email)) {
+    if (loginType === 'student' || (!loginType && fullName && grade && registrationCode)) {
       // Validate input for student login
-      if (!fullName || !grade || !email) {
+      if (!fullName || !grade || !registrationCode) {
         return res.status(400).json({
           success: false,
-          error: 'Name, grade, and email are required for student login',
+          error: 'Name, grade, and registration code are required for student login',
           errorType: 'missing_student_info'
         });
       }
 
-      // Validate email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
+      // Validate registration code format (6 characters, alphanumeric)
+      const codeRegex = /^[A-Z0-9]{6}$/;
+      if (!codeRegex.test(registrationCode.toUpperCase())) {
         return res.status(400).json({
           success: false,
-          error: 'Please enter a valid email address',
-          errorType: 'invalid_email_format'
+          error: 'Registration code must be 6 characters (letters and numbers only)',
+          errorType: 'invalid_registration_code_format'
         });
       }
 
-      // Find student by email, name, and grade
+      // Find student by registration code, name, and grade
       const user = await User.findOne({
         where: {
-          email: email.toLowerCase(),
+          registrationCode: registrationCode.toUpperCase(),
           fullName: fullName.trim(),
           grade: grade,
           role: 'learner'
@@ -182,7 +196,7 @@ router.post('/login', async (req, res) => {
       if (!user) {
         return res.status(401).json({
           success: false,
-          error: 'No student found with these details. Please check your information or ask your teacher to register you.',
+          error: 'No student found with these details. Please check your name, grade, and registration code.',
           errorType: 'student_not_found'
         });
       }
@@ -209,7 +223,7 @@ router.post('/login', async (req, res) => {
     // Invalid login request
     return res.status(400).json({
       success: false,
-      error: 'Invalid login request. Please provide either teacher credentials (email/password) or student information (name/grade/email).',
+      error: 'Invalid login request. Please provide either teacher credentials (email/password) or student information (name/grade/registration code).',
       errorType: 'invalid_login_request'
     });
 

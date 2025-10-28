@@ -16,7 +16,7 @@ const StudentLogin = ({
   const [formData, setFormData] = useState({
     fullName: '',
     grade: '',
-    email: '',
+    registrationCode: '',
     loginType: 'student'
   })
 
@@ -34,7 +34,7 @@ const StudentLogin = ({
     if (typeof error === 'string') {
       if (error.includes('name')) return 'error-name'
       if (error.includes('grade')) return 'error-grade'
-      if (error.includes('email')) return 'error-email'
+      if (error.includes('registration') || error.includes('code')) return 'error-code'
       if (error.includes('student') || error.includes('found')) return 'error-account'
       if (error.includes('network') || error.includes('connection') || error.includes('timeout')) return 'error-network'
       if (error.includes('server') || error.includes('service')) return 'error-server'
@@ -47,7 +47,7 @@ const StudentLogin = ({
     if (typeof error === 'string') {
       if (error.includes('name')) return '👤'
       if (error.includes('grade')) return '📚'
-      if (error.includes('email')) return '📧'
+      if (error.includes('registration') || error.includes('code')) return '🔢'
       if (error.includes('student') || error.includes('found')) return '🔍'
       if (error.includes('network') || error.includes('connection') || error.includes('timeout')) return '🌐'
       if (error.includes('server') || error.includes('service')) return '🔧'
@@ -60,7 +60,7 @@ const StudentLogin = ({
     if (typeof error === 'string') {
       if (error.includes('name')) return 'Name Issue'
       if (error.includes('grade')) return 'Grade Issue'
-      if (error.includes('email')) return 'Email Issue'
+      if (error.includes('registration') || error.includes('code')) return 'Registration Code Issue'
       if (error.includes('student') || error.includes('found')) return 'Student Not Found'
       if (error.includes('network') || error.includes('connection') || error.includes('timeout')) return 'Connection Issue'
       if (error.includes('server') || error.includes('service')) return 'Server Issue'
@@ -73,7 +73,7 @@ const StudentLogin = ({
     if (typeof error === 'string') {
       if (error.includes('name')) return '💡 Make sure to enter your full name as registered'
       if (error.includes('grade')) return '💡 Select the grade you are currently in'
-      if (error.includes('email')) return '💡 Check your email address carefully'
+      if (error.includes('registration') || error.includes('code')) return '💡 Check your registration code carefully - it should be 6 characters'
       if (error.includes('student') || error.includes('found')) return '💡 Ask your teacher to register you first'
       if (error.includes('network') || error.includes('connection') || error.includes('timeout')) return '💡 Check your internet connection and try again'
       if (error.includes('server') || error.includes('service')) return '💡 Our servers are temporarily busy. Please try again in a few minutes'
@@ -100,10 +100,10 @@ const StudentLogin = ({
       setError(t('auth.student.gradeRequired'))
       return
     }
-    if (currentStep === 3 && !formData.email.trim()) {
-      setError(t('auth.student.emailRequired'))
-      return
-    }
+      if (currentStep === 3 && !formData.registrationCode.trim()) {
+        setError(t('auth.student.codeRequired'))
+        return
+      }
 
     setError('')
     if (currentStep < 3) {
@@ -132,8 +132,8 @@ const StudentLogin = ({
       setCurrentStep(2)
       return
     }
-    if (!formData.email.trim()) {
-      setError(t('auth.student.emailRequired'))
+    if (!formData.registrationCode.trim()) {
+      setError(t('auth.student.codeRequired'))
       setCurrentStep(3)
       return
     }
@@ -225,13 +225,15 @@ const StudentLogin = ({
             </div>
             <div className="form-group">
               <input
-                type="email"
-                name="email"
-                value={formData.email}
+                type="text"
+                name="registrationCode"
+                value={formData.registrationCode}
                 onChange={handleChange}
-                placeholder={t('auth.student.emailPlaceholder')}
-                className="question-input"
+                placeholder={t('auth.student.codePlaceholder')}
+                className="question-input registration-code-input"
                 autoFocus
+                maxLength="6"
+                style={{ textTransform: 'uppercase', letterSpacing: '0.2em', fontFamily: 'monospace' }}
               />
             </div>
           </div>
@@ -315,10 +317,10 @@ const StudentLogin = ({
               <span className="answer-value">{formData.grade}</span>
             </div>
           )}
-          {formData.email && currentStep === 3 && (
+          {formData.registrationCode && currentStep === 3 && (
             <div className="answer-item">
-              <span className="answer-label">{t('auth.student.email')}:</span>
-              <span className="answer-value">{formData.email}</span>
+              <span className="answer-label">{t('auth.student.code')}:</span>
+              <span className="answer-value">{formData.registrationCode.toUpperCase()}</span>
             </div>
           )}
         </div>
@@ -476,6 +478,12 @@ const StudentLogin = ({
             outline: none;
             border-color: #FF677D;
             box-shadow: 0 0 0 3px rgba(255, 103, 125, 0.1);
+          }
+
+          .registration-code-input {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.3rem !important;
           }
 
           .grade-options {
@@ -656,7 +664,7 @@ const StudentLogin = ({
             color: #1d4ed8;
           }
 
-          .error-message.error-email {
+          .error-message.error-code {
             background: #fffbeb;
             border-color: #fed7aa;
             color: #ea580c;

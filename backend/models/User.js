@@ -42,6 +42,15 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: 'learner'
     },
+    registrationCode: {
+      type: DataTypes.STRING(10),
+      allowNull: true,
+      unique: true,
+      field: 'registration_code',
+      validate: {
+        len: [6, 10]
+      }
+    },
     totalPoints: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -120,6 +129,42 @@ module.exports = (sequelize) => {
 
   User.findByRole = async function(role) {
     return await this.findAll({ where: { role } });
+  };
+
+  User.findByRegistrationCode = async function(registrationCode) {
+    return await this.findOne({ where: { registrationCode } });
+  };
+
+  User.generateRegistrationCode = function() {
+    // Generate a 6-character alphanumeric code (uppercase letters and numbers)
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < 6; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+  };
+
+  User.generateUniqueRegistrationCode = async function() {
+    let code;
+    let isUnique = false;
+    let attempts = 0;
+    const maxAttempts = 10;
+
+    while (!isUnique && attempts < maxAttempts) {
+      code = this.generateRegistrationCode();
+      const existingUser = await this.findByRegistrationCode(code);
+      if (!existingUser) {
+        isUnique = true;
+      }
+      attempts++;
+    }
+
+    if (!isUnique) {
+      throw new Error('Unable to generate unique registration code');
+    }
+
+    return code;
   };
 
   return User;
