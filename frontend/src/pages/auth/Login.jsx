@@ -179,37 +179,92 @@ const Login = ({ onLogin }) => {
         __html: `
           .login-page {
             min-height: 100vh;
-            background: linear-gradient(135deg, #FFB3BA, #B9FBC0);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 2rem;
             font-family: 'Comic Sans MS', cursive, sans-serif;
+            position: relative;
+            overflow: hidden;
+          }
+
+          .login-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="60" cy="10" r="1.2" fill="rgba(255,255,255,0.08)"/><circle cx="10" cy="60" r="0.8" fill="rgba(255,255,255,0.06)"/></svg>');
+            animation: float 8s ease-in-out infinite;
+          }
+
+          @keyframes float {
+            0%, 100% { 
+              transform: translateY(0px) rotate(0deg); 
+            }
+            50% { 
+              transform: translateY(-20px) rotate(5deg); 
+            }
           }
           
           .login-container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
             padding: 3rem;
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
+            position: relative;
+            z-index: 2;
+            animation: slideIn 0.6s ease-out;
+          }
+
+          @keyframes slideIn {
+            from {
+              opacity: 0;
+              transform: translateY(30px) scale(0.95);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0) scale(1);
+            }
           }
           
           .login-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
           }
           
           .login-header h1 {
-            color: #FF677D;
-            font-size: 2.5rem;
+            background: linear-gradient(135deg, #FF677D, #F8B400);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 3rem;
             margin-bottom: 0.5rem;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            animation: glow 2s ease-in-out infinite alternate;
+          }
+
+          @keyframes glow {
+            from {
+              filter: drop-shadow(0 0 5px rgba(255, 103, 125, 0.3));
+            }
+            to {
+              filter: drop-shadow(0 0 15px rgba(255, 103, 125, 0.6));
+            }
           }
           
           .login-header p {
             color: #6b7280;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            font-weight: 500;
           }
           
           .login-form h2 {
@@ -452,22 +507,29 @@ const Login = ({ onLogin }) => {
           
           .login-footer {
             text-align: center;
-            margin-top: 1.5rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(107, 114, 128, 0.2);
           }
           
           .login-footer p {
-            color: #000000;
+            color: #6b7280;
             margin: 0;
+            font-size: 0.95rem;
           }
           
           .login-footer a {
             color: #FF677D;
             text-decoration: none;
             font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
           }
           
           .login-footer a:hover {
-            text-decoration: underline;
+            background: rgba(255, 103, 125, 0.1);
+            transform: translateY(-1px);
           }
 
           /* Login Type Selection Styles */
@@ -478,95 +540,238 @@ const Login = ({ onLogin }) => {
 
           .login-type-selection h2 {
             color: #374151;
-            margin-bottom: 0.5rem;
-            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
           }
 
           .selection-subtitle {
             color: #6b7280;
-            margin-bottom: 2rem;
-            font-size: 1rem;
+            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
+            line-height: 1.5;
           }
 
           .login-type-buttons {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.5rem;
           }
 
           .login-type-button {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            padding: 1.5rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            background: white;
+            gap: 1.5rem;
+            padding: 2rem;
+            border: 3px solid #e5e7eb;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             text-align: left;
+            position: relative;
+            overflow: hidden;
+          }
+
+          .login-type-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s;
+          }
+
+          .login-type-button:hover::before {
+            left: 100%;
           }
 
           .login-type-button:hover {
             border-color: #FF677D;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(255, 103, 125, 0.2);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(255, 103, 125, 0.3);
+          }
+
+          .teacher-button {
+            border-left: 6px solid #059669;
           }
 
           .teacher-button:hover {
-            background: linear-gradient(135deg, #fff5f5, #fef2f2);
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border-color: #059669;
+            box-shadow: 0 8px 30px rgba(5, 150, 105, 0.3);
+          }
+
+          .student-button {
+            border-left: 6px solid #4F46E5;
           }
 
           .student-button:hover {
-            background: linear-gradient(135deg, #f0f9ff, #eff6ff);
+            background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+            border-color: #4F46E5;
+            box-shadow: 0 8px 30px rgba(79, 70, 229, 0.3);
           }
 
           .button-icon {
-            font-size: 2.5rem;
+            font-size: 3rem;
             flex-shrink: 0;
+            animation: bounce 2s ease-in-out infinite;
+          }
+
+          .teacher-button .button-icon {
+            animation-delay: 0s;
+          }
+
+          .student-button .button-icon {
+            animation-delay: 0.5s;
+          }
+
+          @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { 
+              transform: translateY(0); 
+            }
+            40% { 
+              transform: translateY(-8px); 
+            }
+            60% { 
+              transform: translateY(-4px); 
+            }
           }
 
           .button-content h3 {
-            margin: 0 0 0.5rem 0;
+            margin: 0 0 0.75rem 0;
             color: #374151;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
+            font-weight: bold;
+            transition: color 0.3s ease;
+          }
+
+          .teacher-button:hover .button-content h3 {
+            color: #047857;
+          }
+
+          .student-button:hover .button-content h3 {
+            color: #3730A3;
           }
 
           .button-content p {
             margin: 0;
             color: #6b7280;
-            font-size: 0.9rem;
+            font-size: 1rem;
+            line-height: 1.4;
+            transition: color 0.3s ease;
+          }
+
+          .teacher-button:hover .button-content p {
+            color: #065f46;
+          }
+
+          .student-button:hover .button-content p {
+            color: #312e81;
           }
 
           .back-button-container {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
           }
 
           .back-button {
-            background: none;
-            border: none;
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border: 2px solid #e5e7eb;
             color: #6b7280;
             cursor: pointer;
-            font-size: 0.9rem;
-            padding: 0.5rem 0;
-            transition: color 0.2s;
+            font-size: 0.95rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
           }
 
           .back-button:hover {
             color: #FF677D;
+            border-color: #FF677D;
+            background: linear-gradient(135deg, #fff5f5, #fef2f2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 103, 125, 0.2);
+          }
+
+          @media (max-width: 768px) {
+            .login-page {
+              padding: 1rem;
+            }
+
+            .login-container {
+              padding: 2rem;
+              max-width: 100%;
+              margin: 0 1rem;
+            }
+
+            .login-header h1 {
+              font-size: 2.5rem;
+            }
+
+            .login-type-selection h2 {
+              font-size: 1.6rem;
+            }
+            
+            .login-type-button {
+              padding: 1.5rem;
+              gap: 1rem;
+            }
+            
+            .button-icon {
+              font-size: 2.5rem;
+            }
+
+            .button-content h3 {
+              font-size: 1.2rem;
+            }
+
+            .button-content p {
+              font-size: 0.9rem;
+            }
           }
 
           @media (max-width: 480px) {
             .login-container {
-              padding: 2rem;
+              padding: 1.5rem;
+            }
+
+            .login-header h1 {
+              font-size: 2rem;
+            }
+
+            .login-type-selection h2 {
+              font-size: 1.4rem;
             }
             
             .login-type-button {
-              padding: 1rem;
+              padding: 1.25rem;
+              flex-direction: column;
+              text-align: center;
+              gap: 1rem;
             }
             
             .button-icon {
-              font-size: 2rem;
+              font-size: 2.5rem;
+            }
+
+            .button-content h3 {
+              font-size: 1.1rem;
+            }
+
+            .button-content p {
+              font-size: 0.85rem;
+            }
+
+            .back-button {
+              width: 100%;
+              justify-content: center;
             }
           }
         `
