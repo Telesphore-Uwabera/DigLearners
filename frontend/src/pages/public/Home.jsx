@@ -43,9 +43,16 @@ const Home = () => {
             <Link to="/enroll" className="btn btn-primary" style={{ cursor: 'pointer' }}>
               {t('welcome.enrollChild')}
             </Link>
-            <Link to="/login" className="btn btn-secondary" style={{ cursor: 'pointer' }}>
-              {t('welcome.login')}
-            </Link>
+            <div className="login-buttons">
+              <Link to="/login?type=student" className="btn btn-student" style={{ cursor: 'pointer' }}>
+                <span className="login-icon">👨‍🎓</span>
+                {t('welcome.studentLogin')}
+              </Link>
+              <Link to="/login?type=teacher" className="btn btn-teacher" style={{ cursor: 'pointer' }}>
+                <span className="login-icon">👨‍🏫</span>
+                {t('welcome.teacherLogin')}
+              </Link>
+            </div>
           </div>
         </div>
         <div className="hero-image">
@@ -259,8 +266,16 @@ const Home = () => {
 
           .hero-actions {
             display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
+          }
+
+          .login-buttons {
+            display: flex;
             gap: 1rem;
             flex-wrap: wrap;
+            justify-content: center;
           }
 
           .btn {
@@ -299,6 +314,44 @@ const Home = () => {
             background: white;
             color: var(--primary-color);
             transform: translateY(-3px) scale(1.05);
+          }
+
+          .btn-student {
+            background: linear-gradient(135deg, #4F46E5, #7C3AED);
+            color: white;
+            border: 3px solid white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 160px;
+            justify-content: center;
+          }
+
+          .btn-student:hover {
+            background: linear-gradient(135deg, #3730A3, #5B21B6);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+          }
+
+          .btn-teacher {
+            background: linear-gradient(135deg, #059669, #047857);
+            color: white;
+            border: 3px solid white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 160px;
+            justify-content: center;
+          }
+
+          .btn-teacher:hover {
+            background: linear-gradient(135deg, #047857, #065F46);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.4);
+          }
+
+          .login-icon {
+            font-size: 1.2rem;
           }
 
           .btn-large {
@@ -574,6 +627,17 @@ const Home = () => {
 
             .hero-actions {
               justify-content: center;
+            }
+
+            .login-buttons {
+              flex-direction: column;
+              width: 100%;
+              max-width: 300px;
+            }
+
+            .btn-student, .btn-teacher {
+              width: 100%;
+              min-width: auto;
             }
 
             .cartoon-characters {

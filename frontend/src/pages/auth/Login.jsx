@@ -1,15 +1,26 @@
 // Login Page Component
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useLanguage } from '../../contexts/LanguageContext'
 import TeacherLogin from './TeacherLogin'
 import StudentLogin from './StudentLogin'
 
 const Login = ({ onLogin }) => {
   const { t } = useLanguage()
+  const location = useLocation()
   const [loginType, setLoginType] = useState(null) // 'teacher' or 'student'
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
+
+  // Check URL parameters to auto-select login type
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search)
+    const typeParam = urlParams.get('type')
+    if (typeParam === 'student' || typeParam === 'teacher') {
+      setLoginType(typeParam)
+    }
+  }, [location.search])
 
   // Helper functions for error handling
   const getErrorClass = (error) => {
