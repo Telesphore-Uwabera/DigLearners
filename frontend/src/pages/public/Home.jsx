@@ -44,11 +44,11 @@ const Home = () => {
               {t('welcome.enrollChild')}
             </Link>
             <div className="login-buttons">
-              <Link to="/student-login" className="btn btn-student" style={{ cursor: 'pointer' }}>
+              <Link to="/login?type=student" className="btn btn-student" style={{ cursor: 'pointer' }}>
                 <span className="login-icon">👨‍🎓</span>
                 {t('welcome.studentLogin')}
               </Link>
-              <Link to="/teacher-login" className="btn btn-teacher" style={{ cursor: 'pointer' }}>
+              <Link to="/login?type=teacher" className="btn btn-teacher" style={{ cursor: 'pointer' }}>
                 <span className="login-icon">👨‍🏫</span>
                 {t('welcome.teacherLogin')}
               </Link>

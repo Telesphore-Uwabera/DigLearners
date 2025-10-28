@@ -7,8 +7,6 @@ import { ThemeProvider } from './contexts/ThemeContext'
 // Pages
 import Home from './pages/public/Home'
 import Login from './pages/auth/Login'
-import StudentLoginPage from './pages/auth/StudentLoginPage'
-import TeacherLoginPage from './pages/auth/TeacherLoginPage'
 import Enroll from './pages/auth/Enroll'
 import LearnerApp from './pages/learner/LearnerApp'
 import TeacherApp from './pages/teacher/TeacherApp'
@@ -113,18 +111,6 @@ function AppRoutes() {
         path="/login" 
         element={
           isAuthenticated ? <Navigate to="/dashboard" replace /> : <Login onLogin={handleLogin} />
-        } 
-      />
-      <Route 
-        path="/student-login" 
-        element={
-          isAuthenticated ? <Navigate to="/dashboard" replace /> : <StudentLoginPage />
-        } 
-      />
-      <Route 
-        path="/teacher-login" 
-        element={
-          isAuthenticated ? <Navigate to="/dashboard" replace /> : <TeacherLoginPage />
         } 
       />
       <Route 
