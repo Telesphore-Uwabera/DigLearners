@@ -73,6 +73,45 @@ const translations = {
     'auth.userExists': 'User with this email already exists',
     'auth.loginError': 'Login failed. Please try again.',
     'auth.registerError': 'Registration failed. Please try again.',
+    'auth.rememberMe': 'Keep me logged in',
+    'auth.emailPlaceholder': 'Enter your email address',
+    'auth.passwordPlaceholder': 'Enter your password',
+
+    // Login Type Selection
+    'auth.selectLoginType': 'How would you like to login?',
+    'auth.selectLoginSubtitle': 'Choose the option that best describes you',
+    'auth.teacherLogin': 'Teacher Login',
+    'auth.teacherLoginDesc': 'Login with email and password',
+    'auth.teacherLoginSubtitle': 'Enter your credentials to access your teacher dashboard',
+    'auth.studentLogin': 'Student Login',
+    'auth.studentLoginDesc': 'Answer a few simple questions',
+    'auth.studentLoginSubtitle': 'We\'ll ask you some questions to help you login safely',
+
+    // Student Login Questions
+    'auth.student.question1': 'What is your name?',
+    'auth.student.question1Desc': 'Please enter your full name as registered by your teacher',
+    'auth.student.question2': 'Which grade are you in?',
+    'auth.student.question2Desc': 'Select the grade you are currently studying in',
+    'auth.student.question3': 'What is your email?',
+    'auth.student.question3Desc': 'Enter the email address your teacher registered for you',
+    'auth.student.namePlaceholder': 'Type your full name here...',
+    'auth.student.emailPlaceholder': 'Type your email address here...',
+    'auth.student.nameRequired': 'Please enter your full name',
+    'auth.student.gradeRequired': 'Please select your grade',
+    'auth.student.emailRequired': 'Please enter your email address',
+    'auth.student.yourAnswers': 'Your Answers:',
+    'auth.student.name': 'Name',
+    'auth.student.grade': 'Grade',
+    'auth.student.email': 'Email',
+    'auth.student.startLearning': 'Start Learning!',
+
+    // Grades
+    'grades.grade1': 'Grade 1',
+    'grades.grade2': 'Grade 2',
+    'grades.grade3': 'Grade 3',
+    'grades.grade4': 'Grade 4',
+    'grades.grade5': 'Grade 5',
+    'grades.grade6': 'Grade 6',
 
     // Roles
     'role.learner': 'Learner',
@@ -343,6 +382,45 @@ const translations = {
     'auth.userExists': 'Umukoresha w\'iyi imeli yarimo',
     'auth.loginError': 'Kwinjira byanze. Ongera ugerageze.',
     'auth.registerError': 'Kwiyandikisha byanze. Ongera ugerageze.',
+    'auth.rememberMe': 'Nyibuke',
+    'auth.emailPlaceholder': 'Shyiramo imeli yawe',
+    'auth.passwordPlaceholder': 'Shyiramo ijambo ryawe ryibanga',
+
+    // Login Type Selection
+    'auth.selectLoginType': 'Ese wishaka kwinjira gute?',
+    'auth.selectLoginSubtitle': 'Hitamo icyo gikwiriye',
+    'auth.teacherLogin': 'Kwinjira kw\'Umwarimu',
+    'auth.teacherLoginDesc': 'Injira ukoresheje imeli n\'ijambo ry\'ibanga',
+    'auth.teacherLoginSubtitle': 'Shyiramo amakuru yawe kugira ngo ubone ikibaho cyawe cy\'umwarimu',
+    'auth.studentLogin': 'Kwinjira kw\'Umunyeshuri',
+    'auth.studentLoginDesc': 'Subiza ibibazo byoroshye',
+    'auth.studentLoginSubtitle': 'Tuzakubaza ibibazo kugira ngo winjire neza',
+
+    // Student Login Questions
+    'auth.student.question1': 'Witwa nde?',
+    'auth.student.question1Desc': 'Nyamuneka shyiramo amazina yawe yose nkuko umwarimu yaguandikishije',
+    'auth.student.question2': 'Uri mu rwego ki?',
+    'auth.student.question2Desc': 'Hitamo urwego urimo ubu',
+    'auth.student.question3': 'Imeli yawe ni iyihe?',
+    'auth.student.question3Desc': 'Shyiramo imeli umwarimu yakwandikishijemo',
+    'auth.student.namePlaceholder': 'Andika amazina yawe yose hano...',
+    'auth.student.emailPlaceholder': 'Andika imeli yawe hano...',
+    'auth.student.nameRequired': 'Nyamuneka shyiramo amazina yawe yose',
+    'auth.student.gradeRequired': 'Nyamuneka hitamo urwego rwawe',
+    'auth.student.emailRequired': 'Nyamuneka shyiramo imeli yawe',
+    'auth.student.yourAnswers': 'Ibisubizo byawe:',
+    'auth.student.name': 'Izina',
+    'auth.student.grade': 'Urwego',
+    'auth.student.email': 'Imeli',
+    'auth.student.startLearning': 'Tangira Kwiga!',
+
+    // Grades
+    'grades.grade1': 'Urwego rwa 1',
+    'grades.grade2': 'Urwego rwa 2',
+    'grades.grade3': 'Urwego rwa 3',
+    'grades.grade4': 'Urwego rwa 4',
+    'grades.grade5': 'Urwego rwa 5',
+    'grades.grade6': 'Urwego rwa 6',
 
     // Roles
     'role.learner': 'Umunyeshuri',

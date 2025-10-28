@@ -74,66 +74,143 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Login endpoint
+// Login endpoint - Handles both teacher and student login
 router.post('/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, fullName, grade, loginType } = req.body;
 
-    // Validate input
-    if (!email || !password) {
-      return res.status(400).json({
-        success: false,
-        error: 'Email and password are required',
-        errorType: 'missing_credentials'
+    // Handle teacher login (email/password)
+    if (loginType === 'teacher' || (!loginType && email && password && !fullName && !grade)) {
+      // Validate input for teacher login
+      if (!email || !password) {
+        return res.status(400).json({
+          success: false,
+          error: 'Email and password are required',
+          errorType: 'missing_credentials'
+        });
+      }
+
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return res.status(400).json({
+          success: false,
+          error: 'Please enter a valid email address',
+          errorType: 'invalid_email_format'
+        });
+      }
+
+      // Find user by email
+      const user = await User.findByEmail(email);
+      if (!user) {
+        return res.status(401).json({
+          success: false,
+          error: 'No account found with this email address. Please check your email or create a new account.',
+          errorType: 'email_not_found'
+        });
+      }
+
+      // Check if user is a teacher
+      if (user.role !== 'teacher' && user.role !== 'admin') {
+        return res.status(403).json({
+          success: false,
+          error: 'This login method is only for teachers. Please use student login instead.',
+          errorType: 'wrong_login_type'
+        });
+      }
+
+      // Validate password
+      const isValidPassword = await user.validatePassword(password);
+      if (!isValidPassword) {
+        return res.status(401).json({
+          success: false,
+          error: 'Incorrect password. Please try again or contact support if you need help.',
+          errorType: 'incorrect_password'
+        });
+      }
+
+      // Generate JWT token
+      const token = jwt.sign(
+        { 
+          userId: user.id, 
+          email: user.email, 
+          role: user.role 
+        },
+        JWT_SECRET,
+        { expiresIn: '7d' }
+      );
+
+      return res.json({
+        success: true,
+        message: 'Login successful',
+        user: user.toJSON(),
+        token
       });
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({
-        success: false,
-        error: 'Please enter a valid email address',
-        errorType: 'invalid_email_format'
+    // Handle student login (question-based)
+    if (loginType === 'student' || (!loginType && fullName && grade && email)) {
+      // Validate input for student login
+      if (!fullName || !grade || !email) {
+        return res.status(400).json({
+          success: false,
+          error: 'Name, grade, and email are required for student login',
+          errorType: 'missing_student_info'
+        });
+      }
+
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return res.status(400).json({
+          success: false,
+          error: 'Please enter a valid email address',
+          errorType: 'invalid_email_format'
+        });
+      }
+
+      // Find student by email, name, and grade
+      const user = await User.findOne({
+        where: {
+          email: email.toLowerCase(),
+          fullName: fullName.trim(),
+          grade: grade,
+          role: 'learner'
+        }
+      });
+
+      if (!user) {
+        return res.status(401).json({
+          success: false,
+          error: 'No student found with these details. Please check your information or ask your teacher to register you.',
+          errorType: 'student_not_found'
+        });
+      }
+
+      // Generate JWT token for student
+      const token = jwt.sign(
+        { 
+          userId: user.id, 
+          email: user.email, 
+          role: user.role 
+        },
+        JWT_SECRET,
+        { expiresIn: '7d' }
+      );
+
+      return res.json({
+        success: true,
+        message: 'Student login successful',
+        user: user.toJSON(),
+        token
       });
     }
 
-    // Find user by email
-    const user = await User.findByEmail(email);
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        error: 'No account found with this email address. Please check your email or create a new account.',
-        errorType: 'email_not_found'
-      });
-    }
-
-    // Validate password
-    const isValidPassword = await user.validatePassword(password);
-    if (!isValidPassword) {
-      return res.status(401).json({
-        success: false,
-        error: 'Incorrect password. Please try again or contact support if you need help.',
-        errorType: 'incorrect_password'
-      });
-    }
-
-    // Generate JWT token
-    const token = jwt.sign(
-      { 
-        userId: user.id, 
-        email: user.email, 
-        role: user.role 
-      },
-      JWT_SECRET,
-      { expiresIn: '7d' }
-    );
-
-    res.json({
-      success: true,
-      message: 'Login successful',
-      user: user.toJSON(),
-      token
+    // Invalid login request
+    return res.status(400).json({
+      success: false,
+      error: 'Invalid login request. Please provide either teacher credentials (email/password) or student information (name/grade/email).',
+      errorType: 'invalid_login_request'
     });
 
   } catch (error) {

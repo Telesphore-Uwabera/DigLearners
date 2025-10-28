@@ -594,6 +594,403 @@ const sampleGamifiedContent = [
     pointsReward: 60,
     badgeReward: "Body Expert",
     isActive: true
+  },
+
+  // ===== ADDITIONAL PUZZLE GAMES FOR ALL GRADES =====
+  
+  // Grade 1 Puzzles
+  {
+    title: "Jigsaw Picture Puzzles",
+    description: "Solve jigsaw puzzles by fitting colorful pieces together",
+    grade: "Grade 1",
+    ageGroup: "6-7",
+    gameType: "puzzle",
+    difficulty: "beginner",
+    subject: "Art",
+    content: JSON.stringify({
+      gameType: "jigsaw-puzzle",
+      pieces: [4, 6, 9, 12],
+      images: ["animals", "shapes", "colors", "toys"],
+      difficulty: "easy"
+    }),
+    instructions: "Drag and drop pieces to complete the picture puzzle!",
+    learningObjectives: "Develop spatial awareness, pattern recognition, fine motor skills",
+    estimatedTime: 15,
+    pointsReward: 25,
+    badgeReward: "Puzzle Solver",
+    isActive: true
+  },
+  {
+    title: "Sequence Memory Challenge",
+    description: "Memorize and repeat color and sound sequences",
+    grade: "Grade 1",
+    ageGroup: "6-7",
+    gameType: "puzzle",
+    difficulty: "beginner",
+    subject: "Math",
+    content: JSON.stringify({
+      gameType: "memory-sequence",
+      elements: ["colors", "shapes", "sounds", "numbers"],
+      sequenceLength: [3, 5, 7],
+      difficulty: "easy"
+    }),
+    instructions: "Watch the sequence and repeat it in the correct order!",
+    learningObjectives: "Improve memory, attention span, sequential thinking",
+    estimatedTime: 12,
+    pointsReward: 20,
+    badgeReward: "Memory Master",
+    isActive: true
+  },
+
+  // Grade 2 Puzzles
+  {
+    title: "Word Search Adventure",
+    description: "Find hidden words in a grid of letters",
+    grade: "Grade 2",
+    ageGroup: "7-8",
+    gameType: "puzzle",
+    difficulty: "beginner",
+    subject: "Language",
+    content: JSON.stringify({
+      gameType: "word-search",
+      words: ["animal", "color", "shape", "friend"],
+      grid: "8x8",
+      themes: ["animals", "colors", "school", "family"]
+    }),
+    instructions: "Find and circle all the hidden words!",
+    learningObjectives: "Improve vocabulary, spelling, visual scanning skills",
+    estimatedTime: 18,
+    pointsReward: 30,
+    badgeReward: "Word Hunter",
+    isActive: true
+  },
+  {
+    title: "Tangram Challenge",
+    description: "Create pictures using geometric shapes",
+    grade: "Grade 2",
+    ageGroup: "7-8",
+    gameType: "puzzle",
+    difficulty: "intermediate",
+    subject: "Math",
+    content: JSON.stringify({
+      gameType: "tangram",
+      shapes: ["triangle", "square", "parallelogram"],
+      pictures: ["house", "cat", "tree", "boat"],
+      pieces: [7]
+    }),
+    instructions: "Use all 7 pieces to recreate the picture!",
+    learningObjectives: "Understand shapes, spatial reasoning, problem-solving",
+    estimatedTime: 20,
+    pointsReward: 35,
+    badgeReward: "Shape Artist",
+    isActive: true
+  },
+
+  // Grade 3 Puzzles
+  {
+    title: "Sudoku Junior",
+    description: "Fill in the missing numbers in a fun 4x4 grid",
+    grade: "Grade 3",
+    ageGroup: "8-9",
+    gameType: "puzzle",
+    difficulty: "intermediate",
+    subject: "Math",
+    content: JSON.stringify({
+      gameType: "sudoku-junior",
+      grid: "4x4",
+      numbers: [1, 2, 3, 4],
+      difficulty: ["easy", "medium"]
+    }),
+    instructions: "Fill each row and column with numbers 1-4 without repeating!",
+    learningObjectives: "Develop logical thinking, number sense, problem-solving",
+    estimatedTime: 22,
+    pointsReward: 40,
+    badgeReward: "Sudoku Star",
+    isActive: true
+  },
+  {
+    title: "Crossword Puzzles",
+    description: "Solve simple crossword puzzles with age-appropriate words",
+    grade: "Grade 3",
+    ageGroup: "8-9",
+    gameType: "puzzle",
+    difficulty: "intermediate",
+    subject: "Language",
+    content: JSON.stringify({
+      gameType: "crossword",
+      grid: "10x10",
+      themes: ["animals", "school", "food", "sports"],
+      clues: "picture-based"
+    }),
+    instructions: "Use the picture clues to fill in the crossword!",
+    learningObjectives: "Expand vocabulary, improve spelling, critical thinking",
+    estimatedTime: 25,
+    pointsReward: 45,
+    badgeReward: "Word Wizard",
+    isActive: true
+  },
+
+  // Grade 4 Puzzles
+  {
+    title: "Logic Grid Puzzles",
+    description: "Use clues to solve mysteries and find relationships",
+    grade: "Grade 4",
+    ageGroup: "9-10",
+    gameType: "puzzle",
+    difficulty: "intermediate",
+    subject: "Math",
+    content: JSON.stringify({
+      gameType: "logic-grid",
+      categories: ["people", "places", "things", "activities"],
+      clues: ["color", "size", "position", "preference"],
+      difficulty: "medium"
+    }),
+    instructions: "Use the clues to figure out who, what, where, and when!",
+    learningObjectives: "Develop deductive reasoning, logical thinking, attention to detail",
+    estimatedTime: 30,
+    pointsReward: 50,
+    badgeReward: "Logic Detective",
+    isActive: true
+  },
+  {
+    title: "Pattern Building Blocks",
+    description: "Create and extend patterns using colorful blocks",
+    grade: "Grade 4",
+    ageGroup: "9-10",
+    gameType: "puzzle",
+    difficulty: "intermediate",
+    subject: "Math",
+    content: JSON.stringify({
+      gameType: "pattern-blocks",
+      patterns: ["color", "shape", "size", "position"],
+      levels: ["simple", "medium", "complex"]
+    }),
+    instructions: "Follow the pattern and add the next elements!",
+    learningObjectives: "Recognize patterns, extend sequences, mathematical reasoning",
+    estimatedTime: 20,
+    pointsReward: 40,
+    badgeReward: "Pattern Master",
+    isActive: true
+  },
+
+  // Grade 5 Puzzles
+  {
+    title: "Cryptogram Puzzles",
+    description: "Decode secret messages by figuring out letter substitutions",
+    grade: "Grade 5",
+    ageGroup: "10-11",
+    gameType: "puzzle",
+    difficulty: "advanced",
+    subject: "Language",
+    content: JSON.stringify({
+      gameType: "cryptogram",
+      messages: ["quotes", "sayings", "famous-speech"],
+      hints: ["common-letters", "short-words", "frequency"]
+    }),
+    instructions: "Use letter frequency and common words to decode the message!",
+    learningObjectives: "Improve pattern recognition, language skills, logical deduction",
+    estimatedTime: 35,
+    pointsReward: 60,
+    badgeReward: "Code Breaker",
+    isActive: true
+  },
+  {
+    title: "3D Shape Puzzles",
+    description: "Rotate and assemble 3D shapes to build structures",
+    grade: "Grade 5",
+    ageGroup: "10-11",
+    gameType: "puzzle",
+    difficulty: "advanced",
+    subject: "Math",
+    content: JSON.stringify({
+      gameType: "3d-shapes",
+      shapes: ["cube", "cylinder", "sphere", "pyramid"],
+      structures: ["house", "bridge", "tower", "animal"]
+    }),
+    instructions: "Rotate 3D shapes and fit them together to complete the structure!",
+    learningObjectives: "Understand 3D geometry, spatial reasoning, problem-solving",
+    estimatedTime: 30,
+    pointsReward: 55,
+    badgeReward: "3D Architect",
+    isActive: true
+  },
+
+  // Grade 6 Puzzles
+  {
+    title: "Math Equation Solver",
+    description: "Solve algebraic puzzles by finding missing values",
+    grade: "Grade 6",
+    ageGroup: "11-12",
+    gameType: "puzzle",
+    difficulty: "advanced",
+    subject: "Math",
+    content: JSON.stringify({
+      gameType: "equation-puzzle",
+      operations: ["addition", "subtraction", "multiplication", "division"],
+      complexity: ["single-unknown", "multiple-unknown", "word-problems"]
+    }),
+    instructions: "Find the missing number to complete the equation!",
+    learningObjectives: "Algebra basics, equation solving, critical thinking",
+    estimatedTime: 40,
+    pointsReward: 70,
+    badgeReward: "Algebra Genius",
+    isActive: true
+  },
+  {
+    title: "Riddles and Brain Teasers",
+    description: "Solve challenging riddles and logical brain teasers",
+    grade: "Grade 6",
+    ageGroup: "11-12",
+    gameType: "puzzle",
+    difficulty: "advanced",
+    subject: "Language",
+    content: JSON.stringify({
+      gameType: "riddles",
+      categories: ["logic", "word-play", "math", "science"],
+      hints: ["yes-no-questions", "clues"]
+    }),
+    instructions: "Use logic and creativity to solve each riddle!",
+    learningObjectives: "Develop critical thinking, inference skills, creativity",
+    estimatedTime: 35,
+    pointsReward: 65,
+    badgeReward: "Riddle Master",
+    isActive: true
+  },
+
+  // ===== ADDITIONAL DIGITAL LITERACY COURSES =====
+
+  // Grade 1 Digital Literacy
+  {
+    title: "Keyboard Explorer",
+    description: "Learn the keyboard layout and basic typing",
+    grade: "Grade 1",
+    ageGroup: "6-7",
+    gameType: "interactive",
+    difficulty: "beginner",
+    subject: "Digital Literacy",
+    content: JSON.stringify({
+      gameType: "typing-basics",
+      keys: ["letters", "numbers", "space", "enter"],
+      activities: ["find-key", "type-words", "type-sentences"]
+    }),
+    instructions: "Find and press the keys on the keyboard!",
+    learningObjectives: "Learn keyboard layout, basic typing skills, hand-eye coordination",
+    estimatedTime: 20,
+    pointsReward: 30,
+    badgeReward: "Keyboard Pro",
+    isActive: true
+  },
+
+  // Grade 2 Digital Literacy
+  {
+    title: "Safe Internet Explorer",
+    description: "Learn internet safety rules through interactive scenarios",
+    grade: "Grade 2",
+    ageGroup: "7-8",
+    gameType: "story",
+    difficulty: "beginner",
+    subject: "Digital Literacy",
+    content: JSON.stringify({
+      gameType: "internet-safety",
+      scenarios: ["stranger-danger", "password-safety", "online-privacy"],
+      decisions: ["safe-choices", "report-inappropriate"]
+    }),
+    instructions: "Help the character make safe choices online!",
+    learningObjectives: "Understand internet safety, digital citizenship, online privacy",
+    estimatedTime: 25,
+    pointsReward: 40,
+    badgeReward: "Internet Guardian",
+    isActive: true
+  },
+
+  // Grade 3 Digital Literacy
+  {
+    title: "Block Code Builder",
+    description: "Learn programming by building simple animations",
+    grade: "Grade 3",
+    ageGroup: "8-9",
+    gameType: "simulation",
+    difficulty: "intermediate",
+    subject: "Digital Literacy",
+    content: JSON.stringify({
+      gameType: "block-coding",
+      blocks: ["move", "turn", "repeat", "color", "sound"],
+      projects: ["drawing", "animation", "simple-game"]
+    }),
+    instructions: "Drag blocks to create code and watch your creation come to life!",
+    learningObjectives: "Introduction to programming, logical thinking, creativity",
+    estimatedTime: 30,
+    pointsReward: 50,
+    badgeReward: "Coding Beginner",
+    isActive: true
+  },
+
+  // Grade 4 Digital Literacy
+  {
+    title: "Digital Art Creator",
+    description: "Create digital artwork using drawing and painting tools",
+    grade: "Grade 4",
+    ageGroup: "9-10",
+    gameType: "creative",
+    difficulty: "intermediate",
+    subject: "Digital Literacy",
+    content: JSON.stringify({
+      gameType: "digital-art",
+      tools: ["brush", "pencil", "eraser", "fill", "shapes"],
+      colors: "full-palette",
+      canvases: ["landscape", "portrait", "abstract", "nature"]
+    }),
+    instructions: "Use digital art tools to create beautiful artwork!",
+    learningObjectives: "Learn digital art tools, express creativity, understand design",
+    estimatedTime: 35,
+    pointsReward: 60,
+    badgeReward: "Digital Artist",
+    isActive: true
+  },
+
+  // Grade 5 Digital Literacy
+  {
+    title: "Presentation Builder",
+    description: "Create digital presentations with slides and animations",
+    grade: "Grade 5",
+    ageGroup: "10-11",
+    gameType: "creative",
+    difficulty: "advanced",
+    subject: "Digital Literacy",
+    content: JSON.stringify({
+      gameType: "presentation",
+      elements: ["slides", "text", "images", "animation", "sound"],
+      templates: ["story", "report", "showcase"]
+    }),
+    instructions: "Create your own multimedia presentation!",
+    learningObjectives: "Learn presentation skills, multimedia design, communication",
+    estimatedTime: 40,
+    pointsReward: 70,
+    badgeReward: "Presentation Master",
+    isActive: true
+  },
+
+  // Grade 6 Digital Literacy
+  {
+    title: "HTML & CSS Website Builder",
+    description: "Build your first website using HTML and CSS",
+    grade: "Grade 6",
+    ageGroup: "11-12",
+    gameType: "creative",
+    difficulty: "advanced",
+    subject: "Digital Literacy",
+    content: JSON.stringify({
+      gameType: "web-design",
+      html: ["headings", "paragraphs", "images", "links", "lists"],
+      css: ["colors", "fonts", "layout", "backgrounds"],
+      templates: ["personal", "project", "portfolio"]
+    }),
+    instructions: "Write HTML and CSS to build your own website!",
+    learningObjectives: "Learn web development basics, HTML/CSS, design principles",
+    estimatedTime: 50,
+    pointsReward: 85,
+    badgeReward: "Web Designer",
+    isActive: true
   }
 ];
 

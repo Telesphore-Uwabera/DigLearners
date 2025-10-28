@@ -1,15 +1,23 @@
-// Login Page Component
+// Teacher Login Component - Email/Password Authentication
 import React, { useState } from 'react'
 import { useLanguage } from '../../contexts/LanguageContext'
-import TeacherLogin from './TeacherLogin'
-import StudentLogin from './StudentLogin'
 
-const Login = ({ onLogin }) => {
+const TeacherLogin = ({ 
+  onLogin, 
+  loading, 
+  setLoading, 
+  error, 
+  setError, 
+  success, 
+  setSuccess 
+}) => {
   const { t } = useLanguage()
-  const [loginType, setLoginType] = useState(null) // 'teacher' or 'student'
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState(false)
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    rememberMe: true,
+    loginType: 'teacher'
+  })
 
   // Helper functions for error handling
   const getErrorClass = (error) => {
@@ -60,164 +68,175 @@ const Login = ({ onLogin }) => {
     return null
   }
 
-  const handleLoginTypeSelect = (type) => {
-    setLoginType(type)
-    setError('')
-    setSuccess(false)
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
   }
 
-  const handleBackToSelection = () => {
-    setLoginType(null)
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setLoading(true)
     setError('')
     setSuccess(false)
+
+    try {
+      const result = await onLogin(formData)
+      if (!result.success) {
+        setError(result.error || t('auth.loginError'))
+      } else {
+        setSuccess(true)
+        // Show success message briefly before redirect
+        setTimeout(() => {
+          // The redirect will be handled by the auth context
+        }, 1500)
+      }
+    } catch (err) {
+      // Enhanced error handling for specific error types
+      if (err.type) {
+        setError(err.message)
+      } else {
+        setError(t('auth.loginError'))
+      }
+    } finally {
+      setLoading(false)
+    }
   }
 
-  // Show login type selection if no type is selected
-  if (!loginType) {
-    return (
-      <div className="login-page">
-        <div className="login-container">
-          <div className="login-header">
-            <h1>DigLearners</h1>
-            <p>Digital Literacy Platform</p>
+  return (
+    <form onSubmit={handleSubmit} className="login-form">
+      <h2>{t('auth.teacherLogin')}</h2>
+      <p className="login-subtitle">{t('auth.teacherLoginSubtitle')}</p>
+      
+      {success && (
+        <div className="success-message">
+          <div className="success-icon">
+            🎉
           </div>
-          
-          <div className="login-type-selection">
-            <h2>{t('auth.selectLoginType')}</h2>
-            <p className="selection-subtitle">{t('auth.selectLoginSubtitle')}</p>
-            
-            <div className="login-type-buttons">
-              <button 
-                className="login-type-button teacher-button"
-                onClick={() => handleLoginTypeSelect('teacher')}
-              >
-                <div className="button-icon">👨‍🏫</div>
-                <div className="button-content">
-                  <h3>{t('auth.teacherLogin')}</h3>
-                  <p>{t('auth.teacherLoginDesc')}</p>
-                </div>
-              </button>
-              
-              <button 
-                className="login-type-button student-button"
-                onClick={() => handleLoginTypeSelect('student')}
-              >
-                <div className="button-icon">👨‍🎓</div>
-                <div className="button-content">
-                  <h3>{t('auth.studentLogin')}</h3>
-                  <p>{t('auth.studentLoginDesc')}</p>
-                </div>
-              </button>
+          <div className="success-content">
+            <div className="success-title">
+              Login Successful!
+            </div>
+            <div className="success-text">
+              Welcome back! Redirecting to your dashboard...
             </div>
           </div>
-          
-          <div className="login-footer">
-            <p>Student not registered yet? <a href="/enroll">Register the student here</a></p>
+        </div>
+      )}
+      
+      {error && (
+        <div className={`error-message ${getErrorClass(error)}`}>
+          <div className="error-icon">
+            {getErrorIcon(error)}
+          </div>
+          <div className="error-content">
+            <div className="error-title">
+              {getErrorTitle(error)}
+            </div>
+            <div className="error-text">
+              {error}
+            </div>
+            {getErrorSuggestion(error) && (
+              <div className="error-suggestion">
+                {getErrorSuggestion(error)}
+              </div>
+            )}
           </div>
         </div>
-      </div>
-    )
-  }
-
-  // Show the appropriate login form based on selected type
-  return (
-    <div className="login-page">
-      <div className="login-container">
-        <div className="login-header">
-          <h1>DigLearners</h1>
-          <p>Digital Literacy Platform</p>
-        </div>
-        
-        <div className="back-button-container">
-          <button 
-            className="back-button"
-            onClick={handleBackToSelection}
-          >
-            ← {t('common.back')}
-          </button>
-        </div>
-
-        {loginType === 'teacher' ? (
-          <TeacherLogin 
-            onLogin={onLogin}
-            loading={loading}
-            setLoading={setLoading}
-            error={error}
-            setError={setError}
-            success={success}
-            setSuccess={setSuccess}
-          />
-        ) : (
-          <StudentLogin 
-            onLogin={onLogin}
-            loading={loading}
-            setLoading={setLoading}
-            error={error}
-            setError={setError}
-            success={success}
-            setSuccess={setSuccess}
-          />
-        )}
-        
-        <div className="login-footer">
-          <p>Student not registered yet? <a href="/enroll">Register the student here</a></p>
-        </div>
+      )}
+      
+      <div className="form-group">
+        <label htmlFor="email">{t('auth.email')}</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+          placeholder={t('auth.emailPlaceholder')}
+        />
       </div>
       
+      <div className="form-group">
+        <label htmlFor="password">{t('auth.password')}</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+          placeholder={t('auth.passwordPlaceholder')}
+        />
+      </div>
+      
+      <div className="form-group remember-me">
+        <label className="remember-me-label">
+          <input
+            type="checkbox"
+            name="rememberMe"
+            checked={formData.rememberMe}
+            onChange={handleChange}
+            className="remember-me-checkbox"
+          />
+          <span className="checkmark"></span>
+          <span className="remember-me-text">🔒 {t('auth.rememberMe')}</span>
+        </label>
+      </div>
+      
+      <button 
+        type="submit" 
+        className={`login-button ${success ? 'success' : ''}`}
+        disabled={loading || success}
+      >
+        {success ? (
+          <>
+            <span>✅</span>
+            Login Successful!
+          </>
+        ) : loading ? (
+          <>
+            <span className="loading-spinner">⏳</span>
+            {t('common.loading')}
+          </>
+        ) : (
+          t('auth.login')
+        )}
+      </button>
+
       <style dangerouslySetInnerHTML={{
         __html: `
-          .login-page {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #FFB3BA, #B9FBC0);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-          }
-          
-          .login-container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            padding: 3rem;
+          .login-form {
             width: 100%;
-            max-width: 400px;
           }
-          
-          .login-header {
-            text-align: center;
-            margin-bottom: 2rem;
-          }
-          
-          .login-header h1 {
-            color: #FF677D;
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-          }
-          
-          .login-header p {
-            color: #6b7280;
-            font-size: 1.1rem;
-          }
-          
+
           .login-form h2 {
             color: #374151;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
             text-align: center;
+            font-size: 1.5rem;
           }
-          
+
+          .login-subtitle {
+            color: #6b7280;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+          }
+
           .form-group {
             margin-bottom: 1.5rem;
           }
-          
+
           .form-group label {
             display: block;
             margin-bottom: 0.5rem;
             color: #374151;
             font-weight: 500;
           }
-          
+
           .form-group input {
             width: 100%;
             padding: 0.75rem;
@@ -225,13 +244,14 @@ const Login = ({ onLogin }) => {
             border-radius: 6px;
             font-size: 1rem;
             transition: border-color 0.2s;
+            box-sizing: border-box;
           }
-          
+
           .form-group input:focus {
             outline: none;
             border-color: #FF677D;
           }
-          
+
           .error-message {
             background: #fef2f2;
             color: #dc2626;
@@ -438,130 +458,10 @@ const Login = ({ onLogin }) => {
           .remember-me-text {
             font-weight: 500;
           }
-          
-          .login-footer {
-            text-align: center;
-            margin-top: 1.5rem;
-          }
-          
-          .login-footer p {
-            color: #000000;
-            margin: 0;
-          }
-          
-          .login-footer a {
-            color: #FF677D;
-            text-decoration: none;
-            font-weight: 600;
-          }
-          
-          .login-footer a:hover {
-            text-decoration: underline;
-          }
-
-          /* Login Type Selection Styles */
-          .login-type-selection {
-            text-align: center;
-            margin-bottom: 2rem;
-          }
-
-          .login-type-selection h2 {
-            color: #374151;
-            margin-bottom: 0.5rem;
-            font-size: 1.5rem;
-          }
-
-          .selection-subtitle {
-            color: #6b7280;
-            margin-bottom: 2rem;
-            font-size: 1rem;
-          }
-
-          .login-type-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-          }
-
-          .login-type-button {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.5rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: left;
-          }
-
-          .login-type-button:hover {
-            border-color: #FF677D;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(255, 103, 125, 0.2);
-          }
-
-          .teacher-button:hover {
-            background: linear-gradient(135deg, #fff5f5, #fef2f2);
-          }
-
-          .student-button:hover {
-            background: linear-gradient(135deg, #f0f9ff, #eff6ff);
-          }
-
-          .button-icon {
-            font-size: 2.5rem;
-            flex-shrink: 0;
-          }
-
-          .button-content h3 {
-            margin: 0 0 0.5rem 0;
-            color: #374151;
-            font-size: 1.2rem;
-          }
-
-          .button-content p {
-            margin: 0;
-            color: #6b7280;
-            font-size: 0.9rem;
-          }
-
-          .back-button-container {
-            margin-bottom: 1rem;
-          }
-
-          .back-button {
-            background: none;
-            border: none;
-            color: #6b7280;
-            cursor: pointer;
-            font-size: 0.9rem;
-            padding: 0.5rem 0;
-            transition: color 0.2s;
-          }
-
-          .back-button:hover {
-            color: #FF677D;
-          }
-
-          @media (max-width: 480px) {
-            .login-container {
-              padding: 2rem;
-            }
-            
-            .login-type-button {
-              padding: 1rem;
-            }
-            
-            .button-icon {
-              font-size: 2rem;
-            }
-          }
         `
       }} />
-    </div>
+    </form>
   )
 }
 
-export default Login
+export default TeacherLogin
