@@ -9,6 +9,7 @@ import Lessons from './Lessons'
 import Assignments from './Assignments'
 import Analytics from './Analytics'
 import Schedule from './Schedule'
+import StudentRegistration from './StudentRegistration'
 
 const TeacherApp = () => {
   const { user, logout } = useAuth()
@@ -22,6 +23,7 @@ const TeacherApp = () => {
       <Routes>
         <Route path="/" element={<TeacherDashboard />} />
         <Route path="/students" element={<Students />} />
+        <Route path="/register-student" element={<StudentRegistration />} />
         <Route path="/lessons" element={<Lessons />} />
         <Route path="/assignments" element={<Assignments />} />
         <Route path="/analytics" element={<Analytics />} />

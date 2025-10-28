@@ -268,10 +268,13 @@ const StudentLogin = ({
           </div>
           <div className="success-content">
             <div className="success-title">
-              Welcome to DigLearners!
+              🌟 Awesome! Welcome to DigLearners! 🌟
             </div>
             <div className="success-text">
-              Great job! Taking you to your learning dashboard...
+              Great job answering all the questions! Get ready for an amazing learning adventure with fun games, puzzles, and activities!
+            </div>
+            <div className="success-progress">
+              <div className="progress-bar"></div>
             </div>
           </div>
         </div>
@@ -766,6 +769,31 @@ const StudentLogin = ({
             font-size: 0.95rem;
             line-height: 1.4;
             color: #047857;
+            margin-bottom: 1rem;
+          }
+
+          .success-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(16, 185, 129, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+          }
+
+          .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #059669);
+            border-radius: 2px;
+            animation: progressLoad 1.5s ease-out;
+          }
+
+          @keyframes progressLoad {
+            from {
+              width: 0%;
+            }
+            to {
+              width: 100%;
+            }
           }
 
           @media (max-width: 480px) {

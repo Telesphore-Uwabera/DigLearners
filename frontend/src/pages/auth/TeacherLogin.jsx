@@ -116,10 +116,13 @@ const TeacherLogin = ({
           </div>
           <div className="success-content">
             <div className="success-title">
-              Login Successful!
+              🌟 Welcome Back, Teacher! 🌟
             </div>
             <div className="success-text">
-              Welcome back! Redirecting to your dashboard...
+              Login successful! Taking you to your teacher dashboard where you can manage your students and lessons...
+            </div>
+            <div className="success-progress">
+              <div className="progress-bar"></div>
             </div>
           </div>
         </div>
@@ -373,6 +376,31 @@ const TeacherLogin = ({
             font-size: 0.95rem;
             line-height: 1.4;
             color: #047857;
+            margin-bottom: 1rem;
+          }
+
+          .success-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(16, 185, 129, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+          }
+
+          .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #059669);
+            border-radius: 2px;
+            animation: progressLoad 1.5s ease-out;
+          }
+
+          @keyframes progressLoad {
+            from {
+              width: 0%;
+            }
+            to {
+              width: 100%;
+            }
           }
           
           .login-button {

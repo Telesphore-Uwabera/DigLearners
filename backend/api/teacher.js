@@ -38,7 +38,81 @@ router.get('/analytics/test', async (req, res) => {
   }
 });
 
-// Register a child/student
+// Register a student (teacher creates registration code)
+router.post('/register-student', authenticateToken, requireTeacher, async (req, res) => {
+  try {
+    const { fullName, grade, age } = req.body;
+
+    // Validate input
+    if (!fullName || !grade) {
+      return res.status(400).json({
+        success: false,
+        error: 'Full name and grade are required'
+      });
+    }
+
+    // Generate unique registration code
+    const registrationCode = await User.generateUniqueRegistrationCode();
+
+    // Create student account with registration code (no password needed)
+    const student = await User.create({
+      fullName,
+      role: 'learner',
+      grade,
+      age: age || null,
+      registrationCode,
+      // No email or password required - student will login with registration code
+    });
+
+    res.status(201).json({
+      success: true,
+      message: `Student registered successfully! Registration code: ${registrationCode}`,
+      data: {
+        id: student.id,
+        fullName: student.fullName,
+        grade: student.grade,
+        age: student.age,
+        role: student.role,
+        registrationCode: student.registrationCode
+      }
+    });
+
+  } catch (error) {
+    console.error('Student registration error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error'
+    });
+  }
+});
+
+// Get all students with their registration codes (for teacher management)
+router.get('/my-students', authenticateToken, requireTeacher, async (req, res) => {
+  try {
+    const students = await User.findAll({
+      where: { 
+        role: 'learner',
+        registrationCode: { [Op.not]: null }
+      },
+      attributes: ['id', 'fullName', 'grade', 'age', 'registrationCode', 'totalPoints', 'createdAt'],
+      order: [['createdAt', 'DESC']]
+    });
+
+    res.json({
+      success: true,
+      data: students
+    });
+
+  } catch (error) {
+    console.error('Error fetching students:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error'
+    });
+  }
+});
+
+// Register a child/student (legacy endpoint)
 router.post('/register-child', authenticateToken, requireTeacher, async (req, res) => {
   try {
     const { fullName, email, password, grade, age } = req.body;

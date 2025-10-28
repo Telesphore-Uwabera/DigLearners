@@ -22,6 +22,7 @@ const Sidebar = ({ user, onLogout, isOpen, onClose }) => {
         return [
           ...baseItems,
           { path: '/dashboard/students', label: 'Students' },
+          { path: '/dashboard/register-student', label: 'Register Student' },
           { path: '/dashboard/lessons', label: 'Lessons' },
           { path: '/dashboard/assignments', label: 'Assignments' },
           { path: '/dashboard/analytics', label: 'Analytics' },

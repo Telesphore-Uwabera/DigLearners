@@ -72,10 +72,13 @@ const Enroll = () => {
       if (!result.success) {
         setError(result.error || 'Registration failed')
       } else {
-        setSuccess(true)
+        setSuccess({
+          registrationCode: result.registrationCode,
+          message: result.message
+        })
         setTimeout(() => {
-          navigate('/login')
-        }, 3000)
+          navigate('/login?type=student')
+        }, 4000)
       }
     } catch (err) {
       setError('Registration failed. Please try again.')
@@ -98,14 +101,20 @@ const Enroll = () => {
 
         {success && (
           <div className="success-message">
-            <Icon name="star" size={20} />
+            <div className="success-icon">🎉</div>
             <div className="success-content">
-              <div className="success-title">🎉 Registration Successful!</div>
+              <div className="success-title">🌟 Welcome to DigLearners! 🌟</div>
               <div className="success-text">
-                Welcome to DigLearners! Your student account has been created successfully.
+                Congratulations! Your student account has been created successfully. You're now ready to start your amazing digital learning adventure with fun games, interactive lessons, and exciting challenges!
+              </div>
+              <div className="success-code">
+                <strong>Your Registration Code: <span className="code-highlight">{success.registrationCode || 'ABC123'}</span></strong>
               </div>
               <div className="success-action">
-                Redirecting to login page in 3 seconds...
+                Taking you to the login page to start learning...
+              </div>
+              <div className="success-progress">
+                <div className="progress-bar"></div>
               </div>
             </div>
           </div>
@@ -335,6 +344,70 @@ const Enroll = () => {
             color: #065f46;
             border: 2px solid #10b981;
             animation: successSlide 0.5s ease-out;
+            padding: 2rem;
+            gap: 1.5rem;
+          }
+
+          .success-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+            animation: bounce 2s ease-in-out infinite;
+          }
+
+          .success-code {
+            background: rgba(16, 185, 129, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: center;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+          }
+
+          .code-highlight {
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            color: #047857;
+            background: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            letter-spacing: 0.1em;
+          }
+
+          .success-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(16, 185, 129, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 1rem;
+          }
+
+          .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #059669);
+            border-radius: 2px;
+            animation: progressLoad 4s ease-out;
+          }
+
+          @keyframes progressLoad {
+            from {
+              width: 0%;
+            }
+            to {
+              width: 100%;
+            }
+          }
+
+          @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { 
+              transform: translateY(0); 
+            }
+            40% { 
+              transform: translateY(-10px); 
+            }
+            60% { 
+              transform: translateY(-5px); 
+            }
           }
 
           @keyframes successSlide {
