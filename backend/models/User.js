@@ -19,10 +19,16 @@ module.exports = (sequelize) => {
     },
     email: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      allowNull: true,
       unique: true,
       validate: {
-        isEmail: true
+        isEmail: true,
+        // Email is required for teachers and admins, optional for learners
+        customEmailValidation(value) {
+          if ((this.role === 'teacher' || this.role === 'admin') && !value) {
+            throw new Error('Email is required for teachers and admins');
+          }
+        }
       }
     },
     password: {
@@ -34,8 +40,19 @@ module.exports = (sequelize) => {
     },
     passwordHash: {
       type: DataTypes.STRING(255),
-      allowNull: false,
-      field: 'password_hash'
+      allowNull: true,
+      field: 'password_hash',
+      validate: {
+        // Password is required for teachers and admins, optional for learners with registration codes
+        customPasswordValidation(value) {
+          if ((this.role === 'teacher' || this.role === 'admin') && !value) {
+            throw new Error('Password is required for teachers and admins');
+          }
+          if (this.role === 'learner' && !value && !this.registrationCode) {
+            throw new Error('Learners must have either a password or registration code');
+          }
+        }
+      }
     },
     role: {
       type: DataTypes.ENUM('admin', 'teacher', 'learner'),
@@ -61,7 +78,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(50),
       allowNull: true,
       validate: {
-        isIn: [['Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6', 'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12']]
+        isIn: [['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6', 'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12']]
       }
     },
     age: {

@@ -5,7 +5,7 @@ const path = require('path');
 // Database configuration
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: path.join(__dirname, '../../data/diglearners.db'),
+  storage: process.env.NODE_ENV === 'test' ? ':memory:' : path.join(__dirname, '../../data/diglearners.db'),
   logging: process.env.NODE_ENV === 'development' ? console.log : false,
   define: {
     timestamps: true,
@@ -177,6 +177,8 @@ const seedInitialData = async () => {
     console.log('Clearing and reseeding gamified content...');
     await GamifiedContent.destroy({ where: {} });
     
+    let teacherUser;
+    
     // Only create users if they don't exist
     if (userCount === 0) {
       console.log('Creating initial users...');
@@ -190,7 +192,7 @@ const seedInitialData = async () => {
       });
 
       // Create sample teacher
-      const teacherUser = await User.create({
+      teacherUser = await User.create({
         fullName: 'Pierre Nkurunziza',
         email: 'pierre@diglearners.rw',
         passwordHash: 'teacher123',
@@ -206,10 +208,12 @@ const seedInitialData = async () => {
       });
     } else {
       console.log('Users already exist, skipping user creation...');
+      // Find existing teacher for lesson creation
+      teacherUser = await User.findOne({ where: { role: 'teacher' } });
     }
 
     // Skip lesson and class creation if users already exist
-    if (userCount === 0) {
+    if (userCount === 0 && teacherUser) {
       // Create sample learning class
       const sampleClass = await LearningClass.create({
         name: 'Digital Literacy Class',
@@ -252,7 +256,9 @@ const seedInitialData = async () => {
       for (const lessonData of lessons) {
         const lesson = await Lesson.create(lessonData);
         // Assign lesson to class
-        await ClassLesson.assignLessonToClass(sampleClass.id, lesson.id, teacherUser.id);
+        if (teacherUser) {
+          await ClassLesson.assignLessonToClass(sampleClass.id, lesson.id, teacherUser.id);
+        }
       }
     }
 
