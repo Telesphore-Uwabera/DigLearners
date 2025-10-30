@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { teacherApiService } from '../../services/teacherApiService';
+import { useTranslation } from '../../lib/language';
+import teacherApiService from '../../services/teacherApiService';
 
 const StudentRegistration = () => {
   const { t } = useTranslation();
