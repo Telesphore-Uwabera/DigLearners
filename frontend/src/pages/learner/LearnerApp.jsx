@@ -5,6 +5,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import LearnerLayout from '../../components/layout/LearnerLayout'
 import LearnerDashboard from './LearnerDashboard'
 import Achievements from './Achievements'
+import Lessons from './Lessons'
 import AgeGroupSelector from '../../components/AgeGroupSelector'
 import GamesDashboard from './GamesDashboard'
 import GamePlayer from './GamePlayer'
@@ -22,6 +23,7 @@ const LearnerApp = () => {
         <Route path="/" element={<LearnerDashboard />} />
         <Route path="/age-select" element={<AgeGroupSelector />} />
         <Route path="/games" element={<GamesDashboard />} />
+        <Route path="/lessons" element={<Lessons />} />
         <Route path="/game/:gameId" element={<GamePlayer />} />
         <Route path="/achievements" element={<Achievements />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />

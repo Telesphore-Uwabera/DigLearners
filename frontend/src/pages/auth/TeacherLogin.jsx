@@ -1,5 +1,6 @@
 // Teacher Login Component - Email/Password Authentication
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useLanguage } from '../../contexts/LanguageContext'
 
 const TeacherLogin = ({ 
@@ -12,6 +13,7 @@ const TeacherLogin = ({
   setSuccess 
 }) => {
   const { t } = useLanguage()
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -82,6 +84,19 @@ const TeacherLogin = ({
     setSuccess(false)
 
     try {
+      // Client-side validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!formData.email || !emailRegex.test(formData.email)) {
+        setError('Please enter a valid email address')
+        setLoading(false)
+        return
+      }
+      if (!formData.password || formData.password.length < 4) {
+        setError('Please enter your password')
+        setLoading(false)
+        return
+      }
+
       const result = await onLogin(formData)
       if (!result.success) {
         setError(result.error || t('auth.loginError'))
@@ -89,8 +104,14 @@ const TeacherLogin = ({
         setSuccess(true)
         // Show success message briefly before redirect
         setTimeout(() => {
-          // The redirect will be handled by the auth context
-        }, 1500)
+          navigate('/dashboard', { replace: true })
+          // Fallback hard redirect if router state hasn't updated
+          setTimeout(() => {
+            if (typeof window !== 'undefined' && window.location.pathname !== '/dashboard') {
+              window.location.assign('/dashboard')
+            }
+          }, 150)
+        }, 800)
       }
     } catch (err) {
       // Enhanced error handling for specific error types

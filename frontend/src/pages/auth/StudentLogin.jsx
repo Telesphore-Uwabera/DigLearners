@@ -1,5 +1,6 @@
 // Student Login Component - Question-based Authentication
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useLanguage } from '../../contexts/LanguageContext'
 
 const StudentLogin = ({ 
@@ -12,6 +13,7 @@ const StudentLogin = ({
   setSuccess 
 }) => {
   const { t } = useLanguage()
+  const navigate = useNavigate()
   const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState({
     fullName: '',
@@ -137,21 +139,34 @@ const StudentLogin = ({
       setCurrentStep(3)
       return
     }
+    // Code format validation: 6 alphanumeric
+    const code = formData.registrationCode.trim().toUpperCase()
+    if (!/^[A-Z0-9]{6}$/.test(code)) {
+      setError('Registration code must be 6 letters/numbers (e.g., ABC123)')
+      setCurrentStep(3)
+      return
+    }
 
     setLoading(true)
     setError('')
     setSuccess(false)
 
     try {
-      const result = await onLogin(formData)
+      const result = await onLogin({ ...formData, registrationCode: code })
       if (!result.success) {
         setError(result.error || t('auth.loginError'))
       } else {
         setSuccess(true)
         // Show success message briefly before redirect
         setTimeout(() => {
-          // The redirect will be handled by the auth context
-        }, 1500)
+          navigate('/dashboard', { replace: true })
+          // Fallback hard redirect if router state hasn't updated
+          setTimeout(() => {
+            if (typeof window !== 'undefined' && window.location.pathname !== '/dashboard') {
+              window.location.assign('/dashboard')
+            }
+          }, 150)
+        }, 800)
       }
     } catch (err) {
       // Enhanced error handling for specific error types

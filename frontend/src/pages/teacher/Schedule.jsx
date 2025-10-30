@@ -137,7 +137,7 @@ const Schedule = () => {
 
   return (
     <div className="dashboard-container">
-      <div className="page-container">
+    <div className="page-container">
         <div className="schedule-main">
           <div className="schedule-header">
             <h1>

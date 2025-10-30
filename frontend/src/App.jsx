@@ -10,7 +10,7 @@ import Login from './pages/auth/Login'
 import Enroll from './pages/auth/Enroll'
 import LearnerApp from './pages/learner/LearnerApp'
 import TeacherApp from './pages/teacher/TeacherApp'
-import AdminApp from './pages/admin/AdminApp'
+// AdminApp removed; admin users are routed into TeacherApp
 import TermsAndConditions from './pages/legal/TermsAndConditions'
 import PrivacyPolicy from './pages/legal/PrivacyPolicy'
 import CookiesPolicy from './pages/legal/CookiesPolicy'
@@ -135,8 +135,7 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             {user?.role === 'learner' && <LearnerApp />}
-            {user?.role === 'teacher' && <TeacherApp />}
-            {user?.role === 'admin' && <AdminApp />}
+            {(user?.role === 'teacher' || user?.role === 'admin') && <TeacherApp />}
             {!user && <Navigate to="/login" replace />}
           </ProtectedRoute>
         } 

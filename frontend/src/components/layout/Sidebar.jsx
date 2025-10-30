@@ -26,12 +26,18 @@ const Sidebar = ({ user, onLogout, isOpen, onClose }) => {
           { path: '/dashboard/lessons', label: 'Lessons' },
           { path: '/dashboard/assignments', label: 'Assignments' },
           { path: '/dashboard/analytics', label: 'Analytics' },
-          { path: '/dashboard/schedule', label: 'Schedule' }
+          { path: '/dashboard/schedule', label: 'Schedule' },
+          // Admin functionalities now available in teacher dashboard
+          { path: '/dashboard/users', label: 'User Management' },
+          { path: '/dashboard/content', label: 'Content Management' },
+          { path: '/dashboard/settings', label: 'Settings' },
+          { path: '/dashboard/reports', label: 'Reports' }
         ];
       
       case 'learner':
         return [
           ...baseItems,
+          { path: '/dashboard/lessons', label: 'Lessons' },
           { path: '/dashboard/games', label: 'My Games' },
           { path: '/dashboard/achievements', label: 'Badges' }
         ];
