@@ -112,14 +112,24 @@ This will start:
 - Backend API server on http://localhost:5000
 - Frontend development server on http://localhost:3000
 
+### Test Login Credentials
+
+- Teacher/Admin access (Teacher UI with admin features if role=admin):
+  - Email: `testteacher@diglearners.com`
+  - Password: `password123`
+
+- Student access:
+  - Obtain a registration code from a teacher via `Dashboard → Register Student`
+  - Login at `/login?type=student` with: Full name, Grade, Registration Code
+
 ### Default Login Credentials
 
 Admins log in via the Teacher login and use the Teacher dashboard.
 
 | Role | Email | Password | Access Notes |
 |------|-------|----------|--------------|
-| **Teacher/Admin** | `pierre@diglearners.rw` | `teacher123` | Admins have elevated permissions within the teacher dashboard |
-| **Teacher** | `marie@diglearners.rw` | `teacher123` | Class management, student oversight, lesson assignment |
+| **Teacher/Admin** | `testteacher@diglearners.com` | `password123` | Admins have elevated permissions within the teacher dashboard |
+| **Teacher** | (create additional via admin tools) |  |  |
 | **Student** | Use registration code | N/A | Student login via name, grade, registration code |
 
 **Note**: Demo credentials are for development/testing. Replace in production.
