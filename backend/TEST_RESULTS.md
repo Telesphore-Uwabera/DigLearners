@@ -14,7 +14,7 @@
 - **Frontend Interface**: Complete StudentRegistration component with copy-to-clipboard functionality
 
 ### 3. Dual Login System
-- **Teacher Login**: Email and password authentication (also used by admins)
+- **Teacher Login**: Email and password authentication (admins also use this and see elevated features in Teacher dashboard)
 - **Student Login**: Question-based flow using name, grade, and registration code
 - **Auto-detection**: System automatically detects login type based on provided fields
 
@@ -140,7 +140,7 @@ npm test
 ## 🎯 System Architecture
 
 ### Authentication Flow
-1. **Teachers/Admins**: Traditional email/password authentication with JWT tokens
+1. **Teachers (Admins too)**: Traditional email/password authentication with JWT tokens; Admins use Teacher dashboard UI
 2. **Students**: Registration code-based authentication with name/grade verification
 3. **Session Management**: JWT tokens for all authenticated users
 4. **Role-based Access**: Different dashboard access based on user role

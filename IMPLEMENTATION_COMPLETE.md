@@ -24,7 +24,7 @@
 ### 2. **Backend API** ✓
 - **Authentication System:**
   - JWT-based authentication
-  - Role-based access control (Admin, Teacher, Learner, Parent)
+- Role-based access control (Teacher, Learner, Parent; Admins use Teacher UI)
   - Password hashing and validation
   - Token verification middleware
   - Rate limiting
@@ -48,9 +48,8 @@
 
 - **Role-Based Dashboards:**
   - **Learner Dashboard** - Progress, lessons, badges
-  - **Teacher Dashboard** - Class management, analytics
+  - **Teacher Dashboard** - Class management, analytics, and admin capabilities for admin users
   - **Parent Dashboard** - Child progress monitoring
-  - **Admin Dashboard** - Platform management
 
 - **Context Providers:**
   - `AuthContext` - User authentication state
@@ -77,8 +76,7 @@
 
 ### 5. **Sample Data** ✓
 - **Default Users:**
-  - Admin: `admin@diglearners.rw` / `admin123`
-  - Teacher: `teacher@diglearners.rw` / `teacher123`
+  - Teacher/Admin: `teacher@diglearners.rw` / `teacher123`
 
 - **Sample Lessons:**
   - Introduction to Typing
@@ -145,7 +143,7 @@ npm run dev
 When you first run the backend, it will automatically:
 1. Create the SQLite database (`data/diglearners.db`)
 2. Create all necessary tables
-3. Seed initial data (admin user, teacher, sample lessons, badges)
+3. Seed initial data (teacher, sample lessons, badges)
 
 ## 🎯 Testing the Application
 
@@ -169,10 +167,8 @@ Test endpoints:
 
 ### 3. Test Authentication
 
-**Login as Admin:**
-- Email: `admin@diglearners.rw`
-- Password: `admin123`
-- Should redirect to Admin Dashboard
+**Admins:**
+- Admin users log in via the Teacher login and access elevated features within the Teacher dashboard.
 
 **Login as Teacher:**
 - Email: `teacher@diglearners.rw`
@@ -227,7 +223,7 @@ DigLearners/
 │   │   │   ├── learner/     # Learner dashboard
 │   │   │   ├── teacher/     # Teacher dashboard
 │   │   │   ├── parent/      # Parent dashboard
-│   │   │   ├── admin/       # Admin dashboard
+│   │   │   ├── admin/       # Deprecated: Admin UI merged into Teacher UI
 │   │   │   └── public/      # Home, NotFound
 │   │   ├── services/        # API services
 │   │   │   ├── authService.js

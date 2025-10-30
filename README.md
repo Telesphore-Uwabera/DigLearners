@@ -9,7 +9,7 @@ DigLearners is a web-based platform that enhances foundational digital literacy 
 - **Offline-First Architecture**: Works seamlessly in low-bandwidth and rural areas
 - **Gamification System**: Points, badges, levels, and leaderboards to motivate learning
 - **Multilingual Support**: English and Kinyarwanda language options
-- **Role-Based Access**: Separate interfaces for Learners, Teachers, and Administrators
+- **Role-Based Access**: Interfaces for Learners and Teachers (Admins use the Teacher dashboard)
 - **Child-Friendly Design**: Large touch targets, high contrast, and accessibility features
 - **Research Analytics**: Comprehensive data collection for educational research
 
@@ -73,7 +73,7 @@ frontend/
 │   │   ├── forms/      # Form components
 │   │   └── layout/     # Layout components
 │   ├── pages/          # Role-based pages
-│   │   ├── admin/      # Admin interface
+│   │   ├── admin/      # Deprecated: Admin UI merged into teacher dashboard
 │   │   ├── teacher/    # Teacher interface
 │   │   ├── learner/    # Student interface
 │   │   ├── auth/       # Authentication pages
@@ -114,20 +114,15 @@ This will start:
 
 ### Default Login Credentials
 
-The system comes with pre-configured test accounts:
+Admins log in via the Teacher login and use the Teacher dashboard.
 
-| Role | Email | Password | Access Level |
+| Role | Email | Password | Access Notes |
 |------|-------|----------|--------------|
-| **Admin** | `telesphore91073@gmail.com` | `91073@Tecy` | Full platform access, user management, content creation |
-| **Teacher** | `pierre@diglearners.rw` | `teacher123` | Class management, student oversight, lesson assignment |
+| **Teacher/Admin** | `pierre@diglearners.rw` | `teacher123` | Admins have elevated permissions within the teacher dashboard |
 | **Teacher** | `marie@diglearners.rw` | `teacher123` | Class management, student oversight, lesson assignment |
-| **Student** | `telesphore@alustudent.com` | `student123` | Access to lessons and learning activities |
-| **Student** | `alice@student.rw` | `student123` | Access to lessons and learning activities |
-| **Student** | `jean@student.rw` | `student123` | Access to lessons and learning activities |
-| **Student** | `grace@student.rw` | `student123` | Access to lessons and learning activities |
-| **Student** | `peter@student.rw` | `student123` | Access to lessons and learning activities |
+| **Student** | Use registration code | N/A | Student login via name, grade, registration code |
 
-**Note**: These are default credentials for development/testing. In production, these should be changed or removed.
+**Note**: Demo credentials are for development/testing. Replace in production.
 
 ### Production Build
 
@@ -212,11 +207,7 @@ The platform implements the Entity-Relationship Diagram (ERD) with the following
 - Grade-based content targeting
 
 ### Admin Interface
-- User management
-- Content management
-- Platform analytics
-- System configuration
-- Research data export
+Admin UI has been removed. Admin capabilities (user/content management, analytics, settings) are now accessible within the Teacher dashboard for users with the `admin` role.
 
 ## PWA Features
 
@@ -315,8 +306,8 @@ npm run seed       # Seed initial data
 ### Content Management
 - `GET /api/content/lessons` - Get all lessons
 - `GET /api/content/lessons/:id` - Get lesson by ID
-- `POST /api/content/lessons` - Create lesson (Admin)
-- `PUT /api/content/lessons/:id` - Update lesson (Admin)
+- `POST /api/content/lessons` - Create lesson (Teacher/Admin)
+- `PUT /api/content/lessons/:id` - Update lesson (Teacher/Admin)
 
 ### Gamified Content
 - `GET /api/gamified/my-content` - Get user's grade-specific content
@@ -324,10 +315,10 @@ npm run seed       # Seed initial data
 - `GET /api/gamified/grade/:grade` - Get content by grade
 - `POST /api/gamified/create` - Create gamified content (Teacher/Admin)
 
-### Teacher Management
+### Teacher Management (includes Admin capabilities)
 - `GET /api/teacher/dashboard` - Get teacher dashboard data
-- `POST /api/teacher/register-child` - Register new student
-- `GET /api/teacher/students` - Get all students
+- `POST /api/teacher/register-student` - Register new student (generates code)
+- `GET /api/teacher/my-students` - Get all students for the teacher
 - `PUT /api/teacher/students/:id` - Update student profile
 - `GET /api/teacher/assignments` - Get assignments
 - `POST /api/teacher/assignments` - Create assignment
