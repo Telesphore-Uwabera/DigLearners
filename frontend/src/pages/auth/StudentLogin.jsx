@@ -1,7 +1,12 @@
 // Student Login Component - Question-based Authentication
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLanguage } from '../../contexts/LanguageContext'
+
+// Add console logging setup on component mount
+if (typeof window !== 'undefined') {
+  console.log('[StudentLogin] Component module loaded')
+}
 
 const StudentLogin = ({ 
   onLogin, 
@@ -21,6 +26,20 @@ const StudentLogin = ({
     registrationCode: '',
     loginType: 'student'
   })
+
+  // Debug: Log when component mounts
+  useEffect(() => {
+    console.log('[StudentLogin] Component mounted', { 
+      hasOnLogin: typeof onLogin === 'function',
+      currentStep,
+      formData 
+    })
+  }, [])
+  
+  // Debug: Log when formData changes
+  useEffect(() => {
+    console.log('[StudentLogin] Form data updated:', formData)
+  }, [formData])
 
   const grades = [
     { value: 'Grade 1', label: t('grades.grade1') },
@@ -121,10 +140,26 @@ const StudentLogin = ({
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    console.log('[StudentLogin] handleSubmit called', { e, formData, currentStep })
+    
+    // Prevent any default behavior
+    if (e) {
+      if (e.preventDefault) e.preventDefault()
+      if (e.stopPropagation) e.stopPropagation()
+    }
+    
+    console.log('[StudentLogin] Starting validation...')
+    
+    // Ensure we're on step 3 (registration code step)
+    if (currentStep !== 3) {
+      console.log('[StudentLogin] Not on step 3, current step:', currentStep)
+      setCurrentStep(3)
+      return
+    }
     
     // Validate all fields
     if (!formData.fullName.trim()) {
+      console.log('[StudentLogin] Validation failed: missing fullName')
       setError(t('auth.student.nameRequired'))
       setCurrentStep(1)
       return
@@ -152,30 +187,92 @@ const StudentLogin = ({
     setSuccess(false)
 
     try {
+      console.log('[StudentLogin] Attempting student login:', {
+        fullName: formData.fullName,
+        grade: formData.grade,
+        registrationCode: code
+      })
+      
       const result = await onLogin({ ...formData, registrationCode: code })
-      if (!result.success) {
-        setError(result.error || t('auth.loginError'))
+      
+      console.log('[StudentLogin] Login result:', {
+        success: result?.success,
+        hasUser: !!result?.user,
+        hasToken: !!result?.token,
+        userRole: result?.user?.role,
+        userGrade: result?.user?.grade
+      })
+      
+      // Check if login was successful - handle both result structures
+      const isSuccess = result?.success !== false && (result?.user || result?.token || result)
+      
+      if (!isSuccess || result?.error) {
+        const errorMsg = result?.error || t('auth.loginError')
+        console.error('[StudentLogin] Login failed:', errorMsg)
+        setError(errorMsg)
+        setLoading(false)
       } else {
+        console.log('[StudentLogin] Login successful! User:', result?.user?.fullName || result?.fullName || 'Student')
         setSuccess(true)
+        
         // Show success message briefly before redirect
         setTimeout(() => {
-          navigate('/dashboard', { replace: true })
-          // Fallback hard redirect if router state hasn't updated
-          setTimeout(() => {
-            if (typeof window !== 'undefined' && window.location.pathname !== '/dashboard') {
-              window.location.assign('/dashboard')
-            }
-          }, 150)
-        }, 800)
+          console.log('[StudentLogin] Redirecting to dashboard...')
+          console.log('[StudentLogin] Current path:', window.location.pathname)
+          console.log('[StudentLogin] User state:', { 
+            role: result?.user?.role, 
+            name: result?.user?.fullName,
+            hasToken: !!localStorage.getItem('authToken')
+          })
+          
+          try {
+            // Use React Router navigate (client-side navigation)
+            console.log('[StudentLogin] Attempting React Router navigate...')
+            navigate('/dashboard', { replace: true })
+            
+            // Check if navigation worked after a delay
+            setTimeout(() => {
+              const currentPath = window.location.pathname
+              console.log('[StudentLogin] Path after navigate:', currentPath)
+              
+              if (currentPath !== '/dashboard' && currentPath !== '/dashboard/') {
+                console.warn('[StudentLogin] React Router navigate failed, using window.location')
+                // Only use window.location as last resort - this will cause a full reload
+                window.location.href = '/dashboard'
+              } else {
+                console.log('[StudentLogin] Successfully navigated to dashboard via React Router')
+              }
+            }, 500)
+          } catch (navError) {
+            console.error('[StudentLogin] Navigation error:', navError)
+            // Last resort: full page reload
+            window.location.href = '/dashboard'
+          }
+        }, 1000) // Increased delay to ensure state is set
       }
     } catch (err) {
+      console.error('[StudentLogin] ERROR in handleSubmit:', err)
+      console.error('[StudentLogin] Error details:', {
+        message: err.message,
+        stack: err.stack,
+        type: err.type,
+        name: err.name,
+        response: err.response,
+        config: err.config
+      })
+      
       // Enhanced error handling for specific error types
+      let errorMessage = t('auth.loginError')
       if (err.type) {
-        setError(err.message)
-      } else {
-        setError(t('auth.loginError'))
+        errorMessage = err.message
+      } else if (err.response) {
+        errorMessage = err.response.data?.error || err.response.data?.message || err.message
+        console.error('[StudentLogin] API Error Response:', err.response.data)
+      } else if (err.message) {
+        errorMessage = err.message
       }
-    } finally {
+      
+      setError(errorMessage)
       setLoading(false)
     }
   }
@@ -244,6 +341,13 @@ const StudentLogin = ({
                 name="registrationCode"
                 value={formData.registrationCode}
                 onChange={handleChange}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter' && currentStep === 3) {
+                    e.preventDefault()
+                    console.log('[StudentLogin] Enter key pressed in registration code input')
+                    handleSubmit(e)
+                  }
+                }}
                 placeholder={t('auth.student.codePlaceholder')}
                 className="question-input registration-code-input"
                 autoFocus
@@ -259,8 +363,50 @@ const StudentLogin = ({
     }
   }
 
+  const handleFormSubmit = (e) => {
+    console.log('[StudentLogin] Form onSubmit triggered', { e })
+    
+    try {
+      // Always prevent default to stop page reload
+      if (e) {
+        e.preventDefault()
+        e.stopPropagation()
+        e.stopImmediatePropagation()
+      }
+      
+      console.log('[StudentLogin] Default prevented, calling handleSubmit...')
+      
+      // Call handleSubmit but don't let errors bubble up
+      handleSubmit(e).catch(err => {
+        console.error('[StudentLogin] Unhandled error in handleSubmit:', err)
+        setError(err.message || 'An unexpected error occurred')
+        setLoading(false)
+      })
+    } catch (err) {
+      console.error('[StudentLogin] Error in handleFormSubmit:', err)
+      setError('An error occurred while processing your login')
+      setLoading(false)
+    }
+    
+    // Return false as additional safety
+    return false
+  }
+
+  // Handle Enter key on form inputs
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      if (currentStep < 3) {
+        handleNext()
+      } else {
+        // On step 3, trigger login
+        handleSubmit(e)
+      }
+    }
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="student-login-form">
+    <div className="student-login-form">
       <h2>{t('auth.studentLogin')}</h2>
       <p className="login-subtitle">{t('auth.studentLoginSubtitle')}</p>
       
@@ -368,9 +514,39 @@ const StudentLogin = ({
           </button>
         ) : (
           <button 
-            type="submit" 
+            type="button"
             className={`nav-button login-button ${success ? 'success' : ''}`}
             disabled={loading || success}
+            onClick={async (e) => {
+              console.log('[StudentLogin] Start Learning button clicked', { loading, success, formData, currentStep })
+              e.preventDefault()
+              e.stopPropagation()
+              
+              // Don't proceed if button is disabled
+              if (loading || success) {
+                console.log('[StudentLogin] Button disabled, ignoring click')
+                return false
+              }
+              
+              // Ensure we're on step 3
+              if (currentStep !== 3) {
+                console.warn('[StudentLogin] Button clicked but not on step 3! Current step:', currentStep)
+                setCurrentStep(3)
+                return false
+              }
+              
+              // Call handleSubmit directly - button is type="button" so won't submit form
+              console.log('[StudentLogin] Calling handleSubmit directly from button...')
+              try {
+                await handleSubmit(e)
+              } catch (err) {
+                console.error('[StudentLogin] Error in button onClick:', err)
+                setError(err.message || 'An error occurred during login')
+                setLoading(false)
+              }
+              
+              return false
+            }}
           >
             {success ? (
               <>
@@ -832,7 +1008,7 @@ const StudentLogin = ({
           }
         `
       }} />
-    </form>
+    </div>
   )
 }
 

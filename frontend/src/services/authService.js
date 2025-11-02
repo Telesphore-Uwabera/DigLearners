@@ -30,7 +30,15 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    // Don't redirect on 401 if we're already on login page or during login attempts
+    const isLoginPage = window.location.pathname === '/login' || window.location.pathname === '/login/'
+    const isLoginRequest = error.config?.url?.includes('/auth/login')
+    
+    if (error.response?.status === 401 && !isLoginPage && !isLoginRequest) {
+      console.log('[authService] 401 error - redirecting to login', {
+        pathname: window.location.pathname,
+        url: error.config?.url
+      })
       localStorage.removeItem('authToken')
       window.location.href = '/login'
     }

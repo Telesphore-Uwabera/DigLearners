@@ -93,7 +93,8 @@ export const AuthProvider = ({ children, value: initialValue }) => {
       console.log('[AuthContext] Setting user and token...')
       setUser(result.user)
       localStorage.setItem('authToken', result.token)
-      console.log('[AuthContext] Login successful! User:', result.user.email)
+      const userIdentifier = result.user.email || result.user.fullName || 'User'
+      console.log('[AuthContext] Login successful! User:', userIdentifier, 'Role:', result.user.role)
       
       return result
     } catch (error) {

@@ -18,16 +18,43 @@ const LearnerDashboard = () => {
   const [recentBadges, setRecentBadges] = useState([]);
 
   useEffect(() => {
-    // Check if user has selected an age group
-    const selectedAgeGroup = localStorage.getItem('selectedAgeGroup');
+    // Auto-set age group based on student's grade if available
+    let selectedAgeGroup = localStorage.getItem('selectedAgeGroup');
+    
+    if (!selectedAgeGroup && user?.grade) {
+      // Map grade to age group
+      const gradeToAgeGroup = {
+        '1': '6-7',
+        'Grade 1': '6-7',
+        '2': '7-8',
+        'Grade 2': '7-8',
+        '3': '8-9',
+        'Grade 3': '8-9',
+        '4': '9-10',
+        'Grade 4': '9-10',
+        '5': '10-11',
+        'Grade 5': '10-11',
+        '6': '11-12',
+        'Grade 6': '11-12'
+      };
+      
+      const ageGroup = gradeToAgeGroup[user.grade];
+      if (ageGroup) {
+        localStorage.setItem('selectedAgeGroup', ageGroup);
+        selectedAgeGroup = ageGroup;
+        console.log('[LearnerDashboard] Auto-set age group based on grade:', user.grade, '->', ageGroup);
+      }
+    }
+    
     if (!selectedAgeGroup) {
-      // Redirect to age group selection
+      // If still no age group, redirect to age group selection
+      console.log('[LearnerDashboard] No age group found, redirecting to age-select');
       navigate('/dashboard/age-select');
       return;
     }
     
     fetchDashboardData();
-  }, [navigate]);
+  }, [navigate, user]);
 
   const fetchDashboardData = async () => {
     try {

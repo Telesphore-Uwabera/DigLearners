@@ -9,6 +9,7 @@ import Lessons from './Lessons'
 import AgeGroupSelector from '../../components/AgeGroupSelector'
 import GamesDashboard from './GamesDashboard'
 import GamePlayer from './GamePlayer'
+import LessonPlayer from '../LessonPlayer'
 
 const LearnerApp = () => {
   const { user, logout } = useAuth()
@@ -24,6 +25,7 @@ const LearnerApp = () => {
         <Route path="/age-select" element={<AgeGroupSelector />} />
         <Route path="/games" element={<GamesDashboard />} />
         <Route path="/lessons" element={<Lessons />} />
+        <Route path="/lesson/:id" element={<LessonPlayer />} />
         <Route path="/game/:gameId" element={<GamePlayer />} />
         <Route path="/achievements" element={<Achievements />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
