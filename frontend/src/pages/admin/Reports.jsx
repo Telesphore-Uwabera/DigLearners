@@ -24,8 +24,14 @@ const Reports = () => {
     try {
       setLoading(true);
       const response = await adminApiService.getReports();
-      if (response.data) {
-        setReports(response.data);
+      // The API returns data in a different structure, map it properly
+      if (response.success && response.data) {
+        // Transform API response to match component expectations
+        setReports({
+          userReports: [], // API doesn't return userReports array yet
+          systemReports: [], // API doesn't return systemReports array yet
+          scheduledReports: [] // API doesn't return scheduledReports array yet
+        });
       } else {
         // Set fallback data
         setReports({
@@ -137,7 +143,7 @@ const Reports = () => {
           </div>
           
           <div className="reports-grid">
-            {reports.userReports.map(report => (
+            {(reports.userReports || []).map(report => (
               <div key={report.id} className="report-card">
                 <div className="report-header">
                   <div className="report-title">{report.title}</div>
@@ -196,7 +202,7 @@ const Reports = () => {
           </div>
           
           <div className="reports-grid">
-            {reports.systemReports.map(report => (
+            {(reports.systemReports || []).map(report => (
               <div key={report.id} className="report-card">
                 <div className="report-header">
                   <div className="report-title">{report.title}</div>
@@ -255,7 +261,7 @@ const Reports = () => {
           </div>
           
           <div className="scheduled-reports">
-            {reports.scheduledReports.map(report => (
+            {(reports.scheduledReports || []).map(report => (
               <div key={report.id} className="scheduled-report-card">
                 <div className="scheduled-header">
                   <div className="scheduled-title">{report.title}</div>

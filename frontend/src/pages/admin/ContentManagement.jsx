@@ -58,7 +58,7 @@ const ContentManagement = () => {
     }
   };
 
-  const filteredLessons = content.lessons.filter(lesson => {
+  const filteredLessons = (content.lessons || []).filter(lesson => {
     const matchesSearch = lesson.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          (lesson.subject && lesson.subject.toLowerCase().includes(searchTerm.toLowerCase()));
     const matchesStatus = statusFilter === 'all' || lesson.status === statusFilter;
@@ -125,14 +125,14 @@ const ContentManagement = () => {
           onClick={() => setActiveTab('lessons')}
         >
           <Icon name="book" size={20} />
-          Lessons ({content.lessons.length})
+          Lessons ({content.lessons?.length || 0})
         </button>
         <button 
           className={`tab-button ${activeTab === 'courses' ? 'active' : ''}`}
           onClick={() => setActiveTab('courses')}
         >
           <Icon name="course" size={20} />
-          Courses ({content.courses.length})
+          Courses ({content.courses?.length || 0})
         </button>
       </div>
 
@@ -165,7 +165,7 @@ const ContentManagement = () => {
             <Icon name="book" size={24} />
           </div>
           <div className="stat-content">
-            <div className="stat-number">{content.lessons.length}</div>
+            <div className="stat-number">{content.lessons?.length || 0}</div>
             <div className="stat-label">Total Lessons</div>
           </div>
         </div>
@@ -175,7 +175,7 @@ const ContentManagement = () => {
             <Icon name="check" size={24} />
           </div>
           <div className="stat-content">
-            <div className="stat-number">{content.lessons.filter(l => l.status === 'published').length}</div>
+            <div className="stat-number">{(content.lessons || []).filter(l => l.status === 'published').length}</div>
             <div className="stat-label">Published</div>
           </div>
         </div>
@@ -186,7 +186,7 @@ const ContentManagement = () => {
           </div>
           <div className="stat-content">
             <div className="stat-number">
-              {content.lessons.reduce((sum, lesson) => sum + lesson.views, 0)}
+              {(content.lessons || []).reduce((sum, lesson) => sum + (lesson.views || 0), 0)}
             </div>
             <div className="stat-label">Total Views</div>
           </div>
@@ -198,7 +198,7 @@ const ContentManagement = () => {
           </div>
           <div className="stat-content">
             <div className="stat-number">
-              {content.lessons.reduce((sum, lesson) => sum + lesson.completions, 0)}
+              {(content.lessons || []).reduce((sum, lesson) => sum + (lesson.completions || 0), 0)}
             </div>
             <div className="stat-label">Completions</div>
           </div>
