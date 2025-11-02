@@ -12,8 +12,6 @@ const TeacherDashboard = () => {
   const [showChildRegistration, setShowChildRegistration] = useState(false);
   const [childForm, setChildForm] = useState({
     fullName: '',
-    email: '',
-    password: '',
     grade: '',
     age: ''
   });
@@ -73,18 +71,32 @@ const TeacherDashboard = () => {
     setRegistrationMessage('');
 
     try {
-      const response = await teacherApiService.registerChild(childForm);
-      setRegistrationMessage('Child registered successfully!');
-      setChildForm({
-        fullName: '',
-        email: '',
-        password: '',
-        grade: '',
-        age: ''
+      const response = await teacherApiService.makeRequest('/teacher/register-student', {
+        method: 'POST',
+        body: JSON.stringify({
+          fullName: childForm.fullName.trim(),
+          grade: childForm.grade,
+          age: childForm.age ? parseInt(childForm.age) : null
+        })
       });
-      setShowChildRegistration(false);
-      // Refresh dashboard data to show new student
-      fetchDashboardData();
+
+      if (response.success) {
+        const successMsg = response.data?.registrationCode 
+          ? `Student registered successfully! Registration Code: ${response.data.registrationCode}`
+          : 'Student registered successfully!';
+        setRegistrationMessage(successMsg);
+        setChildForm({
+          fullName: '',
+          grade: '',
+          age: ''
+        });
+        setShowChildRegistration(false);
+        // Refresh dashboard data and students list to show new student
+        fetchDashboardData();
+        fetchStudents();
+      } else {
+        setRegistrationMessage(`Error: ${response.error || 'Registration failed'}`);
+      }
     } catch (err) {
       setRegistrationMessage(`Error: ${err.message}`);
     } finally {
@@ -292,46 +304,20 @@ const TeacherDashboard = () => {
           <div className="child-registration-form">
             <h3>Register a New Student</h3>
             <form onSubmit={handleChildRegistration}>
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="fullName">Full Name *</label>
-                  <input
-                    type="text"
-                    id="fullName"
-                    name="fullName"
-                    value={childForm.fullName}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Enter student's full name"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="email">Email *</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={childForm.email}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="student@example.com"
-                  />
-                </div>
+              <div className="form-group">
+                <label htmlFor="fullName">Student Full Name *</label>
+                <input
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  value={childForm.fullName}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="Enter student's full name"
+                />
               </div>
-              
+
               <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="password">Password *</label>
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={childForm.password}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Create a password for the student"
-                  />
-                </div>
                 <div className="form-group">
                   <label htmlFor="grade">Grade *</label>
                   <select
@@ -342,23 +328,15 @@ const TeacherDashboard = () => {
                     required
                   >
                     <option value="">Select Grade</option>
-                    <option value="Grade 1">Grade 1</option>
-                    <option value="Grade 2">Grade 2</option>
-                    <option value="Grade 3">Grade 3</option>
-                    <option value="Grade 4">Grade 4</option>
-                    <option value="Grade 5">Grade 5</option>
-                    <option value="Grade 6">Grade 6</option>
-                    <option value="Grade 7">Grade 7</option>
-                    <option value="Grade 8">Grade 8</option>
-                    <option value="Grade 9">Grade 9</option>
-                    <option value="Grade 10">Grade 10</option>
-                    <option value="Grade 11">Grade 11</option>
-                    <option value="Grade 12">Grade 12</option>
+                    <option value="1">Grade 1</option>
+                    <option value="2">Grade 2</option>
+                    <option value="3">Grade 3</option>
+                    <option value="4">Grade 4</option>
+                    <option value="5">Grade 5</option>
+                    <option value="6">Grade 6</option>
                   </select>
                 </div>
-              </div>
 
-              <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="age">Age (Optional)</label>
                   <input
@@ -367,19 +345,10 @@ const TeacherDashboard = () => {
                     name="age"
                     value={childForm.age}
                     onChange={handleInputChange}
-                    min="3"
+                    min="5"
                     max="18"
-                    placeholder="Student's age"
+                    placeholder="Age"
                   />
-                </div>
-                <div className="form-group">
-                  <button 
-                    type="submit" 
-                    className="btn btn-success"
-                    disabled={registrationLoading}
-                  >
-                    {registrationLoading ? 'Registering...' : 'Register Student'}
-                  </button>
                 </div>
               </div>
 
@@ -388,6 +357,14 @@ const TeacherDashboard = () => {
                   {registrationMessage}
                 </div>
               )}
+
+              <button 
+                type="submit" 
+                className="btn btn-success"
+                disabled={registrationLoading}
+              >
+                {registrationLoading ? 'Registering...' : 'Register Student'}
+              </button>
             </form>
           </div>
         )}
