@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import gamifiedApiService from '../../services/gamifiedApiService';
 import './GamesDashboard.css';
@@ -11,36 +11,82 @@ const GamesDashboard = () => {
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [selectedDifficulty, setSelectedDifficulty] = useState('all');
 
-  const ageGroup = location.state?.ageGroup || localStorage.getItem('selectedAgeGroup');
-  const initialContent = location.state?.content || JSON.parse(localStorage.getItem('ageGroupContent') || '[]');
+  // Memoize ageGroup to prevent unnecessary re-renders
+  const ageGroup = useMemo(() => {
+    return location.state?.ageGroup || localStorage.getItem('selectedAgeGroup');
+  }, [location.state?.ageGroup]);
+
+  // Track if we've initialized to prevent re-initialization
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    if (initialContent && initialContent.length > 0) {
+    // Prevent re-running if already initialized
+    if (initialized) return;
+
+    // Read initialContent inside useEffect to avoid dependency issues
+    let initialContent = null;
+    if (location.state?.content) {
+      initialContent = location.state.content;
+    } else {
+      try {
+        const stored = localStorage.getItem('ageGroupContent');
+        initialContent = stored ? JSON.parse(stored) : [];
+      } catch (e) {
+        initialContent = [];
+      }
+    }
+
+    if (initialContent && Array.isArray(initialContent) && initialContent.length > 0) {
       setContent(initialContent);
       setLoading(false);
+      setInitialized(true);
     } else if (ageGroup) {
-      fetchContent();
+      fetchContent().then(() => setInitialized(true));
     } else {
       setError('No age group selected. Please go back and select your age group.');
       setLoading(false);
+      setInitialized(true);
     }
-  }, [ageGroup, initialContent]);
+  }, [ageGroup, initialized, location.state?.content]); // Only stable dependencies
 
   const fetchContent = async () => {
     try {
       setLoading(true);
+      setError('');
+      
+      // Get current ageGroup value (may have changed)
+      const currentAgeGroup = location.state?.ageGroup || localStorage.getItem('selectedAgeGroup');
+      
       // First try to get user's grade-specific content
       try {
         const response = await gamifiedApiService.getMyContent();
-        setContent(response.data);
-        localStorage.setItem('userContent', JSON.stringify(response.data));
-        localStorage.setItem('userGrade', response.userGrade);
+        const contentData = response.data || response;
+        if (Array.isArray(contentData) && contentData.length > 0) {
+          setContent(contentData);
+          localStorage.setItem('userContent', JSON.stringify(contentData));
+          if (response.userGrade) {
+            localStorage.setItem('userGrade', response.userGrade);
+          }
+          return;
+        } else {
+          throw new Error('No content returned');
+        }
       } catch (gradeError) {
         // Fallback to age group content if grade-specific fails
         console.log('Grade-specific content not available, using age group content');
-        const response = await gamifiedApiService.getContentByAgeGroup(ageGroup);
-        setContent(response.data);
-        localStorage.setItem('ageGroupContent', JSON.stringify(response.data));
+        if (currentAgeGroup) {
+          const response = await gamifiedApiService.getContentByAgeGroup(currentAgeGroup);
+          const contentData = response.data || response;
+          if (Array.isArray(contentData) && contentData.length > 0) {
+            setContent(contentData);
+            localStorage.setItem('ageGroupContent', JSON.stringify(contentData));
+            return;
+          } else {
+            throw new Error('No age group content available');
+          }
+        } else {
+          throw new Error('No age group selected');
+        }
       }
     } catch (err) {
       setError('Failed to load games. Please try again.');
