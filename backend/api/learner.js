@@ -106,9 +106,15 @@ router.get('/dashboard', authenticateToken, requireLearner, async (req, res) => 
 
 // Get learner achievements and badges
 router.get('/achievements', authenticateToken, requireLearner, async (req, res) => {
+  console.log('[Learner API] /achievements endpoint called');
+  console.log('[Learner API] Request user:', req.user);
   try {
-    const userId = req.user.userId;
+    const userId = req.user?.userId;
     console.log('[Learner API] Fetching achievements for user:', userId);
+    
+    if (!userId) {
+      throw new Error('User ID not found in request');
+    }
 
     // Get all badges with error handling
     let allBadges = [];
@@ -136,8 +142,8 @@ router.get('/achievements', authenticateToken, requireLearner, async (req, res) 
             attributes: ['id', 'name', 'description', 'icon', 'points', 'category', 'criteria'],
             required: false // Use LEFT JOIN to include UserBadges even if badge is missing
           }
-        ],
-        order: [['awardedAt', 'DESC']] // Try model attribute name first
+        ]
+        // Temporarily removed order clause to test
       });
       console.log('[Learner API] Found', earnedBadges.length, 'user badges');
     } catch (userBadgeError) {
