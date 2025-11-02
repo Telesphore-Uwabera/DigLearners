@@ -25,6 +25,24 @@ const Settings = () => {
       weeklyReports: true,
       systemAlerts: true
     },
+    userSettings: {
+      defaultRole: 'learner',
+      maxUsersPerClass: 30,
+      requireEmailVerification: false,
+      allowSelfRegistration: true
+    },
+    contentSettings: {
+      maxLessonDuration: 60,
+      autoApproveLessons: false,
+      allowUserGeneratedContent: true,
+      contentModeration: true
+    },
+    notificationSettings: {
+      emailNotifications: true,
+      pushNotifications: true,
+      weeklyDigest: false,
+      achievementNotifications: true
+    },
     appearance: {
       theme: 'light',
       primaryColor: '#FF677D',
@@ -46,7 +64,23 @@ const Settings = () => {
       setLoading(true);
       const response = await adminApiService.getSettings();
       if (response.data) {
-        setSettings(response.data);
+        // Merge API response with default settings to ensure all fields exist
+        setSettings(prev => ({
+          ...prev,
+          ...response.data,
+          userSettings: {
+            ...prev.userSettings,
+            ...(response.data.userSettings || {})
+          },
+          contentSettings: {
+            ...prev.contentSettings,
+            ...(response.data.contentSettings || {})
+          },
+          notificationSettings: {
+            ...prev.notificationSettings,
+            ...(response.data.notificationSettings || {})
+          }
+        }));
       }
     } catch (err) {
       console.error('Error fetching settings:', err);
