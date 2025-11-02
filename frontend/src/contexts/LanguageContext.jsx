@@ -51,6 +51,7 @@ const translations = {
     'common.confirm': 'Confirm',
     'common.yes': 'Yes',
     'common.no': 'No',
+    'common.select': 'Select',
 
     // Authentication
     'auth.login': 'Login',
@@ -76,6 +77,27 @@ const translations = {
     'auth.rememberMe': 'Keep me logged in',
     'auth.emailPlaceholder': 'Enter your email address',
     'auth.passwordPlaceholder': 'Enter your password',
+    'auth.fullNamePlaceholder': 'Enter your full name',
+    'auth.confirmPasswordPlaceholder': 'Re-enter your password',
+    'auth.emailHint': 'This email will be used for your account',
+    'auth.passwordHint': 'At least 6 characters',
+    'auth.fullNameRequired': 'Full name is required',
+    'auth.teacherSignup': 'TEACHER REGISTRATION',
+    'auth.teacherSignupTitle': 'Teacher Sign Up',
+    'auth.teacherSignupSubtitle': 'Create your teacher account to start managing students and lessons!',
+    'auth.teacherSignupSuccess': 'Congratulations! Your teacher account has been created successfully. You can now manage your students and lessons.',
+    'auth.teacherInfo': 'Teacher Information',
+    'auth.signUpNow': 'Sign Up Now!',
+    'auth.registering': 'Registering...',
+    'auth.registrationSuccessful': 'Registration Successful!',
+    'auth.redirectingToLogin': 'Redirecting you to the login page...',
+    'auth.alreadyHaveAccount': 'Already have an account?',
+    'auth.loginRequiredForStudentReg': 'Please login as a teacher to register students',
+    'auth.studentNotRegistered': 'Student not registered yet?',
+    'auth.registerStudentHere': 'Register the student here',
+    'auth.registrationError': 'Registration Error',
+    'auth.errorHelpText': 'Please check the information above and try again. If the problem persists, ensure the backend server is running.',
+    'auth.accountReadyToLogin': 'Your account is ready! You can now login with the email and password you just created.',
 
     // Login Type Selection
     'auth.selectLoginType': 'How would you like to login?',
@@ -159,6 +181,23 @@ const translations = {
     'teacher.studentProgress': 'Student Progress',
     'teacher.lessonStats': 'Lesson Statistics',
     'teacher.engagement': 'Engagement Metrics',
+    'teacher.registerStudent': 'Register Student',
+    'teacher.registerStudentDesc': 'Register new students and manage their registration codes',
+    'teacher.registerNewStudent': 'Register New Student',
+    'teacher.studentRegisteredSuccess': 'Student Registered Successfully!',
+    'teacher.copyToClipboard': 'Copy to clipboard',
+    'teacher.shareCodeWithStudent': 'Share this code with the student for login.',
+    'teacher.studentFullName': 'Student Full Name',
+    'teacher.enterStudentName': 'Enter student\'s full name',
+    'teacher.ageOptional': 'Age (optional)',
+    'teacher.age': 'Age',
+    'teacher.registering': 'Registering...',
+    'teacher.registeredStudents': 'Registered Students',
+    'teacher.noStudentsYet': 'No students registered yet.',
+    'teacher.registerFirstStudent': 'Register your first student using the form above.',
+    'teacher.registered': 'Registered',
+    'teacher.studentRegFailed': 'Registration failed',
+    'teacher.studentRegError': 'Failed to register student. Please try again.',
 
     // Parent Dashboard
     'parent.dashboard': 'Parent Dashboard',
@@ -321,7 +360,8 @@ const translations = {
     'welcome.parentNote': 'Register your students to help them get started with digital learning!',
     'welcome.chooseLanguage': 'Choose Language',
     'welcome.madeByTeachers': 'MADE BY TEACHERS',
-    'welcome.joinTheFun': 'JOIN THE FUN!'
+    'welcome.joinTheFun': 'JOIN THE FUN!',
+    'welcome.teacherSignUp': 'Teacher, Sign Up for Free'
   },
   rw: {
     // Navigation
@@ -362,6 +402,7 @@ const translations = {
     'common.confirm': 'Emeza',
     'common.yes': 'Yego',
     'common.no': 'Oya',
+    'common.select': 'Hitamo',
 
     // Authentication
     'auth.login': 'Winjira',
@@ -387,6 +428,27 @@ const translations = {
     'auth.rememberMe': 'Nyibuke',
     'auth.emailPlaceholder': 'Shyiramo imeli yawe',
     'auth.passwordPlaceholder': 'Shyiramo ijambo ryawe ryibanga',
+    'auth.fullNamePlaceholder': 'Shyiramo amazina yawe yose',
+    'auth.confirmPasswordPlaceholder': 'Shyiramo ijambo ry\'ibanga nakomeje',
+    'auth.emailHint': 'Iyi imeli izakoreshwa kugira ngo ukoreshe konti yawe',
+    'auth.passwordHint': 'Bikwiye kuba bigira uburebure buhagije',
+    'auth.fullNameRequired': 'Amazina yose ni ngombwa',
+    'auth.teacherSignup': 'KWANDIKISHA UMWARIMU',
+    'auth.teacherSignupTitle': 'Kwiyandikisha kw\'Umwarimu',
+    'auth.teacherSignupSubtitle': 'Kora konti yawe y\'umwarimu kugira ngo utangire gukurikirana abanyeshuri n\'amasomo!',
+    'auth.teacherSignupSuccess': 'Urakoze! Konti yawe y\'umwarimu yakozwe neza. Ubu ushobora gukurikirana abanyeshuri bawe n\'amasomo.',
+    'auth.teacherInfo': 'Amakuru y\'Umwarimu',
+    'auth.signUpNow': 'Kwiyandikisha Ubu!',
+    'auth.registering': 'Birakora...',
+    'auth.registrationSuccessful': 'Kwiyandikisha Byakunze!',
+    'auth.redirectingToLogin': 'Dukuyobora ku hantu winjira...',
+    'auth.alreadyHaveAccount': 'Wagifite konti?',
+    'auth.loginRequiredForStudentReg': 'Nyamuneka winjire nk\'umwarimu kugira ngo wandikishe abanyeshuri',
+    'auth.studentNotRegistered': 'Umunyeshuri atarandikishijwe?',
+    'auth.registerStudentHere': 'Kwandikisha umunyeshuri hano',
+    'auth.registrationError': 'Ikosa ry\'Kwiyandikisha',
+    'auth.errorHelpText': 'Nyamuneka reba amakuru hejuru hanyuma ongere ugerageze. Niba ikibazo gihagaze, menya ko seriveri ikora neza.',
+    'auth.accountReadyToLogin': 'Konti yawe yiteguye! Ubu ushobora kwinjira ukoresheje imeli n\'ijambo ry\'ibanga wagukoreye.',
 
     // Login Type Selection
     'auth.selectLoginType': 'Ese wishaka kwinjira gute?',
@@ -470,6 +532,23 @@ const translations = {
     'teacher.studentProgress': 'Intambwe y\'Umunyeshuri',
     'teacher.lessonStats': 'Ibisobanuro by\'Isomo',
     'teacher.engagement': 'Ibisobanuro by\'Ubufatanye',
+    'teacher.registerStudent': 'Kwandikisha Umunyeshuri',
+    'teacher.registerStudentDesc': 'Kwandikisha abanyeshuri bashya kandi ukurikirane amakode yabo y\'iyandikisha',
+    'teacher.registerNewStudent': 'Kwandikisha Umunyeshuri Mushya',
+    'teacher.studentRegisteredSuccess': 'Umunyeshuri Wandikishijwe Neza!',
+    'teacher.copyToClipboard': 'Koporora kuri clipboard',
+    'teacher.shareCodeWithStudent': 'Kugira ngo umunyeshuri winjire, mugere kode hano.',
+    'teacher.studentFullName': 'Amazina Yose y\'Umunyeshuri',
+    'teacher.enterStudentName': 'Shyiramo amazina yose y\'umunyeshuri',
+    'teacher.ageOptional': 'Iminsi (birashoboka)',
+    'teacher.age': 'Iminsi',
+    'teacher.registering': 'Birakora...',
+    'teacher.registeredStudents': 'Abanyeshuri Bandikishijwe',
+    'teacher.noStudentsYet': 'Nta banyeshuri bandikishijwe.',
+    'teacher.registerFirstStudent': 'Kwandikisha umunyeshuri wawe wa mbere ukoresheje ifishi hejuru.',
+    'teacher.registered': 'Wandikishijwe',
+    'teacher.studentRegFailed': 'Kwiyandikisha byanze',
+    'teacher.studentRegError': 'Ntabwo byashobotse kwandikisha umunyeshuri. Ongera ugerageze.',
 
     // Parent Dashboard
     'parent.dashboard': 'Ikibaho cy\'Umubyeyi',
@@ -632,7 +711,8 @@ const translations = {
     'welcome.parentNote': 'Kwandikisha abanyeshuli bawe kugira ngo bagire icyo bakanga gutangira kwiga digital!',
     'welcome.chooseLanguage': 'Hitamo Ururimi',
     'welcome.madeByTeachers': 'Byakozwe n\'abarimu',
-    'welcome.joinTheFun': 'JYA KU BWUBA!'
+    'welcome.joinTheFun': 'JYA KU BWUBA!',
+    'welcome.teacherSignUp': 'Umwarimu, Iyandikishe ku Buntu'
   }
 }
 

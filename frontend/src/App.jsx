@@ -7,7 +7,7 @@ import { ThemeProvider } from './contexts/ThemeContext'
 // Pages
 import Home from './pages/public/Home'
 import Login from './pages/auth/Login'
-import Enroll from './pages/auth/Enroll'
+import TeacherSignup from './pages/auth/TeacherSignup'
 import LearnerApp from './pages/learner/LearnerApp'
 import TeacherApp from './pages/teacher/TeacherApp'
 // AdminApp removed; admin users are routed into TeacherApp
@@ -116,7 +116,7 @@ function AppRoutes() {
       <Route 
         path="/enroll" 
         element={
-          isAuthenticated ? <Navigate to="/dashboard" replace /> : <Enroll />
+          isAuthenticated ? <Navigate to="/dashboard" replace /> : <TeacherSignup />
         } 
       />
       

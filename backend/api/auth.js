@@ -23,11 +23,11 @@ router.post('/register', async (req, res) => {
       });
     }
 
-    // Prevent teacher registration through public endpoint
-    if (role === 'teacher') {
+    // Prevent admin registration through public endpoint
+    if (role === 'admin') {
       return res.status(403).json({ 
         success: false, 
-        error: 'Teacher accounts can only be created by administrators' 
+        error: 'Admin accounts can only be created by administrators' 
       });
     }
 
@@ -62,7 +62,23 @@ router.post('/register', async (req, res) => {
     }
 
     // Create new user
+    console.log('Creating user with data:', { ...userData, password: '***' });
     const user = await User.create(userData);
+    console.log('User created successfully:', {
+      id: user.id,
+      email: user.email,
+      fullName: user.fullName,
+      role: user.role,
+      createdAt: user.createdAt
+    });
+
+    // Verify user was saved by fetching it
+    const savedUser = await User.findByPk(user.id);
+    if (!savedUser) {
+      console.error('ERROR: User was created but not found in database!');
+      throw new Error('User was created but could not be verified in database');
+    }
+    console.log('User verification: User exists in database with ID:', savedUser.id);
 
     // Prepare response
     const response = {
@@ -77,13 +93,54 @@ router.post('/register', async (req, res) => {
       response.message = `Student registered successfully! Registration code: ${user.registrationCode}`;
     }
 
+    // Add verification info for teachers
+    if (role === 'teacher') {
+      response.message = `Teacher account created successfully! You can now login with email: ${user.email}`;
+      response.userCreated = true;
+      response.userId = user.id;
+    }
+
+    console.log('Registration response:', { 
+      success: response.success, 
+      userId: response.userId || response.user?.id,
+      email: response.user?.email 
+    });
+
     res.status(201).json(response);
 
   } catch (error) {
     console.error('Registration error:', error);
-    res.status(500).json({
+    console.error('Error details:', {
+      name: error.name,
+      message: error.message,
+      errors: error.errors,
+      stack: error.stack
+    });
+
+    // Provide more detailed error messages
+    let errorMessage = 'Internal server error during registration';
+    let statusCode = 500;
+
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      errorMessage = 'An account with this email already exists. Please login instead.';
+      statusCode = 400;
+    } else if (error.name === 'SequelizeValidationError') {
+      errorMessage = 'Validation error: ' + (error.errors?.map(e => e.message).join(', ') || 'Invalid data provided');
+      statusCode = 400;
+    } else if (error.name === 'SequelizeDatabaseError') {
+      errorMessage = 'Database error during registration. Please contact support.';
+      statusCode = 500;
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+
+    res.status(statusCode).json({
       success: false,
-      error: 'Internal server error during registration'
+      error: errorMessage,
+      errorDetails: process.env.NODE_ENV === 'development' ? {
+        name: error.name,
+        message: error.message
+      } : undefined
     });
   }
 });
@@ -115,14 +172,22 @@ router.post('/login', async (req, res) => {
       }
 
       // Find user by email
+      console.log('Attempting teacher login for email:', email);
       const user = await User.findByEmail(email);
       if (!user) {
+        console.log('Login failed: No user found with email:', email);
         return res.status(401).json({
           success: false,
           error: 'No account found with this email address. Please check your email or create a new account.',
           errorType: 'email_not_found'
         });
       }
+      console.log('User found:', {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        fullName: user.fullName
+      });
 
       // Check if user is a teacher
       if (user.role !== 'teacher' && user.role !== 'admin') {
@@ -134,14 +199,17 @@ router.post('/login', async (req, res) => {
       }
 
       // Validate password
+      console.log('Validating password for user:', user.email);
       const isValidPassword = await user.validatePassword(password);
       if (!isValidPassword) {
+        console.log('Login failed: Invalid password for user:', user.email);
         return res.status(401).json({
           success: false,
           error: 'Incorrect password. Please try again or contact support if you need help.',
           errorType: 'incorrect_password'
         });
       }
+      console.log('Password validated successfully for user:', user.email);
 
       // Generate JWT token
       const token = jwt.sign(
@@ -153,6 +221,13 @@ router.post('/login', async (req, res) => {
         JWT_SECRET,
         { expiresIn: '7d' }
       );
+
+      console.log('Login successful for user:', {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        tokenGenerated: !!token
+      });
 
       return res.json({
         success: true,

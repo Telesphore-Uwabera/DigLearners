@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from '../../lib/language';
+import { useLanguage } from '../../contexts/LanguageContext';
 import teacherApiService from '../../services/teacherApiService';
 
 const StudentRegistration = () => {
-  const { t } = useTranslation();
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     fullName: '',
     grade: '',
@@ -63,11 +63,11 @@ const StudentRegistration = () => {
         // Refresh the students list
         fetchStudents();
       } else {
-        setError(response.error || 'Registration failed');
+        setError(response.error || t('teacher.studentRegFailed') || 'Registration failed');
       }
     } catch (error) {
       console.error('Registration error:', error);
-      setError('Failed to register student. Please try again.');
+      setError(t('teacher.studentRegError') || 'Failed to register student. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -83,34 +83,34 @@ const StudentRegistration = () => {
   return (
     <div className="student-registration-page">
       <div className="page-header">
-        <h1>👨‍🎓 Student Registration</h1>
-        <p>Register new students and manage their registration codes</p>
+        <h1>👨‍🎓 {t('teacher.registerStudent') || 'Student Registration'}</h1>
+        <p>{t('teacher.registerStudentDesc') || 'Register new students and manage their registration codes'}</p>
       </div>
 
       <div className="registration-container">
         {/* Registration Form */}
         <div className="registration-form-section">
-          <h2>Register New Student</h2>
+          <h2>{t('teacher.registerNewStudent') || 'Register New Student'}</h2>
           
           {success && (
             <div className="success-message">
               <div className="success-icon">🎉</div>
               <div className="success-content">
-                <div className="success-title">Student Registered Successfully!</div>
+                <div className="success-title">{t('teacher.studentRegisteredSuccess') || 'Student Registered Successfully!'}</div>
                 <div className="success-text">{success.message}</div>
                 <div className="registration-code-display">
-                  <strong>Registration Code: </strong>
+                  <strong>{t('auth.student.code') || 'Registration Code'}: </strong>
                   <span className="code-highlight">{success.student.registrationCode}</span>
                   <button 
                     className="copy-button"
                     onClick={() => copyToClipboard(success.student.registrationCode)}
-                    title="Copy to clipboard"
+                    title={t('teacher.copyToClipboard') || 'Copy to clipboard'}
                   >
                     📋
                   </button>
                 </div>
                 <div className="success-note">
-                  Share this code with the student for login.
+                  {t('teacher.shareCodeWithStudent') || 'Share this code with the student for login.'}
                 </div>
               </div>
             </div>
@@ -125,7 +125,7 @@ const StudentRegistration = () => {
 
           <form onSubmit={handleSubmit} className="registration-form">
             <div className="form-group">
-              <label htmlFor="fullName">Student Full Name *</label>
+              <label htmlFor="fullName">{t('teacher.studentFullName') || 'Student Full Name'} *</label>
               <input
                 type="text"
                 id="fullName"
@@ -133,13 +133,13 @@ const StudentRegistration = () => {
                 value={formData.fullName}
                 onChange={handleChange}
                 required
-                placeholder="Enter student's full name"
+                placeholder={t('teacher.enterStudentName') || 'Enter student\'s full name'}
               />
             </div>
 
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="grade">Grade *</label>
+                <label htmlFor="grade">{t('auth.student.grade') || 'Grade'} *</label>
                 <select
                   id="grade"
                   name="grade"
@@ -147,18 +147,18 @@ const StudentRegistration = () => {
                   onChange={handleChange}
                   required
                 >
-                  <option value="">Select Grade</option>
-                  <option value="1">Grade 1</option>
-                  <option value="2">Grade 2</option>
-                  <option value="3">Grade 3</option>
-                  <option value="4">Grade 4</option>
-                  <option value="5">Grade 5</option>
-                  <option value="6">Grade 6</option>
+                  <option value="">{t('common.select') || 'Select Grade'}</option>
+                  <option value="1">{t('grades.grade1') || 'Grade 1'}</option>
+                  <option value="2">{t('grades.grade2') || 'Grade 2'}</option>
+                  <option value="3">{t('grades.grade3') || 'Grade 3'}</option>
+                  <option value="4">{t('grades.grade4') || 'Grade 4'}</option>
+                  <option value="5">{t('grades.grade5') || 'Grade 5'}</option>
+                  <option value="6">{t('grades.grade6') || 'Grade 6'}</option>
                 </select>
               </div>
 
               <div className="form-group">
-                <label htmlFor="age">Age (optional)</label>
+                <label htmlFor="age">{t('teacher.ageOptional') || 'Age (optional)'}</label>
                 <input
                   type="number"
                   id="age"
@@ -167,7 +167,7 @@ const StudentRegistration = () => {
                   onChange={handleChange}
                   min="5"
                   max="18"
-                  placeholder="Age"
+                  placeholder={t('teacher.age') || 'Age'}
                 />
               </div>
             </div>
@@ -177,22 +177,22 @@ const StudentRegistration = () => {
               className="register-button"
               disabled={loading}
             >
-              {loading ? 'Registering...' : 'Register Student'}
+              {loading ? (t('teacher.registering') || 'Registering...') : (t('teacher.registerStudent') || 'Register Student')}
             </button>
           </form>
         </div>
 
         {/* Students List */}
         <div className="students-list-section">
-          <h2>Registered Students ({students.length})</h2>
+          <h2>{t('teacher.registeredStudents') || 'Registered Students'} ({students.length})</h2>
           
           {loadingStudents ? (
-            <div className="loading">Loading students...</div>
+            <div className="loading">{t('common.loading') || 'Loading students...'}</div>
           ) : students.length === 0 ? (
             <div className="no-students">
               <div className="no-students-icon">👥</div>
-              <p>No students registered yet.</p>
-              <p>Register your first student using the form above.</p>
+              <p>{t('teacher.noStudentsYet') || 'No students registered yet.'}</p>
+              <p>{t('teacher.registerFirstStudent') || 'Register your first student using the form above.'}</p>
             </div>
           ) : (
             <div className="students-grid">
@@ -200,21 +200,21 @@ const StudentRegistration = () => {
                 <div key={student.id} className="student-card">
                   <div className="student-header">
                     <h3>{student.fullName}</h3>
-                    <div className="student-grade">Grade {student.grade}</div>
+                    <div className="student-grade">{t(`grades.grade${student.grade}`) || `Grade ${student.grade}`}</div>
                   </div>
                   <div className="student-details">
-                    {student.age && <p><strong>Age:</strong> {student.age}</p>}
-                    <p><strong>Points:</strong> {student.totalPoints}</p>
-                    <p><strong>Registered:</strong> {new Date(student.createdAt).toLocaleDateString()}</p>
+                    {student.age && <p><strong>{t('teacher.age') || 'Age'}:</strong> {student.age}</p>}
+                    <p><strong>{t('student.points') || 'Points'}:</strong> {student.totalPoints}</p>
+                    <p><strong>{t('teacher.registered') || 'Registered'}:</strong> {new Date(student.createdAt).toLocaleDateString()}</p>
                   </div>
                   <div className="registration-code-section">
-                    <div className="code-label">Registration Code:</div>
+                    <div className="code-label">{t('auth.student.code') || 'Registration Code'}:</div>
                     <div className="code-display">
                       <span className="code">{student.registrationCode}</span>
                       <button 
                         className="copy-button"
                         onClick={() => copyToClipboard(student.registrationCode)}
-                        title="Copy to clipboard"
+                        title={t('teacher.copyToClipboard') || 'Copy to clipboard'}
                       >
                         📋
                       </button>

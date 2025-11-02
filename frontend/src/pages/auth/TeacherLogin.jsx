@@ -97,29 +97,69 @@ const TeacherLogin = ({
         return
       }
 
+      console.log('[TeacherLogin] Attempting teacher login:', { email: formData.email })
+      console.log('[TeacherLogin] Form data:', { ...formData, password: '***' })
+      
       const result = await onLogin(formData)
+      
+      console.log('[TeacherLogin] Login result received:', {
+        success: result?.success,
+        hasUser: !!result?.user,
+        hasToken: !!result?.token,
+        error: result?.error,
+        message: result?.message
+      })
+      
+      if (!result) {
+        console.error('[TeacherLogin] ERROR: No result returned from onLogin!')
+        setError('No response received from login service. Please check your connection.')
+        return
+      }
+      
       if (!result.success) {
-        setError(result.error || t('auth.loginError'))
+        const errorMsg = result.error || t('auth.loginError')
+        console.error('[TeacherLogin] Login failed:', errorMsg)
+        console.error('[TeacherLogin] Full result:', result)
+        setError(errorMsg)
       } else {
+        console.log('[TeacherLogin] Login successful! User:', result.user?.email)
+        console.log('[TeacherLogin] Token received:', !!result.token)
         setSuccess(true)
         // Show success message briefly before redirect
         setTimeout(() => {
+          console.log('[TeacherLogin] Redirecting to dashboard...')
           navigate('/dashboard', { replace: true })
           // Fallback hard redirect if router state hasn't updated
           setTimeout(() => {
             if (typeof window !== 'undefined' && window.location.pathname !== '/dashboard') {
+              console.log('[TeacherLogin] Fallback redirect to dashboard')
               window.location.assign('/dashboard')
             }
           }, 150)
         }, 800)
       }
     } catch (err) {
+      console.error('Login exception:', err)
       // Enhanced error handling for specific error types
+      let errorMsg = t('auth.loginError')
       if (err.type) {
-        setError(err.message)
-      } else {
-        setError(t('auth.loginError'))
+        errorMsg = err.message
+      } else if (err.message) {
+        errorMsg = err.message
       }
+      
+      // Add status code if available for debugging
+      if (err.status) {
+        errorMsg += ` (Status: ${err.status})`
+      }
+      
+      console.error('Login error details:', {
+        message: errorMsg,
+        status: err.status,
+        type: err.type
+      })
+      
+      setError(errorMsg)
     } finally {
       setLoading(false)
     }

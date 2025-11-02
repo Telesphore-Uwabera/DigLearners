@@ -40,19 +40,9 @@ const Home = () => {
             {t('welcome.description')}
           </p>
           <div className="hero-actions">
-            <Link to="/enroll" className="btn btn-primary" style={{ cursor: 'pointer' }}>
-              {t('welcome.enrollChild')}
+            <Link to="/enroll" className="btn btn-primary btn-teacher-signup" style={{ cursor: 'pointer' }}>
+              {t('welcome.teacherSignUp')}
             </Link>
-            <div className="login-buttons">
-              <Link to="/login?type=student" className="btn btn-student" style={{ cursor: 'pointer' }}>
-                <span className="login-icon">👨‍🎓</span>
-                {t('welcome.studentLogin')}
-              </Link>
-              <Link to="/login?type=teacher" className="btn btn-teacher" style={{ cursor: 'pointer' }}>
-                <span className="login-icon">👨‍🏫</span>
-                {t('welcome.teacherLogin')}
-              </Link>
-            </div>
           </div>
         </div>
         <div className="hero-image">
@@ -122,8 +112,9 @@ const Home = () => {
           <h2>{t('welcome.readyToStart')} 🚀</h2>
           <p>{t('welcome.joinThousands')}</p>
           <div className="cta-actions">
-            <Link to="/enroll" className="btn btn-primary btn-large">
-              {t('welcome.enrollToday')} 🎉
+            <Link to="/login?type=student" className="btn btn-student btn-large" style={{ cursor: 'pointer' }}>
+              <span className="login-icon">👨‍🎓</span>
+              {t('welcome.studentLogin')}
             </Link>
           </div>
           <div className="parent-note">
@@ -278,6 +269,10 @@ const Home = () => {
             justify-content: center;
           }
 
+          .btn-student.btn-large {
+            min-width: 200px;
+          }
+
           .btn {
             padding: 1rem 2rem;
             border-radius: 25px;
@@ -302,6 +297,21 @@ const Home = () => {
             background: white;
             transform: translateY(-3px) scale(1.05);
             box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+          }
+
+          .btn-teacher-signup {
+            background: #1E3A8A;
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            border-radius: 30px;
+          }
+
+          .btn-teacher-signup:hover {
+            background: #1E40AF;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.4);
           }
 
           .btn-secondary {
@@ -629,6 +639,11 @@ const Home = () => {
               justify-content: center;
             }
 
+            .btn-teacher-signup {
+              width: 100%;
+              max-width: 300px;
+            }
+
             .login-buttons {
               flex-direction: column;
               width: 100%;
@@ -637,6 +652,16 @@ const Home = () => {
 
             .btn-student, .btn-teacher {
               width: 100%;
+              min-width: auto;
+            }
+
+            .cta-actions {
+              margin-bottom: 1.5rem;
+            }
+
+            .btn-student.btn-large {
+              width: 100%;
+              max-width: 300px;
               min-width: auto;
             }
 

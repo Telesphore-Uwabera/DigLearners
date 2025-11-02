@@ -1,18 +1,31 @@
 // Login Page Component
 import React, { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useLanguage } from '../../contexts/LanguageContext'
+import { useAuth } from '../../contexts/AuthContext'
 import TeacherLogin from './TeacherLogin'
 import StudentLogin from './StudentLogin'
 import './Login.css'
 
 const Login = ({ onLogin }) => {
   const { t } = useLanguage()
+  const { user, isAuthenticated } = useAuth()
   const location = useLocation()
+  const navigate = useNavigate()
   const [loginType, setLoginType] = useState(null) // 'teacher' or 'student'
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
+
+  const handleStudentRegistration = (e) => {
+    e.preventDefault()
+    if (isAuthenticated && (user?.role === 'teacher' || user?.role === 'admin')) {
+      navigate('/dashboard/register-student')
+    } else {
+      // Redirect to teacher login first
+      navigate('/login?type=teacher')
+    }
+  }
 
   // Check URL parameters to auto-select login type
   useEffect(() => {
@@ -124,7 +137,12 @@ const Login = ({ onLogin }) => {
           </div>
           
           <div className="login-footer">
-            <p>Student not registered yet? <a href="/enroll">Register the student here</a></p>
+            <p>
+              {t('auth.studentNotRegistered') || 'Student not registered yet?'}{' '}
+              <a href="#" onClick={handleStudentRegistration}>
+                {t('auth.registerStudentHere') || 'Register the student here'}
+              </a>
+            </p>
           </div>
         </div>
       </div>
@@ -172,7 +190,12 @@ const Login = ({ onLogin }) => {
         )}
         
         <div className="login-footer">
-          <p>Student not registered yet? <a href="/enroll">Register the student here</a></p>
+          <p>
+            {t('auth.studentNotRegistered') || 'Student not registered yet?'}{' '}
+            <a href="#" onClick={handleStudentRegistration}>
+              {t('auth.registerStudentHere') || 'Register the student here'}
+            </a>
+          </p>
         </div>
       </div>
     </div>
