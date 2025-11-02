@@ -23,8 +23,14 @@ export default function Achievements() {
     try {
       setLoading(true)
       const response = await learnerApiService.getAchievements()
-      setBadges(response.data.badges || [])
-      setAchievements(response.data.achievements || [])
+      console.log('[Achievements] API response:', response)
+      
+      // Handle different response formats
+      const badgesData = response.data?.badges || response.badges || []
+      const achievementsData = response.data?.achievements || response.achievements || []
+      
+      setBadges(badgesData)
+      setAchievements(achievementsData)
     } catch (err) {
       console.error('Error fetching achievements:', err)
       setError(err.message)

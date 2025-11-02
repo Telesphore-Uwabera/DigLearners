@@ -251,35 +251,58 @@ router.get('/achievements', authenticateToken, requireLearner, async (req, res) 
           attributes: ['id', 'name', 'description', 'icon', 'points', 'category', 'criteria']
         }
       ],
-      order: [['earnedAt', 'DESC']]
+      order: [['awardedAt', 'DESC']]
     });
 
     // Create earned badges map
-    const earnedBadgeIds = new Set(earnedBadges.map(eb => eb.badge.id));
+    const earnedBadgeIds = new Set(earnedBadges.map(eb => eb.badge?.id).filter(Boolean));
 
-    // Map badges with earned status
-    const badges = allBadges.map(badge => ({
-      id: badge.id,
-      name: badge.name,
-      description: badge.description,
-      icon: badge.icon,
-      points: badge.points,
-      category: badge.category,
-      criteria: badge.criteria,
-      isEarned: earnedBadgeIds.has(badge.id),
-      earnedAt: earnedBadges.find(eb => eb.badge.id === badge.id)?.earnedAt || null
-    }));
+    // Map all badges with earned status
+    const badges = allBadges.map(badge => {
+      const userBadge = earnedBadges.find(eb => eb.badge?.id === badge.id);
+      return {
+        id: badge.id,
+        name: badge.name,
+        title: badge.name, // Alias for compatibility
+        description: badge.description,
+        icon: badge.icon,
+        points: badge.points,
+        category: badge.category,
+        criteria: badge.criteria,
+        isEarned: earnedBadgeIds.has(badge.id),
+        earnedAt: userBadge?.awardedAt || null
+      };
+    });
 
+    // Separate earned and all badges
     const earned = badges.filter(b => b.isEarned);
+    const allBadgesWithStatus = badges;
 
     res.json({
       success: true,
-      badges: earned.map(badge => ({
+      data: {
+        badges: allBadgesWithStatus,
+        achievements: earned.map(badge => ({
+          id: badge.id,
+          name: badge.name,
+          title: badge.name,
+          description: badge.description,
+          icon: badge.icon,
+          points: badge.points,
+          category: badge.category,
+          earnedAt: badge.earnedAt
+        }))
+      },
+      // Also include at root level for backward compatibility
+      badges: allBadgesWithStatus,
+      achievements: earned.map(badge => ({
         id: badge.id,
+        name: badge.name,
         title: badge.name,
         description: badge.description,
         icon: badge.icon,
         points: badge.points,
+        category: badge.category,
         earnedAt: badge.earnedAt
       }))
     });
