@@ -110,7 +110,8 @@ class LearnerApiService {
 
   // Achievements API
   async getAchievements() {
-    return this.makeRequest('/learning/achievements');
+    // Use /learner/achievements endpoint (it exists and works)
+    return this.makeRequest('/learner/achievements');
   }
 
   async getBadges() {

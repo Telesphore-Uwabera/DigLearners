@@ -146,21 +146,30 @@ router.get('/achievements', authenticateToken, requireLearner, async (req, res) 
     res.json({
       success: true,
       data: {
-        badges: {
-          earned,
-          available,
-          total: badges.length,
-          earnedCount: earned.length
-        },
+        badges: badges, // All badges with isEarned status
         achievements: earned.map(badge => ({
           id: badge.id,
-          title: badge.name,
+          name: badge.name,
+          title: badge.name, // Alias for compatibility
           description: badge.description,
           icon: badge.icon,
           points: badge.points,
+          category: badge.category,
           earnedAt: badge.earnedAt
         }))
-      }
+      },
+      // Also include at root level for compatibility
+      badges: badges,
+      achievements: earned.map(badge => ({
+        id: badge.id,
+        name: badge.name,
+        title: badge.name,
+        description: badge.description,
+        icon: badge.icon,
+        points: badge.points,
+        category: badge.category,
+        earnedAt: badge.earnedAt
+      }))
     });
 
   } catch (error) {
