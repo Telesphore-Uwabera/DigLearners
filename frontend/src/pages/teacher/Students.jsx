@@ -53,7 +53,7 @@ const Students = () => {
           <h2>Loading Students...</h2>
           <p>Fetching student data...</p>
         </div>
-      </div>
+        </div>
     );
   }
 
@@ -95,9 +95,9 @@ const Students = () => {
 
   return (
     <div className="dashboard-container students-page">
-      <div className="page-container">
-        <div className="page-header">
-          <div className="header-content">
+    <div className="page-container">
+      <div className="page-header">
+        <div className="header-content">
             <h1>
               {currentLanguage === 'rw' 
                 ? 'Abanyeshuri' 
@@ -110,12 +110,12 @@ const Students = () => {
                 : 'Manage all students and track their progress'
               }
             </p>
-          </div>
         </div>
+      </div>
 
         {/* Filters and Controls */}
-        <div className="filters-section">
-          <div className="filter-group">
+      <div className="filters-section">
+        <div className="filter-group">
             <label>
               {currentLanguage === 'rw' ? 'Hitamo Urwego:' : 'Filter by Grade:'}
             </label>
@@ -139,11 +139,11 @@ const Students = () => {
             <label>
               {currentLanguage === 'rw' ? 'Gutondekanya:' : 'Sort by:'}
             </label>
-            <select 
+          <select 
               value={sortBy} 
               onChange={(e) => setSortBy(e.target.value)}
-              className="filter-select"
-            >
+            className="filter-select"
+          >
               <option value="progress">
                 {currentLanguage === 'rw' ? 'Imikurire' : 'Progress'}
               </option>
@@ -153,7 +153,7 @@ const Students = () => {
               <option value="lastActive">
                 {currentLanguage === 'rw' ? 'Ikorwa ryanyuma' : 'Last Active'}
               </option>
-            </select>
+          </select>
           </div>
         </div>
 
@@ -264,8 +264,8 @@ const Students = () => {
                   </span>
                 </div>
               </div>
-            </div>
-
+        </div>
+        
             <div className="student-sections">
               <div className="student-info-section">
                 <h3>
@@ -298,46 +298,46 @@ const Students = () => {
                       {currentStudent.createdAt ? new Date(currentStudent.createdAt).toLocaleDateString() : 'Unknown'}
                     </span>
                   </div>
-                </div>
-              </div>
+        </div>
+      </div>
 
               <div className="student-stats-section">
                 <h3>
                   {currentLanguage === 'rw' ? 'Imikurire' : 'Progress Statistics'}
                 </h3>
-                <div className="stats-grid">
-                  <div className="stat-card">
+      <div className="stats-grid">
+        <div className="stat-card">
                     <div className="stat-icon">
                       <Icon name="star" size={24} />
                     </div>
-                    <div className="stat-content">
+          <div className="stat-content">
                       <h4>{currentStudent.totalPoints || 0}</h4>
                       <p>{currentLanguage === 'rw' ? 'Amatike' : 'Total Points'}</p>
-                    </div>
-                  </div>
-                  <div className="stat-card">
+          </div>
+        </div>
+        <div className="stat-card">
                     <div className="stat-icon">
                       <Icon name="achievement" size={24} />
                     </div>
-                    <div className="stat-content">
+          <div className="stat-content">
                       <h4>{currentStudent.badgesEarned || 0}</h4>
                       <p>{currentLanguage === 'rw' ? 'Ibyubahiro' : 'Badges Earned'}</p>
-                    </div>
-                  </div>
-                  <div className="stat-card">
+          </div>
+        </div>
+        <div className="stat-card">
                     <div className="stat-icon">
                       <Icon name="book" size={24} />
                     </div>
-                    <div className="stat-content">
+          <div className="stat-content">
                       <h4>{currentStudent.completedAssignments || 0}</h4>
                       <p>{currentLanguage === 'rw' ? 'Ibyo yatangije' : 'Completed Assignments'}</p>
-                    </div>
-                  </div>
-                  <div className="stat-card">
+          </div>
+        </div>
+        <div className="stat-card">
                     <div className="stat-icon">
                       <Icon name="calendar" size={24} />
                     </div>
-                    <div className="stat-content">
+          <div className="stat-content">
                       <h4>
                         {currentStudent.lastLoginAt ? 
                           Math.floor((new Date() - new Date(currentStudent.lastLoginAt)) / (1000 * 60 * 60 * 24)) : 
@@ -346,9 +346,9 @@ const Students = () => {
                       </h4>
                       <p>{currentLanguage === 'rw' ? 'Iminsi ishize' : 'Days Since Last Login'}</p>
                     </div>
-                  </div>
-                </div>
-              </div>
+          </div>
+        </div>
+      </div>
 
               <div className="student-actions-section">
                 <h3>
@@ -407,7 +407,7 @@ const Students = () => {
             <div className="stat-card">
               <div className="stat-icon">
                 <Icon name="analytics" size={24} />
-              </div>
+                      </div>
               <div className="stat-content">
                 <h3>
                   {students.length > 0 ? 
@@ -418,8 +418,8 @@ const Students = () => {
                 <p>
                   {currentLanguage === 'rw' ? 'Imikurire Ryose' : 'Average Progress'}
                 </p>
-              </div>
-            </div>
+                      </div>
+                    </div>
             <div className="stat-card">
               <div className="stat-icon">
                 <Icon name="star" size={24} />
@@ -434,9 +434,9 @@ const Students = () => {
                 <p>
                   {currentLanguage === 'rw' ? 'Uwatsinze' : 'Top Performer'}
                 </p>
-              </div>
-            </div>
-          </div>
+                      </div>
+                    </div>
+                    </div>
         </div>
       </div>
     </div>

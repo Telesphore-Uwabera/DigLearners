@@ -169,7 +169,7 @@ const LearnerDashboard = () => {
           <div className="loading-container">
             <div className="spinner"></div>
             <p>Loading your games...</p>
-        </div>
+          </div>
         ) : (
           <div className="games-grid">
             {gamifiedContent.length > 0 ? (
@@ -177,7 +177,7 @@ const LearnerDashboard = () => {
                 <div key={game.id} className="game-card">
                   <div className="game-icon-large">
                     {getGameTypeIcon(game.gameType)}
-      </div>
+        </div>
 
                   <h3 className="game-title">{game.title}</h3>
                   <p className="game-description">{game.description}</p>
@@ -185,11 +185,11 @@ const LearnerDashboard = () => {
                   <div className="game-rewards">
                     <div className="reward-item">
                       <span>⭐ {game.pointsReward} points</span>
-                    </div>
+          </div>
                     <div className="reward-item">
                       <span>⏱️ {game.estimatedTime || 10} min</span>
-          </div>
         </div>
+      </div>
 
                   <button 
                     className="play-button-large"
@@ -197,18 +197,18 @@ const LearnerDashboard = () => {
                   >
                     🎮 PLAY NOW!
                   </button>
-          </div>
+            </div>
               ))
             ) : (
               <div className="no-games">
                 <div className="no-games-icon">🎮</div>
                 <h3>Loading games...</h3>
                 <p>Getting your fun games ready!</p>
-        </div>
-            )}
           </div>
+            )}
+            </div>
         )}
-        </div>
+          </div>
 
       {/* Simple Badges at Bottom */}
       <div className="simple-badges">
@@ -219,16 +219,16 @@ const LearnerDashboard = () => {
               <div key={badge.id || badge.badgeId} className="badge-simple">
                 <div className="badge-icon">{badge.icon || badge.badge?.icon || '🏆'}</div>
                 <span>{badge.name || badge.title || badge.badge?.name || 'Badge'}</span>
-              </div>
+            </div>
             ))
           ) : (
             <div className="badge-simple">
               <div className="badge-icon">🏆</div>
               <span>Complete courses to earn badges!</span>
-            </div>
+          </div>
           )}
-        </div>
-      </div>
+            </div>
+          </div>
 
       <style dangerouslySetInnerHTML={{
         __html: `
