@@ -1,13 +1,13 @@
 // Admin API - Complete admin dashboard endpoints
 const express = require('express');
 const { User, Lesson, Progress, LearningClass, Badge, UserBadge } = require('../models');
-const { authenticateToken, requireAdmin } = require('../middleware/auth');
+const { authenticateToken, requireTeacher } = require('../middleware/auth');
 const { Op } = require('sequelize');
 
 const router = express.Router();
 
 // Get admin dashboard data
-router.get('/dashboard', authenticateToken, requireAdmin, async (req, res) => {
+router.get('/dashboard', authenticateToken, requireTeacher, async (req, res) => {
   try {
     // Simple dashboard data for now
     const totalUsers = await User.count();
@@ -41,7 +41,7 @@ router.get('/dashboard', authenticateToken, requireAdmin, async (req, res) => {
 });
 
 // Get all users with filtering
-router.get('/users', authenticateToken, requireAdmin, async (req, res) => {
+router.get('/users', authenticateToken, requireTeacher, async (req, res) => {
   try {
     const { role, search, page = 1, limit = 10 } = req.query;
     
@@ -89,7 +89,7 @@ router.get('/users', authenticateToken, requireAdmin, async (req, res) => {
 });
 
 // Create new user
-router.post('/users', authenticateToken, requireAdmin, async (req, res) => {
+router.post('/users', authenticateToken, requireTeacher, async (req, res) => {
   try {
     const { fullName, email, password, role, grade, age } = req.body;
 
@@ -140,7 +140,7 @@ router.post('/users', authenticateToken, requireAdmin, async (req, res) => {
 });
 
 // Update user
-router.put('/users/:id', authenticateToken, requireAdmin, async (req, res) => {
+router.put('/users/:id', authenticateToken, requireTeacher, async (req, res) => {
   try {
     const { id } = req.params;
     const { fullName, email, role, grade, age } = req.body;
@@ -179,7 +179,7 @@ router.put('/users/:id', authenticateToken, requireAdmin, async (req, res) => {
 });
 
 // Delete user
-router.delete('/users/:id', authenticateToken, requireAdmin, async (req, res) => {
+router.delete('/users/:id', authenticateToken, requireTeacher, async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -208,7 +208,7 @@ router.delete('/users/:id', authenticateToken, requireAdmin, async (req, res) =>
 });
 
 // Toggle user status
-router.post('/users/:id/toggle-status', authenticateToken, requireAdmin, async (req, res) => {
+router.post('/users/:id/toggle-status', authenticateToken, requireTeacher, async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -239,7 +239,7 @@ router.post('/users/:id/toggle-status', authenticateToken, requireAdmin, async (
 });
 
 // Get content (lessons) with filtering
-router.get('/content', authenticateToken, requireAdmin, async (req, res) => {
+router.get('/content', authenticateToken, requireTeacher, async (req, res) => {
   try {
     const { status, subject, grade, search, page = 1, limit = 10 } = req.query;
     
@@ -301,7 +301,7 @@ router.get('/content', authenticateToken, requireAdmin, async (req, res) => {
 });
 
 // Create content
-router.post('/content', authenticateToken, requireAdmin, async (req, res) => {
+router.post('/content', authenticateToken, requireTeacher, async (req, res) => {
   try {
     const {
       title,
@@ -354,7 +354,7 @@ router.post('/content', authenticateToken, requireAdmin, async (req, res) => {
 });
 
 // Update content
-router.put('/content/:id', authenticateToken, requireAdmin, async (req, res) => {
+router.put('/content/:id', authenticateToken, requireTeacher, async (req, res) => {
   try {
     const { id } = req.params;
     const updateData = req.body;
@@ -385,7 +385,7 @@ router.put('/content/:id', authenticateToken, requireAdmin, async (req, res) => 
 });
 
 // Delete content
-router.delete('/content/:id', authenticateToken, requireAdmin, async (req, res) => {
+router.delete('/content/:id', authenticateToken, requireTeacher, async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -414,7 +414,7 @@ router.delete('/content/:id', authenticateToken, requireAdmin, async (req, res) 
 });
 
 // Publish content
-router.post('/content/:id/publish', authenticateToken, requireAdmin, async (req, res) => {
+router.post('/content/:id/publish', authenticateToken, requireTeacher, async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -444,7 +444,7 @@ router.post('/content/:id/publish', authenticateToken, requireAdmin, async (req,
 });
 
 // Get analytics
-router.get('/analytics', authenticateToken, requireAdmin, async (req, res) => {
+router.get('/analytics', authenticateToken, requireTeacher, async (req, res) => {
   try {
     const { period = 'week' } = req.query;
 
@@ -534,7 +534,7 @@ router.get('/analytics', authenticateToken, requireAdmin, async (req, res) => {
 });
 
 // Get system stats
-router.get('/system-stats', authenticateToken, requireAdmin, async (req, res) => {
+router.get('/system-stats', authenticateToken, requireTeacher, async (req, res) => {
   try {
     const [
       totalUsers,
@@ -574,7 +574,7 @@ router.get('/system-stats', authenticateToken, requireAdmin, async (req, res) =>
 });
 
 // Get reports
-router.get('/reports', authenticateToken, requireAdmin, async (req, res) => {
+router.get('/reports', authenticateToken, requireTeacher, async (req, res) => {
   try {
     const { type = 'all', period = 'week' } = req.query;
 
@@ -647,7 +647,7 @@ router.get('/reports', authenticateToken, requireAdmin, async (req, res) => {
 });
 
 // Generate report
-router.post('/reports/generate', authenticateToken, requireAdmin, async (req, res) => {
+router.post('/reports/generate', authenticateToken, requireTeacher, async (req, res) => {
   try {
     const { type, period, format = 'json' } = req.body;
 
@@ -674,7 +674,7 @@ router.post('/reports/generate', authenticateToken, requireAdmin, async (req, re
 });
 
 // Get settings
-router.get('/settings', authenticateToken, requireAdmin, async (req, res) => {
+router.get('/settings', authenticateToken, requireTeacher, async (req, res) => {
   try {
     // Return default settings for now
     const settings = {
@@ -715,7 +715,7 @@ router.get('/settings', authenticateToken, requireAdmin, async (req, res) => {
 });
 
 // Update settings
-router.put('/settings', authenticateToken, requireAdmin, async (req, res) => {
+router.put('/settings', authenticateToken, requireTeacher, async (req, res) => {
   try {
     const settingsData = req.body;
 
@@ -737,3 +737,5 @@ router.put('/settings', authenticateToken, requireAdmin, async (req, res) => {
 });
 
 module.exports = router;
+
+
