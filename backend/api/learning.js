@@ -241,38 +241,47 @@ router.get('/achievements', authenticateToken, requireLearner, async (req, res) 
       order: [['points', 'DESC']]
     });
 
-    // Get user's earned badges
+    // Get user's earned badges - filter out any with null badges (orphaned records)
     const earnedBadges = await UserBadge.findAll({
       where: { userId },
       include: [
         {
           model: Badge,
           as: 'badge',
-          attributes: ['id', 'name', 'description', 'icon', 'points', 'category', 'criteria']
+          attributes: ['id', 'name', 'description', 'icon', 'points', 'category', 'criteria'],
+          required: false // Use LEFT JOIN to include UserBadges even if badge is missing
         }
       ],
       order: [['awardedAt', 'DESC']]
     });
 
-    // Create earned badges map
-    const earnedBadgeIds = new Set(earnedBadges.map(eb => eb.badge?.id).filter(Boolean));
+    // Filter out UserBadges where badge is null (orphaned records)
+    const validEarnedBadges = earnedBadges.filter(eb => eb.badge && eb.badge.id);
+
+    // Create earned badges map - only include badges that exist
+    const earnedBadgeIds = new Set(validEarnedBadges.map(eb => eb.badge.id));
+
+    // Create a map of earned badges with their awardedAt dates
+    const earnedBadgeDates = new Map();
+    validEarnedBadges.forEach(eb => {
+      if (eb.badge && eb.badge.id) {
+        earnedBadgeDates.set(eb.badge.id, eb.awardedAt);
+      }
+    });
 
     // Map all badges with earned status
-    const badges = allBadges.map(badge => {
-      const userBadge = earnedBadges.find(eb => eb.badge?.id === badge.id);
-      return {
-        id: badge.id,
-        name: badge.name,
-        title: badge.name, // Alias for compatibility
-        description: badge.description,
-        icon: badge.icon,
-        points: badge.points,
-        category: badge.category,
-        criteria: badge.criteria,
-        isEarned: earnedBadgeIds.has(badge.id),
-        earnedAt: userBadge?.awardedAt || null
-      };
-    });
+    const badges = allBadges.map(badge => ({
+      id: badge.id,
+      name: badge.name,
+      title: badge.name, // Alias for compatibility
+      description: badge.description,
+      icon: badge.icon,
+      points: badge.points,
+      category: badge.category,
+      criteria: badge.criteria,
+      isEarned: earnedBadgeIds.has(badge.id),
+      earnedAt: earnedBadgeDates.get(badge.id) || null
+    }));
 
     // Separate earned and all badges
     const earned = badges.filter(b => b.isEarned);

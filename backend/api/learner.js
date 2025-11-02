@@ -51,19 +51,21 @@ router.get('/dashboard', authenticateToken, requireLearner, async (req, res) => 
     // Get recent badges (handle errors gracefully)
     let recentBadges = [];
     try {
-      recentBadges = await UserBadge.findAll({
+      const userBadges = await UserBadge.findAll({
         where: { userId },
         include: [
           {
             model: Badge,
             as: 'badge',
             attributes: ['id', 'name', 'description', 'icon', 'points'],
-            required: false
+            required: false // Use LEFT JOIN to include UserBadges even if badge is missing
           }
         ],
-        order: [['earnedAt', 'DESC']],
-        limit: 3
+        order: [['awardedAt', 'DESC']],
+        limit: 10
       });
+      // Filter out UserBadges where badge is null (orphaned records)
+      recentBadges = userBadges.filter(ub => ub.badge && ub.badge.id).slice(0, 3);
     } catch (badgeError) {
       console.error('Error fetching badges:', badgeError);
       // Continue without badges
@@ -87,7 +89,7 @@ router.get('/dashboard', authenticateToken, requireLearner, async (req, res) => 
           description: ub.badge.description,
           icon: ub.badge.icon,
           points: ub.badge.points,
-          earnedAt: ub.earnedAt
+          earnedAt: ub.awardedAt || ub.earnedAt
         }))
       }
     });
@@ -111,21 +113,33 @@ router.get('/achievements', authenticateToken, requireLearner, async (req, res) 
       order: [['points', 'DESC']]
     });
 
-    // Get user's earned badges
+    // Get user's earned badges - filter out any with null badges (orphaned records)
     const earnedBadges = await UserBadge.findAll({
       where: { userId },
       include: [
         {
           model: Badge,
           as: 'badge',
-          attributes: ['id', 'name', 'description', 'icon', 'points', 'category', 'criteria']
+          attributes: ['id', 'name', 'description', 'icon', 'points', 'category', 'criteria'],
+          required: false // Use LEFT JOIN to include UserBadges even if badge is missing
         }
       ],
-      order: [['earnedAt', 'DESC']]
+      order: [['awardedAt', 'DESC']]
     });
 
-    // Create earned badges map
-    const earnedBadgeIds = new Set(earnedBadges.map(eb => eb.badge.id));
+    // Filter out UserBadges where badge is null (orphaned records)
+    const validEarnedBadges = earnedBadges.filter(eb => eb.badge && eb.badge.id);
+
+    // Create earned badges map - only include badges that exist
+    const earnedBadgeIds = new Set(validEarnedBadges.map(eb => eb.badge.id));
+
+    // Create a map of earned badges with their earnedAt dates
+    const earnedBadgeDates = new Map();
+    validEarnedBadges.forEach(eb => {
+      if (eb.badge && eb.badge.id) {
+        earnedBadgeDates.set(eb.badge.id, eb.earnedAt || eb.awardedAt);
+      }
+    });
 
     // Separate earned and available badges
     const badges = allBadges.map(badge => ({
@@ -137,11 +151,10 @@ router.get('/achievements', authenticateToken, requireLearner, async (req, res) 
       category: badge.category,
       criteria: badge.criteria,
       isEarned: earnedBadgeIds.has(badge.id),
-      earnedAt: earnedBadges.find(eb => eb.badge.id === badge.id)?.earnedAt || null
+      earnedAt: earnedBadgeDates.get(badge.id) || null
     }));
 
     const earned = badges.filter(b => b.isEarned);
-    const available = badges.filter(b => !b.isEarned);
 
     res.json({
       success: true,
@@ -174,9 +187,11 @@ router.get('/achievements', authenticateToken, requireLearner, async (req, res) 
 
   } catch (error) {
     console.error('Error fetching learner achievements:', error);
+    console.error('Error stack:', error.stack);
     res.status(500).json({
       success: false,
-      error: 'Internal server error fetching achievements'
+      error: 'Internal server error fetching achievements',
+      message: error.message
     });
   }
 });
