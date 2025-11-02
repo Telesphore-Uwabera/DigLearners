@@ -37,6 +37,13 @@ const authenticateToken = async (req, res, next) => {
       fullName: user.fullName
     };
 
+    console.log('[Auth] Token authenticated:', {
+      userId: req.user.userId,
+      email: req.user.email,
+      role: req.user.role,
+      fullName: req.user.fullName
+    });
+
     next();
   } catch (error) {
     if (error.name === 'JsonWebTokenError') {
