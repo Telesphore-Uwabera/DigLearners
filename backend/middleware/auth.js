@@ -65,19 +65,28 @@ const authenticateToken = async (req, res, next) => {
 const authorizeRoles = (...roles) => {
   return (req, res, next) => {
     if (!req.user) {
+      console.log('[Auth] No user found in request');
       return res.status(401).json({
         success: false,
         error: 'Authentication required'
       });
     }
 
+    console.log('[Auth] Checking role authorization:', {
+      userRole: req.user.role,
+      allowedRoles: roles,
+      userId: req.user.userId
+    });
+
     if (!roles.includes(req.user.role)) {
+      console.log('[Auth] Access denied - role mismatch');
       return res.status(403).json({
         success: false,
         error: 'Insufficient permissions'
       });
     }
 
+    console.log('[Auth] Access granted');
     next();
   };
 };
