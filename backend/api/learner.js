@@ -20,17 +20,25 @@ router.get('/dashboard', authenticateToken, requireLearner, async (req, res) => 
       });
     }
 
-    // Get user's progress data
-    const progressData = await Progress.findAll({
-      where: { userId },
-      include: [
-        {
-          model: Lesson,
-          as: 'lesson',
-          attributes: ['id', 'title', 'pointsReward']
-        }
-      ]
-    });
+    // Get user's progress data (handle errors gracefully)
+    let progressData = [];
+    try {
+      progressData = await Progress.findAll({
+        where: { userId },
+        include: [
+          {
+            model: Lesson,
+            as: 'lesson',
+            attributes: ['id', 'title', 'pointsReward'],
+            required: false
+          }
+        ]
+      });
+    } catch (progressError) {
+      console.error('Error fetching progress data:', progressError);
+      // Continue without progress data
+      progressData = [];
+    }
 
     // Calculate stats
     const totalPoints = user.totalPoints || 0;
@@ -40,19 +48,27 @@ router.get('/dashboard', authenticateToken, requireLearner, async (req, res) => 
       ? Math.round(progressData.reduce((sum, p) => sum + (p.score || 0), 0) / progressData.length)
       : 0;
 
-    // Get recent badges
-    const recentBadges = await UserBadge.findAll({
-      where: { userId },
-      include: [
-        {
-          model: Badge,
-          as: 'badge',
-          attributes: ['id', 'name', 'description', 'icon', 'points']
-        }
-      ],
-      order: [['earnedAt', 'DESC']],
-      limit: 3
-    });
+    // Get recent badges (handle errors gracefully)
+    let recentBadges = [];
+    try {
+      recentBadges = await UserBadge.findAll({
+        where: { userId },
+        include: [
+          {
+            model: Badge,
+            as: 'badge',
+            attributes: ['id', 'name', 'description', 'icon', 'points'],
+            required: false
+          }
+        ],
+        order: [['earnedAt', 'DESC']],
+        limit: 3
+      });
+    } catch (badgeError) {
+      console.error('Error fetching badges:', badgeError);
+      // Continue without badges
+      recentBadges = [];
+    }
 
     res.json({
       success: true,
@@ -174,7 +190,18 @@ router.get('/my-content', authenticateToken, requireLearner, async (req, res) =>
     let whereClause = { isActive: true };
     
     if (user.grade) {
-      whereClause.grade = user.grade;
+      // Normalize grade format - try both "4" and "Grade 4"
+      const gradesToTry = [];
+      if (user.grade.startsWith('Grade ')) {
+        gradesToTry.push(user.grade);
+        gradesToTry.push(user.grade.replace('Grade ', '').trim());
+      } else {
+        gradesToTry.push(user.grade);
+        gradesToTry.push(`Grade ${user.grade}`);
+      }
+      
+      // Use Op.in to search for content with any of these grade formats
+      whereClause.grade = { [Op.in]: gradesToTry };
     } else if (user.age) {
       // Map age to grade if grade is not set
       const ageToGrade = {
@@ -184,7 +211,7 @@ router.get('/my-content', authenticateToken, requireLearner, async (req, res) =>
       };
       const mappedGrade = ageToGrade[user.age];
       if (mappedGrade) {
-        whereClause.grade = mappedGrade;
+        whereClause.grade = { [Op.in]: [mappedGrade, mappedGrade.replace('Grade ', '').trim()] };
       }
     }
 

@@ -62,23 +62,54 @@ const LearnerDashboard = () => {
       
       // Fetch user stats and recent badges
       const [statsResponse, badgesResponse] = await Promise.all([
-        learnerApiService.getDashboardData().catch(() => ({ data: { stats: userStats } })),
-        learnerApiService.getAchievements().catch(() => ({ data: { badges: [] } }))
+        learnerApiService.getDashboardData().catch((err) => {
+          console.warn('Dashboard stats fetch failed:', err);
+          return { data: { stats: userStats } };
+        }),
+        learnerApiService.getAchievements().catch((err) => {
+          console.warn('Achievements fetch failed:', err);
+          return { badges: [] };
+        })
       ]);
 
-      setUserStats(statsResponse.data.stats || userStats);
-      setRecentBadges((badgesResponse.data.badges || []).slice(0, 3));
+      // Handle dashboard stats response
+      if (statsResponse && statsResponse.data && statsResponse.data.stats) {
+        setUserStats(statsResponse.data.stats);
+      }
+      
+      // Handle badges response - check both response formats
+      if (badgesResponse) {
+        const badges = badgesResponse.badges || badgesResponse.data?.badges || [];
+        setRecentBadges(badges.slice(0, 3));
+      }
 
       // Try to get user's grade-specific content first
       try {
         const response = await gamifiedApiService.getMyContent();
-        setGamifiedContent(response.data.slice(0, 6)); // Show top 6 games
+        const content = response.data || response;
+        if (Array.isArray(content)) {
+          setGamifiedContent(content.slice(0, 6)); // Show top 6 games
+        } else {
+          throw new Error('Invalid content format');
+        }
       } catch (gradeError) {
+        console.warn('Grade-specific content fetch failed, trying age group:', gradeError);
         // Fallback to age group content
         const ageGroup = localStorage.getItem('selectedAgeGroup');
         if (ageGroup) {
-          const response = await gamifiedApiService.getContentByAgeGroup(ageGroup);
-          setGamifiedContent(response.data.slice(0, 6)); // Show top 6 games
+          try {
+            const response = await gamifiedApiService.getContentByAgeGroup(ageGroup);
+            const content = response.data || response;
+            if (Array.isArray(content)) {
+              setGamifiedContent(content.slice(0, 6)); // Show top 6 games
+            }
+          } catch (ageError) {
+            console.warn('Age group content fetch also failed:', ageError);
+            // Set empty array as last resort
+            setGamifiedContent([]);
+          }
+        } else {
+          setGamifiedContent([]);
         }
       }
     } catch (error) {

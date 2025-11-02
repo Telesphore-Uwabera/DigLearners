@@ -89,7 +89,7 @@ router.get('/grade/:grade', authenticateToken, async (req, res) => {
 // Get content for authenticated user's grade
 router.get('/my-content', authenticateToken, async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.userId; // Fixed: use userId from middleware
     const user = await User.findByPk(userId);
     
     if (!user) {
@@ -106,13 +106,43 @@ router.get('/my-content', authenticateToken, async (req, res) => {
       });
     }
 
-    const content = await GamifiedContent.findAll({
+    // Normalize grade format - handle both "4" and "Grade 4" formats
+    let gradeToSearch = user.grade;
+    if (!gradeToSearch.startsWith('Grade ')) {
+      gradeToSearch = `Grade ${gradeToSearch}`;
+    }
+
+    // Try to find content with the normalized grade format
+    let content = await GamifiedContent.findAll({
       where: {
-        grade: user.grade,
+        grade: gradeToSearch,
         isActive: true
       },
       order: [['difficulty', 'ASC'], ['createdAt', 'DESC']]
     });
+
+    // If no content found with "Grade X" format, try with just the number
+    if (content.length === 0 && user.grade.startsWith('Grade ')) {
+      const numericGrade = user.grade.replace('Grade ', '').trim();
+      content = await GamifiedContent.findAll({
+        where: {
+          grade: numericGrade,
+          isActive: true
+        },
+        order: [['difficulty', 'ASC'], ['createdAt', 'DESC']]
+      });
+    }
+
+    // Also try with just the numeric grade if stored as "4"
+    if (content.length === 0 && !user.grade.startsWith('Grade ')) {
+      content = await GamifiedContent.findAll({
+        where: {
+          grade: user.grade,
+          isActive: true
+        },
+        order: [['difficulty', 'ASC'], ['createdAt', 'DESC']]
+      });
+    }
 
     res.json({
       success: true,
