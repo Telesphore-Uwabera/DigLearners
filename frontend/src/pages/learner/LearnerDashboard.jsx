@@ -54,6 +54,16 @@ const LearnerDashboard = () => {
     }
     
     fetchDashboardData();
+    
+    // Check for new badges from localStorage (set after course completion)
+    const refreshFlag = localStorage.getItem('refreshDashboard');
+    if (refreshFlag === 'true') {
+      localStorage.removeItem('refreshDashboard');
+      // Refresh dashboard data after a short delay to ensure backend has updated
+      setTimeout(() => {
+        fetchDashboardData();
+      }, 1000);
+    }
   }, [navigate, user]);
 
   const fetchDashboardData = async () => {
@@ -204,12 +214,19 @@ const LearnerDashboard = () => {
       <div className="simple-badges">
         <h2>🏆 My Badges</h2>
         <div className="badges-row">
-          {recentBadges.slice(0, 3).map(badge => (
-            <div key={badge.id} className="badge-simple">
-              <div className="badge-icon">{badge.icon}</div>
-              <span>{badge.title}</span>
-          </div>
-          ))}
+          {recentBadges.length > 0 ? (
+            recentBadges.slice(0, 3).map(badge => (
+              <div key={badge.id || badge.badgeId} className="badge-simple">
+                <div className="badge-icon">{badge.icon || badge.badge?.icon || '🏆'}</div>
+                <span>{badge.name || badge.title || badge.badge?.name || 'Badge'}</span>
+              </div>
+            ))
+          ) : (
+            <div className="badge-simple">
+              <div className="badge-icon">🏆</div>
+              <span>Complete courses to earn badges!</span>
+            </div>
+          )}
         </div>
       </div>
 

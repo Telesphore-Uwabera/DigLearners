@@ -133,18 +133,35 @@ router.post('/lessons/:id/progress', authenticateToken, requireLearner, async (r
       for (const badge of eligibleBadges) {
         try {
           const userBadge = await badge.awardBadge(req.user.userId);
-          newBadges.push(userBadge);
+          // Include full badge details
+          const badgeData = await Badge.findByPk(badge.id);
+          newBadges.push({
+            id: userBadge.id,
+            badgeId: badge.id,
+            name: badgeData.name,
+            description: badgeData.description,
+            icon: badgeData.icon,
+            points: badgeData.points,
+            category: badgeData.category,
+            awardedAt: userBadge.awardedAt
+          });
         } catch (error) {
           console.log(`Badge ${badge.name} already awarded or error:`, error.message);
         }
       }
 
-      return res.json({
-        success: true,
-        message: 'Progress recorded successfully',
-        progress: progress.getPerformanceMetrics(),
-        newBadges: newBadges.map(badge => badge.displayBadge())
-      });
+      if (newBadges.length > 0) {
+        return res.json({
+          success: true,
+          message: 'Progress recorded successfully. Badges awarded!',
+          progress: progress.getPerformanceMetrics(),
+          newBadges: newBadges,
+          data: {
+            progress: progress.getPerformanceMetrics(),
+            newBadges: newBadges
+          }
+        });
+      }
     }
 
     res.json({

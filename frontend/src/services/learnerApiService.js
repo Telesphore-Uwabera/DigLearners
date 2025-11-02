@@ -84,6 +84,14 @@ class LearnerApiService {
     });
   }
 
+  async updateProgress(lessonId, progressData) {
+    // Use the progress endpoint that awards badges
+    return this.makeRequest(`/learning/lessons/${lessonId}/progress`, {
+      method: 'POST',
+      body: JSON.stringify(progressData)
+    });
+  }
+
   // Progress API
   async getProgress() {
     return this.makeRequest('/learning/progress');

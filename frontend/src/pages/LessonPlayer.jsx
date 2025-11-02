@@ -46,20 +46,38 @@ export default function LessonPlayer() {
     try {
       console.log('[LessonPlayer] Lesson completed:', results)
       
-      // Save progress to backend
+      // Save progress to backend and award badges
       if (lesson?.id) {
-        await learnerApiService.completeLesson(lesson.id, {
-          score: results.score || results.accuracy || 100,
-          completedAt: new Date().toISOString(),
-          results: results
+        const score = results.score || results.accuracy || 100
+        const progressPercentage = 100
+        
+        // Use the progress endpoint which will check for and award badges
+        const response = await learnerApiService.updateProgress(lesson.id, {
+          score: score,
+          timeSpent: results.timeSpent || 0,
+          progressPercentage: progressPercentage,
+          isCompleted: true
         }).catch(err => {
           console.warn('[LessonPlayer] Failed to save progress to backend:', err)
+          return null
         })
+        
+        // Show badges if any were awarded
+        const newBadges = response?.newBadges || response?.data?.newBadges || []
+        if (newBadges.length > 0) {
+          console.log('[LessonPlayer] Badges awarded:', newBadges)
+          // Store new badges to show notification
+          localStorage.setItem('newBadges', JSON.stringify(newBadges))
+          // Trigger dashboard refresh on next visit
+          localStorage.setItem('refreshDashboard', 'true')
+        }
       }
 
       setIsCompleted(true)
     } catch (error) {
       console.error('[LessonPlayer] Error saving progress:', error)
+      // Still mark as completed even if API call fails
+      setIsCompleted(true)
     }
   }
 

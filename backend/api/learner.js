@@ -294,6 +294,44 @@ router.post('/progress', authenticateToken, requireLearner, async (req, res) => 
           totalPoints: (user.totalPoints || 0) + (score * 10) // 10 points per score point
         });
       }
+      
+      // Check for badge eligibility and award badges when lesson is completed
+      try {
+        const eligibleBadges = await progress.calculateBadgeEligibility();
+        const newBadges = [];
+        
+        for (const badge of eligibleBadges) {
+          try {
+            const userBadge = await badge.awardBadge(userId);
+            // Include badge details in response
+            const badgeData = await Badge.findByPk(badge.id);
+            newBadges.push({
+              id: userBadge.id,
+              badgeId: badge.id,
+              name: badgeData.name,
+              description: badgeData.description,
+              icon: badgeData.icon,
+              points: badgeData.points,
+              category: badgeData.category,
+              awardedAt: userBadge.awardedAt
+            });
+          } catch (error) {
+            console.log(`Badge ${badge.name} already awarded or error:`, error.message);
+          }
+        }
+        
+        if (newBadges.length > 0) {
+          return res.json({
+            success: true,
+            message: 'Progress updated successfully. Badges awarded!',
+            data: progress,
+            newBadges: newBadges
+          });
+        }
+      } catch (badgeError) {
+        console.error('Error checking badges:', badgeError);
+        // Continue even if badge checking fails
+      }
     }
 
     res.json({
