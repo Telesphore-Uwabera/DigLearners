@@ -187,13 +187,25 @@ const StudentLogin = ({
     setSuccess(false)
 
     try {
+      // Normalize grade format: extract just the number if it's "Grade X" format
+      // This ensures it matches what's stored in the database
+      let normalizedGrade = formData.grade
+      if (normalizedGrade && normalizedGrade.startsWith('Grade ')) {
+        normalizedGrade = normalizedGrade.replace('Grade ', '').trim()
+      }
+      
       console.log('[StudentLogin] Attempting student login:', {
         fullName: formData.fullName,
-        grade: formData.grade,
+        originalGrade: formData.grade,
+        normalizedGrade: normalizedGrade,
         registrationCode: code
       })
       
-      const result = await onLogin({ ...formData, registrationCode: code })
+      const result = await onLogin({ 
+        ...formData, 
+        grade: normalizedGrade, // Send normalized grade
+        registrationCode: code 
+      })
       
       console.log('[StudentLogin] Login result:', {
         success: result?.success,
