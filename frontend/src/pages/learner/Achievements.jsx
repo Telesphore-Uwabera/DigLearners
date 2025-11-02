@@ -43,10 +43,10 @@ export default function Achievements() {
   }
 
   const categories = [
-    { id: 'all', name: 'All Badges', icon: 'achievement', color: '#FF677D' },
-    { id: 'achievement', name: 'Achievements', icon: 'target', color: '#F8B400' },
-    { id: 'milestone', name: 'Milestones', icon: 'progress', color: '#B9FBC0' },
-    { id: 'special', name: 'Special', icon: 'star', color: '#FFB3BA' }
+    { id: 'all', name: 'All Badges', icon: 'achievement', color: '#FF6B9D', bgGradient: 'linear-gradient(135deg, #FF6B9D, #FF8E9B)' },
+    { id: 'achievement', name: 'Achievements', icon: 'target', color: '#FFB020', bgGradient: 'linear-gradient(135deg, #FFB020, #FFD700)' },
+    { id: 'milestone', name: 'Milestones', icon: 'progress', color: '#4ECDC4', bgGradient: 'linear-gradient(135deg, #4ECDC4, #44E5E7)' },
+    { id: 'special', name: 'Special', icon: 'star', color: '#C77DFF', bgGradient: 'linear-gradient(135deg, #C77DFF, #E0AAFF)' }
   ]
 
   const getFilteredBadges = () => {
@@ -190,9 +190,10 @@ export default function Achievements() {
               key={category.id}
               className={`category-btn ${selectedCategory === category.id ? 'active' : ''}`}
               style={{ 
-                backgroundColor: selectedCategory === category.id ? category.color : 'white',
+                background: selectedCategory === category.id ? category.bgGradient : 'white',
                 borderColor: category.color,
-                color: selectedCategory === category.id ? 'white' : category.color
+                color: selectedCategory === category.id ? 'white' : category.color,
+                boxShadow: selectedCategory === category.id ? `0 4px 15px ${category.color}40` : '0 2px 8px rgba(0,0,0,0.1)'
               }}
               onClick={() => setSelectedCategory(category.id)}
             >
@@ -294,7 +295,7 @@ export default function Achievements() {
         __html: `
           .kid-achievements-page {
             min-height: 100vh;
-            background: linear-gradient(135deg, #FFB3BA, #B9FBC0);
+            background: linear-gradient(180deg, #FFF0F7 0%, #FFE5F1 30%, #E8F4FD 70%, #D1E9FF 100%);
             padding: 2rem;
             font-family: 'Comic Sans MS', cursive, sans-serif;
           }
@@ -303,11 +304,12 @@ export default function Achievements() {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: white;
+            background: linear-gradient(135deg, #FFFFFF, #F8F9FA);
             padding: 2rem;
             border-radius: 25px;
             margin-bottom: 2rem;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12), 0 0 0 1px rgba(139, 92, 246, 0.1);
+            border: 2px solid rgba(139, 92, 246, 0.1);
           }
 
           .header-content h1 {
@@ -332,7 +334,7 @@ export default function Achievements() {
           .avatar-circle {
             width: 80px;
             height: 80px;
-            background: linear-gradient(135deg, #FF677D, #F8B400);
+            background: linear-gradient(135deg, #FF6B9D, #FFB020, #4ECDC4);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -377,10 +379,10 @@ export default function Achievements() {
              transform: translateY(-5px);
            }
 
-           .stat-1 { border-left-color: #FF677D; }
-           .stat-2 { border-left-color: #F8B400; }
-           .stat-3 { border-left-color: #B9FBC0; }
-           .stat-4 { border-left-color: #FFB3BA; }
+           .stat-1 { border-left-color: #FF6B9D; background: linear-gradient(135deg, #FFF0F5, #FFEBF0, #FFFFFF); border-left-width: 6px; }
+           .stat-2 { border-left-color: #FFB020; background: linear-gradient(135deg, #FFF8E1, #FFF4D6, #FFFFFF); border-left-width: 6px; }
+           .stat-3 { border-left-color: #10B981; background: linear-gradient(135deg, #D1FAE5, #A7F3D0, #FFFFFF); border-left-width: 6px; }
+           .stat-4 { border-left-color: #8B5CF6; background: linear-gradient(135deg, #EDE9FE, #DDD6FE, #FFFFFF); border-left-width: 6px; }
 
            .stat-icon {
              font-size: 2.5rem;
@@ -430,13 +432,14 @@ export default function Achievements() {
           }
 
           .recent-badge-card {
-            background: linear-gradient(135deg, #F8F9FA, #E8F5E8);
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A, #FFFFFF);
             padding: 1.5rem;
             border-radius: 20px;
             display: flex;
             align-items: center;
             gap: 1rem;
-            border: 3px solid #E2E8F0;
+            border: 3px solid #FBBF24;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4), 0 0 0 1px rgba(251, 191, 36, 0.1);
             transition: all 0.3s ease;
           }
 
@@ -467,7 +470,7 @@ export default function Achievements() {
           }
 
           .celebrate-btn {
-            background: #FF677D;
+            background: linear-gradient(135deg, #FF6B9D, #FF8E9B);
             color: white;
             border: none;
             padding: 0.75rem 1rem;
@@ -476,19 +479,22 @@ export default function Achievements() {
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(255, 107, 157, 0.4);
           }
 
           .celebrate-btn:hover {
-            background: #E53E3E;
+            background: linear-gradient(135deg, #FF5785, #FF7A8A);
             transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 107, 157, 0.5);
           }
 
           .category-filter-section {
-            background: white;
+            background: linear-gradient(135deg, #FFFFFF, #F8F9FA);
             padding: 2rem;
             border-radius: 25px;
             margin-bottom: 2rem;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            border: 2px solid rgba(255, 107, 157, 0.1);
           }
 
           .category-filter-section h2 {
@@ -519,12 +525,34 @@ export default function Achievements() {
             transition: all 0.3s ease;
             font-size: 1rem;
             color: inherit !important;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+            background: white;
+          }
+
+          .category-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+          }
+
+          .category-btn:hover::before {
+            left: 100%;
           }
 
           .category-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+          }
+
+          .category-btn.active {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
           }
 
           .category-emoji {
@@ -532,11 +560,12 @@ export default function Achievements() {
           }
 
           .badge-collection-section {
-            background: white;
+            background: linear-gradient(135deg, #FFFFFF, #F8F9FA);
             padding: 2rem;
             border-radius: 25px;
             margin-bottom: 2rem;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            border: 2px solid rgba(139, 92, 246, 0.1);
           }
 
           .badge-collection-section h2 {
@@ -555,8 +584,8 @@ export default function Achievements() {
           }
 
            .badge-card {
-             background: linear-gradient(135deg, #F8F9FA, #E8F5E8);
-             border: 3px solid #E2E8F0;
+             background: linear-gradient(135deg, #FFFFFF, #F8F9FA);
+             border: 3px solid #E5E7EB;
              border-radius: 20px;
              padding: 1.5rem;
              transition: all 0.3s ease;
@@ -571,14 +600,50 @@ export default function Achievements() {
            }
 
            .badge-card.earned {
-             border-color: #4CAF50;
-             background: linear-gradient(135deg, #E8F5E8, #F1F8E9);
+             border-color: #10B981;
+             background: linear-gradient(135deg, #D1FAE5, #A7F3D0, #6EE7B7);
+             box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4), 0 0 0 2px rgba(16, 185, 129, 0.1);
+             border-width: 4px;
+             animation: glow-pulse 2s ease-in-out infinite;
+           }
+
+           @keyframes glow-pulse {
+             0%, 100% { box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4), 0 0 0 2px rgba(16, 185, 129, 0.1); }
+             50% { box-shadow: 0 8px 30px rgba(16, 185, 129, 0.6), 0 0 0 4px rgba(16, 185, 129, 0.2); }
            }
 
            .badge-card.locked {
-             border-color: #E2E8F0;
-             background: linear-gradient(135deg, #F8F9FA, #FFFFFF);
-             opacity: 1;
+             border-color: #D1D5DB;
+             background: linear-gradient(135deg, #F9FAFB, #F3F4F6);
+             opacity: 0.9;
+             position: relative;
+           }
+
+           .badge-card.locked::after {
+             content: '';
+             position: absolute;
+             top: 0;
+             left: 0;
+             right: 0;
+             bottom: 0;
+             background: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(243,244,246,0.4));
+             pointer-events: none;
+           }
+
+           .badge-card.earned::before {
+             content: '';
+             position: absolute;
+             top: -50%;
+             left: -50%;
+             width: 200%;
+             height: 200%;
+             background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+             animation: pulse 3s ease-in-out infinite;
+           }
+
+           @keyframes pulse {
+             0%, 100% { transform: scale(1); opacity: 0.5; }
+             50% { transform: scale(1.1); opacity: 0.8; }
            }
 
            .badge-card:hover {
@@ -644,12 +709,25 @@ export default function Achievements() {
            }
 
            .points-badge {
-             background: #1976D2;
+             background: linear-gradient(135deg, #8B5CF6, #A78BFA);
              color: white !important;
              padding: 0.5rem 1rem;
              border-radius: 20px;
              font-weight: bold;
              font-size: 0.9rem;
+             box-shadow: 0 3px 10px rgba(139, 92, 246, 0.4);
+             text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+           }
+
+           .badge-card.earned .points-badge {
+             background: linear-gradient(135deg, #10B981, #34D399);
+             box-shadow: 0 3px 12px rgba(16, 185, 129, 0.5);
+             animation: shimmer 2s ease-in-out infinite;
+           }
+
+           @keyframes shimmer {
+             0%, 100% { box-shadow: 0 3px 12px rgba(16, 185, 129, 0.5); }
+             50% { box-shadow: 0 4px 16px rgba(16, 185, 129, 0.7); }
            }
 
            .badge-earned {
@@ -659,14 +737,15 @@ export default function Achievements() {
            }
 
            .earned-date {
-             color: #4CAF50 !important;
+             color: #059669 !important;
              font-weight: bold;
              margin-bottom: 0.75rem;
              font-size: 0.85rem;
+             text-shadow: 0 1px 2px rgba(5, 150, 105, 0.2);
            }
 
            .celebrate-button {
-             background: #4CAF50;
+             background: linear-gradient(135deg, #10B981, #34D399);
              color: white !important;
              border: none;
              padding: 0.6rem 1rem;
@@ -677,11 +756,14 @@ export default function Achievements() {
              font-size: 0.85rem;
              width: 100%;
              max-width: 150px;
+             box-shadow: 0 3px 10px rgba(16, 185, 129, 0.4);
+             text-shadow: 0 1px 2px rgba(0,0,0,0.2);
            }
 
            .celebrate-button:hover {
-             background: #45A049;
+             background: linear-gradient(135deg, #059669, #10B981);
              transform: translateY(-2px);
+             box-shadow: 0 5px 15px rgba(16, 185, 129, 0.6);
            }
 
            .badge-locked {
@@ -747,13 +829,16 @@ export default function Achievements() {
            }
 
            .badge-card.locked .points-badge {
-             background: #6B7280 !important;
+             background: linear-gradient(135deg, #9CA3AF, #D1D5DB) !important;
              color: white !important;
              font-weight: 600;
+             box-shadow: 0 2px 6px rgba(156, 163, 175, 0.3) !important;
            }
 
            .badge-card.locked .locked-icon {
-             color: #6B7280 !important;
+             color: #9CA3AF !important;
+             opacity: 0.8;
+             filter: drop-shadow(0 2px 4px rgba(156, 163, 175, 0.3));
            }
 
            /* Force all icons to be visible and properly colored */
@@ -771,13 +856,15 @@ export default function Achievements() {
 
            /* Specific colors for different icon types */
            .badge-card.earned .badge-icon {
-             color: #4CAF50 !important;
-             text-shadow: 0 2px 4px rgba(76, 175, 80, 0.3) !important;
+             color: #10B981 !important;
+             text-shadow: 0 2px 6px rgba(16, 185, 129, 0.4), 0 0 10px rgba(16, 185, 129, 0.2) !important;
+             filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.3)) !important;
            }
 
            .badge-card.locked .badge-icon {
-             color: #6B7280 !important;
-             text-shadow: 0 1px 2px rgba(107, 114, 128, 0.3) !important;
+             color: #9CA3AF !important;
+             text-shadow: 0 1px 3px rgba(156, 163, 175, 0.4) !important;
+             filter: grayscale(0.4) !important;
            }
 
            .recent-badge-card .badge-icon-large {
@@ -796,10 +883,11 @@ export default function Achievements() {
            }
 
           .achievement-tips-section {
-            background: white;
+            background: linear-gradient(135deg, #FFFFFF, #F8F9FA);
             padding: 2rem;
             border-radius: 25px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            border: 2px solid rgba(16, 185, 129, 0.1);
           }
 
           .achievement-tips-section h2 {
