@@ -1,8 +1,9 @@
 // Learner API - Student dashboard and functionality endpoints
 const express = require('express');
-const { User, Lesson, Progress, Badge, UserBadge, GamifiedContent } = require('../models');
+const { User, Lesson, Progress, Badge, UserBadge, GamifiedContent, sequelize } = require('../models');
 const { authenticateToken, requireLearner } = require('../middleware/auth');
 const { Op } = require('sequelize');
+const { Sequelize } = require('sequelize');
 
 const router = express.Router();
 
@@ -136,11 +137,13 @@ router.get('/achievements', authenticateToken, requireLearner, async (req, res) 
             required: false // Use LEFT JOIN to include UserBadges even if badge is missing
           }
         ],
-        order: [['awardedAt', 'DESC']]
+        order: [['awardedAt', 'DESC']] // Try model attribute name first
       });
       console.log('[Learner API] Found', earnedBadges.length, 'user badges');
     } catch (userBadgeError) {
       console.error('[Learner API] Error fetching user badges:', userBadgeError);
+      console.error('[Learner API] UserBadge error name:', userBadgeError.name);
+      console.error('[Learner API] UserBadge error message:', userBadgeError.message);
       console.error('[Learner API] UserBadge error stack:', userBadgeError.stack);
       // Continue with empty array if UserBadge table doesn't exist or has issues
       earnedBadges = [];
