@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useSound } from '../../lib/soundEffects';
 import './GamePlayer.css';
 
 const GamePlayer = () => {
@@ -8,6 +9,7 @@ const GamePlayer = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
+  const { playNextButton, playClick } = useSound();
   
   const [game, setGame] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -538,6 +540,7 @@ const StoryGame = ({ game, onComplete, onProgress }) => {
   ];
 
   const nextPage = () => {
+    playNextButton();
     const newPage = currentPage + 1;
     setCurrentPage(newPage);
     onProgress((newPage / story.length) * 100);
@@ -572,6 +575,7 @@ const DefaultGame = ({ game, onComplete, onProgress }) => {
   const totalSteps = 5;
 
   const nextStep = () => {
+    playNextButton();
     const newStep = step + 1;
     setStep(newStep);
     onProgress((newStep / totalSteps) * 100);

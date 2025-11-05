@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { useTranslation } from '../lib/language'
+import { useSound } from '../lib/soundEffects'
 import Icon from './icons/Icon'
 import './CodePlayStyles.css'
 
 export default function SafeBrowsingLesson({ lesson, onComplete, onProgress }) {
   const { t } = useTranslation()
+  const { playNextButton, playClick } = useSound()
   const [currentScenario, setCurrentScenario] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState(null)
   const [score, setScore] = useState(0)
@@ -86,6 +88,7 @@ export default function SafeBrowsingLesson({ lesson, onComplete, onProgress }) {
   }
 
   const handleNext = () => {
+    playNextButton()
     if (currentScenario < scenarios.length - 1) {
       setCurrentScenario(currentScenario + 1)
       setSelectedAnswer(null)

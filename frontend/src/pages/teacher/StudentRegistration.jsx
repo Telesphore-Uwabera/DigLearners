@@ -7,7 +7,9 @@ const StudentRegistration = () => {
   const [formData, setFormData] = useState({
     fullName: '',
     grade: '',
-    age: ''
+    age: '',
+    school: '',
+    otherSchool: ''
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -47,10 +49,11 @@ const StudentRegistration = () => {
     try {
       const response = await teacherApiService.makeRequest('/teacher/register-student', {
         method: 'POST',
-        body: JSON.stringify({
+          body: JSON.stringify({
           fullName: formData.fullName.trim(),
           grade: formData.grade,
-          age: formData.age ? parseInt(formData.age) : null
+          age: formData.age ? parseInt(formData.age) : null,
+          school: formData.school === 'other' ? (formData.otherSchool || null) : (formData.school || null)
         })
       });
 
@@ -59,7 +62,7 @@ const StudentRegistration = () => {
           message: response.message,
           student: response.data
         });
-        setFormData({ fullName: '', grade: '', age: '' });
+        setFormData({ fullName: '', grade: '', age: '', school: '', otherSchool: '' });
         // Refresh the students list
         fetchStudents();
       } else {
@@ -137,6 +140,75 @@ const StudentRegistration = () => {
               />
             </div>
 
+            <div className="form-group">
+              <label htmlFor="school">{t('teacher.school') || 'School'} *</label>
+              <select
+                id="school"
+                name="school"
+                value={formData.school}
+                onChange={handleChange}
+                required
+              >
+                <option value="">{t('teacher.selectSchool') || 'Select School'}</option>
+                <optgroup label={t('teacher.kigaliSchools') || 'Kigali Schools'}>
+                  <option value="Ecole Primaire de Kacyiru">Ecole Primaire de Kacyiru</option>
+                  <option value="Ecole Primaire de Nyamirambo">Ecole Primaire de Nyamirambo</option>
+                  <option value="Ecole Primaire de Kimisagara">Ecole Primaire de Kimisagara</option>
+                  <option value="Ecole Primaire de Remera">Ecole Primaire de Remera</option>
+                  <option value="Ecole Primaire de Nyarugenge">Ecole Primaire de Nyarugenge</option>
+                  <option value="Ecole Primaire de Kicukiro">Ecole Primaire de Kicukiro</option>
+                  <option value="Ecole Primaire de Gikondo">Ecole Primaire de Gikondo</option>
+                  <option value="Ecole Primaire de Kanombe">Ecole Primaire de Kanombe</option>
+                </optgroup>
+                <optgroup label={t('teacher.northernSchools') || 'Northern Province Schools'}>
+                  <option value="Ecole Primaire de Musanze">Ecole Primaire de Musanze</option>
+                  <option value="Ecole Primaire de Ruhengeri">Ecole Primaire de Ruhengeri</option>
+                  <option value="Ecole Primaire de Kinigi">Ecole Primaire de Kinigi</option>
+                  <option value="Ecole Primaire de Gakenke">Ecole Primaire de Gakenke</option>
+                </optgroup>
+                <optgroup label={t('teacher.southernSchools') || 'Southern Province Schools'}>
+                  <option value="Ecole Primaire de Butare">Ecole Primaire de Butare</option>
+                  <option value="Ecole Primaire de Nyanza">Ecole Primaire de Nyanza</option>
+                  <option value="Ecole Primaire de Gikongoro">Ecole Primaire de Gikongoro</option>
+                  <option value="Ecole Primaire de Nyamagabe">Ecole Primaire de Nyamagabe</option>
+                </optgroup>
+                <optgroup label={t('teacher.easternSchools') || 'Eastern Province Schools'}>
+                  <option value="Ecole Primaire de Rwamagana">Ecole Primaire de Rwamagana</option>
+                  <option value="Ecole Primaire de Kayonza">Ecole Primaire de Kayonza</option>
+                  <option value="Ecole Primaire de Ngoma">Ecole Primaire de Ngoma</option>
+                  <option value="Ecole Primaire de Kirehe">Ecole Primaire de Kirehe</option>
+                </optgroup>
+                <optgroup label={t('teacher.westernSchools') || 'Western Province Schools'}>
+                  <option value="Ecole Primaire de Karongi">Ecole Primaire de Karongi</option>
+                  <option value="Ecole Primaire de Rubavu">Ecole Primaire de Rubavu</option>
+                  <option value="Ecole Primaire de Rusizi">Ecole Primaire de Rusizi</option>
+                  <option value="Ecole Primaire de Nyamasheke">Ecole Primaire de Nyamasheke</option>
+                </optgroup>
+                <option value="other">{t('teacher.otherSchool') || 'Other (Please specify)'}</option>
+              </select>
+            </div>
+
+            {formData.school === 'other' && (
+              <div className="form-group">
+                <label htmlFor="otherSchool">{t('teacher.schoolName') || 'School Name'} *</label>
+                <input
+                  type="text"
+                  id="otherSchool"
+                  name="otherSchool"
+                  value={formData.otherSchool || ''}
+                  onChange={(e) => {
+                    setFormData({
+                      ...formData,
+                      otherSchool: e.target.value,
+                      school: e.target.value // Update school field when typing
+                    })
+                  }}
+                  placeholder={t('teacher.enterSchoolName') || 'Enter school name'}
+                  required={formData.school === 'other'}
+                />
+              </div>
+            )}
+
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="grade">{t('auth.student.grade') || 'Grade'} *</label>
@@ -203,8 +275,9 @@ const StudentRegistration = () => {
                     <div className="student-grade">{t(`grades.grade${student.grade}`) || `Grade ${student.grade}`}</div>
                   </div>
                   <div className="student-details">
+                    {student.school && <p><strong>{t('teacher.school') || 'School'}:</strong> {student.school}</p>}
                     {student.age && <p><strong>{t('teacher.age') || 'Age'}:</strong> {student.age}</p>}
-                    <p><strong>{t('student.points') || 'Points'}:</strong> {student.totalPoints}</p>
+                    <p><strong>{t('student.points') || 'Points'}:</strong> {student.totalPoints || 0}</p>
                     <p><strong>{t('teacher.registered') || 'Registered'}:</strong> {new Date(student.createdAt).toLocaleDateString()}</p>
                   </div>
                   <div className="registration-code-section">
