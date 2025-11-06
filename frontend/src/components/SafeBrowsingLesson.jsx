@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { useTranslation } from '../lib/language'
+import { useAuth } from '../contexts/AuthContext'
 import { useSound } from '../lib/soundEffects'
 import Icon from './icons/Icon'
 import './CodePlayStyles.css'
 
 export default function SafeBrowsingLesson({ lesson, onComplete, onProgress }) {
   const { t } = useTranslation()
+  const { user } = useAuth()
   const { playNextButton, playClick } = useSound()
   const [currentScenario, setCurrentScenario] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState(null)
@@ -135,7 +137,7 @@ export default function SafeBrowsingLesson({ lesson, onComplete, onProgress }) {
             <div className="avatar">
               <Icon name="shield" size={24} />
             </div>
-            <span className="user-name">Hi, Alex</span>
+            <span className="user-name">Hi, {user?.fullName?.split(' ')[0] || 'Student'}</span>
           </div>
         </div>
       </div>

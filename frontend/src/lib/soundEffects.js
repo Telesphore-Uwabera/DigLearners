@@ -100,78 +100,20 @@ class SoundManager {
     setTimeout(() => this.playBeep(659, 200, 'sine'), 200)
   }
 
-  // Play funny badge win sound - very celebratory!
-  playBadgeWin() {
-    // Fun ascending melody with funny sounds
-    const notes = [330, 392, 494, 587, 659, 784, 988, 1175]
-    notes.forEach((freq, index) => {
-      setTimeout(() => {
-        this.playBeep(freq, 100, 'sine')
-        // Add some funny "boing" sounds
-        if (index % 2 === 0) {
-          setTimeout(() => this.playBeep(freq * 0.8, 50, 'triangle'), 50)
-        }
-      }, index * 80)
-    })
-    // Add a final funny "pop" sound
-    setTimeout(() => {
-      this.playBeep(880, 200, 'square')
-      setTimeout(() => this.playBeep(660, 100, 'sawtooth'), 100)
-    }, notes.length * 80)
-  }
-
-  // Play funny next button sound
+  // Play next button sound
   playNextButton() {
-    // Fun ascending "whoosh" sound
-    this.playBeep(400, 60, 'sine')
-    setTimeout(() => this.playBeep(600, 60, 'sine'), 60)
-    setTimeout(() => this.playBeep(800, 80, 'triangle'), 120)
+    this.playBeep(600, 80, 'sine')
+    setTimeout(() => this.playBeep(700, 80, 'sine'), 80)
   }
 
-  // Play funny celebration sound
-  playCelebration() {
-    // Play a fun "ta-da" melody
-    const melody = [
-      { freq: 523, delay: 0 },
-      { freq: 659, delay: 100 },
-      { freq: 784, delay: 200 },
-      { freq: 1047, delay: 300 },
-      { freq: 1319, delay: 400 }
-    ]
-    melody.forEach((note) => {
-      setTimeout(() => this.playBeep(note.freq, 150, 'sine'), note.delay)
-    })
-    // Add funny "wheee" sound at the end
-    setTimeout(() => {
-      let freq = 800
-      for (let i = 0; i < 5; i++) {
-        setTimeout(() => {
-          this.playBeep(freq, 80, 'triangle')
-          freq += 50
-        }, i * 60)
-      }
-    }, 600)
+  // Play notification sound
+  playNotification() {
+    this.playBeep(523, 100, 'sine')
   }
 
-  // Play funny pop sound
-  playPop() {
-    this.playBeep(600, 30, 'square')
-    setTimeout(() => this.playBeep(400, 50, 'sawtooth'), 30)
-  }
-
-  // Play funny boing sound
-  playBoing() {
-    this.playBeep(200, 100, 'sawtooth')
-    setTimeout(() => this.playBeep(300, 100, 'sawtooth'), 100)
-    setTimeout(() => this.playBeep(250, 150, 'sawtooth'), 200)
-  }
-
-  // Play funny giggle sound
-  playGiggle() {
-    const giggles = [440, 523, 440, 523, 659]
-    giggles.forEach((freq, index) => {
-      setTimeout(() => this.playBeep(freq, 80, 'triangle'), index * 120)
-    })
+  // Play bot message sound
+  playBotMessage() {
+    this.playBeep(400, 60, 'triangle')
   }
 
   // Toggle sounds on/off
@@ -202,12 +144,9 @@ export const useSound = () => {
     playBlockSelect: () => soundManager.playBlockSelect(),
     playCompletion: () => soundManager.playCompletion(),
     playLevelUp: () => soundManager.playLevelUp(),
-    playBadgeWin: () => soundManager.playBadgeWin(),
     playNextButton: () => soundManager.playNextButton(),
-    playCelebration: () => soundManager.playCelebration(),
-    playPop: () => soundManager.playPop(),
-    playBoing: () => soundManager.playBoing(),
-    playGiggle: () => soundManager.playGiggle(),
+    playNotification: () => soundManager.playNotification(),
+    playBotMessage: () => soundManager.playBotMessage(),
     toggleSounds: () => soundManager.toggleSounds(),
     soundsEnabled: soundManager.soundsEnabled
   }

@@ -1,30 +1,26 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import gamifiedApiService from '../../services/gamifiedApiService';
 import { getContentByGrade } from '../../lib/contentFilter';
 import './GamesDashboard.css';
 
-const GamesDashboard = () => {
+const PuzzlesDashboard = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [content, setContent] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [initialized, setInitialized] = useState(false);
 
-  // Memoize ageGroup to prevent unnecessary re-renders
   const ageGroup = useMemo(() => {
     return location.state?.ageGroup || localStorage.getItem('selectedAgeGroup');
   }, [location.state?.ageGroup]);
 
-  // Track if we've initialized to prevent re-initialization
-  const [initialized, setInitialized] = useState(false);
-
   useEffect(() => {
-    // Prevent re-running if already initialized
     if (initialized) return;
 
-    // Read initialContent inside useEffect to avoid dependency issues
     let initialContent = null;
     if (location.state?.content) {
       initialContent = location.state.content;
@@ -38,19 +34,18 @@ const GamesDashboard = () => {
     }
 
     if (initialContent && Array.isArray(initialContent) && initialContent.length > 0) {
-      // Filter only games (exclude puzzles)
-      let gamesOnly = initialContent.filter(item => {
-        const gameTypes = ['interactive', 'quiz', 'simulation', 'creative', 'story'];
-        return gameTypes.includes(item.gameType?.toLowerCase());
-      });
+      // Filter only puzzles
+      let puzzlesOnly = initialContent.filter(item => 
+        item.gameType?.toLowerCase() === 'puzzle'
+      );
       
       // Apply grade-based filtering
       const userGrade = user?.grade || localStorage.getItem('userGrade');
       if (userGrade) {
-        gamesOnly = getContentByGrade(gamesOnly, userGrade);
+        puzzlesOnly = getContentByGrade(puzzlesOnly, userGrade);
       }
       
-      setContent(gamesOnly);
+      setContent(puzzlesOnly);
       setLoading(false);
       setInitialized(true);
     } else if (ageGroup) {
@@ -60,78 +55,67 @@ const GamesDashboard = () => {
       setLoading(false);
       setInitialized(true);
     }
-  }, [ageGroup, initialized, location.state?.content]); // Only stable dependencies
+  }, [ageGroup, initialized, location.state?.content]);
 
   const fetchContent = async () => {
     try {
       setLoading(true);
       setError('');
       
-      // Get current ageGroup value (may have changed)
       const currentAgeGroup = location.state?.ageGroup || localStorage.getItem('selectedAgeGroup');
       
-      // First try to get user's grade-specific content
       try {
         const response = await gamifiedApiService.getMyContent();
         const contentData = response.data || response;
         if (Array.isArray(contentData) && contentData.length > 0) {
-          // Filter only games (exclude puzzles)
-          let gamesOnly = contentData.filter(item => {
-            const gameTypes = ['interactive', 'quiz', 'simulation', 'creative', 'story'];
-            return gameTypes.includes(item.gameType?.toLowerCase());
-          });
+          // Filter only puzzles
+          let puzzlesOnly = contentData.filter(item => 
+            item.gameType?.toLowerCase() === 'puzzle'
+          );
           
           // Apply grade-based filtering
           const userGrade = response.userGrade || user?.grade || localStorage.getItem('userGrade');
           if (userGrade) {
-            gamesOnly = getContentByGrade(gamesOnly, userGrade);
+            puzzlesOnly = getContentByGrade(puzzlesOnly, userGrade);
             localStorage.setItem('userGrade', userGrade);
           }
           
-          setContent(gamesOnly);
+          setContent(puzzlesOnly);
           localStorage.setItem('userContent', JSON.stringify(contentData));
           return;
         } else {
           throw new Error('No content returned');
         }
       } catch (gradeError) {
-        // Fallback to age group content if grade-specific fails
-        console.log('Grade-specific content not available, using age group content');
         if (currentAgeGroup) {
           const response = await gamifiedApiService.getContentByAgeGroup(currentAgeGroup);
           const contentData = response.data || response;
           if (Array.isArray(contentData) && contentData.length > 0) {
-            // Filter only games (exclude puzzles)
-            let gamesOnly = contentData.filter(item => {
-              const gameTypes = ['interactive', 'quiz', 'simulation', 'creative', 'story'];
-              return gameTypes.includes(item.gameType?.toLowerCase());
-            });
+            // Filter only puzzles
+            let puzzlesOnly = contentData.filter(item => 
+              item.gameType?.toLowerCase() === 'puzzle'
+            );
             
             // Apply grade-based filtering if user has a grade
             const userGrade = user?.grade || localStorage.getItem('userGrade');
             if (userGrade) {
-              gamesOnly = getContentByGrade(gamesOnly, userGrade);
+              puzzlesOnly = getContentByGrade(puzzlesOnly, userGrade);
             }
             
-            setContent(gamesOnly);
+            setContent(puzzlesOnly);
             localStorage.setItem('ageGroupContent', JSON.stringify(contentData));
             return;
-          } else {
-            throw new Error('No age group content available');
           }
-        } else {
-          throw new Error('No age group selected');
         }
+        throw new Error('No puzzles available');
       }
     } catch (err) {
-      setError('Failed to load games. Please try again.');
-      console.error('Error fetching content:', err);
+      setError('Failed to load puzzles. Please try again.');
+      console.error('Error fetching puzzles:', err);
     } finally {
       setLoading(false);
     }
   };
-
-  // Content is already filtered to only games
 
   const getDifficultyColor = (difficulty) => {
     switch (difficulty) {
@@ -142,22 +126,8 @@ const GamesDashboard = () => {
     }
   };
 
-  const getGameTypeIcon = (gameType) => {
-    switch (gameType) {
-      case 'puzzle': return '🧩';
-      case 'quiz': return '❓';
-      case 'interactive': return '🎮';
-      case 'story': return '📚';
-      case 'simulation': return '🎯';
-      case 'creative': return '🎨';
-      default: return '🎮';
-    }
-  };
-
   const handleGameStart = (game) => {
-    // Store the selected game in localStorage
     localStorage.setItem('selectedGame', JSON.stringify(game));
-    // Navigate to the game player with the game data
     window.location.href = `/dashboard/game/${game.id}`;
   };
 
@@ -166,7 +136,7 @@ const GamesDashboard = () => {
       <div className="games-dashboard">
         <div className="loading-container">
           <div className="spinner"></div>
-          <p>Loading your games...</p>
+          <p>Loading puzzles... 🧩</p>
         </div>
       </div>
     );
@@ -177,12 +147,9 @@ const GamesDashboard = () => {
       <div className="games-dashboard">
         <div className="error-container">
           <div className="error-icon">⚠️</div>
-          <h2>Oops! Something went wrong</h2>
+          <h2>Oops!</h2>
           <p>{error}</p>
-          <button 
-            className="retry-button"
-            onClick={fetchContent}
-          >
+          <button className="retry-button" onClick={fetchContent}>
             Try Again
           </button>
         </div>
@@ -194,42 +161,39 @@ const GamesDashboard = () => {
     <div className="games-dashboard">
       <div className="dashboard-header">
         <div className="header-content">
-          <h1>🎮 Fun Games!</h1>
-          <p>Let's play and learn! 🚀</p>
+          <h1>🧩 Fun Puzzles!</h1>
+          <p>Challenge your brain with these cool puzzles! 🧠</p>
         </div>
       </div>
 
-      {/* Games Grid */}
       <div className="games-grid">
         {content.length === 0 ? (
           <div className="no-games">
-            <div className="no-games-icon">🎮</div>
-            <h3>No games yet!</h3>
-            <p>More games coming soon! 🎉</p>
+            <div className="no-games-icon">🧩</div>
+            <h3>No puzzles yet!</h3>
+            <p>More puzzles coming soon! 🎉</p>
           </div>
         ) : (
-          content.map((game) => (
-            <div key={game.id} className="game-card">
+          content.map((puzzle) => (
+            <div key={puzzle.id} className="game-card">
               <div className="game-header">
-                <div className="game-icon">
-                  {getGameTypeIcon(game.gameType)}
-                </div>
+                <div className="game-icon">🧩</div>
                 <span 
                   className="difficulty-badge"
-                  style={{ backgroundColor: getDifficultyColor(game.difficulty) }}
+                  style={{ backgroundColor: getDifficultyColor(puzzle.difficulty) }}
                 >
-                  {game.difficulty}
+                  {puzzle.difficulty}
                 </span>
               </div>
 
               <div className="game-content">
-                <h3 className="game-title">{game.title}</h3>
-                <p className="game-description">{game.description}</p>
+                <h3 className="game-title">{puzzle.title}</h3>
+                <p className="game-description">{puzzle.description}</p>
                 
                 <div className="game-meta">
                   <div className="meta-item">
                     <span className="meta-icon">⭐</span>
-                    <span>{game.pointsReward} points</span>
+                    <span>{puzzle.pointsReward} points</span>
                   </div>
                 </div>
               </div>
@@ -237,9 +201,9 @@ const GamesDashboard = () => {
               <div className="game-actions">
                 <button 
                   className="play-button"
-                  onClick={() => handleGameStart(game)}
+                  onClick={() => handleGameStart(puzzle)}
                 >
-                  🎮 Let's Play!
+                  🧩 Let's Play!
                 </button>
               </div>
             </div>
@@ -250,4 +214,5 @@ const GamesDashboard = () => {
   );
 };
 
-export default GamesDashboard;
+export default PuzzlesDashboard;
+
