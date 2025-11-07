@@ -3,6 +3,169 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { useSound } from '../../lib/soundEffects'
 import './LiveBot.css'
 
+const normalizeMessage = (message = '') =>
+  message
+    .toLowerCase()
+    .replace(/[^a-z0-9\s?!.]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+
+const tokenizeMessage = (message = '') => normalizeMessage(message).split(' ').filter(Boolean)
+
+const knowledgeBase = [
+  {
+    intent: 'greeting',
+    keywords: ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening'],
+    sampleQuestions: ['who are you', 'what can you do'],
+    response:
+      "Hey superstar! I'm DigiBot, your friendly learning buddy. I can guide you through lessons, games, dashboards, and anything else you're curious about!",
+    followUp: 'Try asking me about your dashboard, earning badges, or how to finish a tricky lesson.'
+  },
+  {
+    intent: 'lessons_help',
+    keywords: ['lesson', 'complete lesson', 'finish lesson', 'learning activity', 'module', 'activity help'],
+    sampleQuestions: ['how do i complete a lesson', 'lesson instructions'],
+    response:
+      'Lessons are set up like adventures! Read the instructions, complete each activity card, then press the big Run Code or Submit button. If you get stuck, use the hint button or break the task into tiny steps.',
+    followUp: 'Want suggestions for a specific lesson or to see your progress?' 
+  },
+  {
+    intent: 'teacher_dashboard',
+    keywords: ['teacher dashboard', 'teacher home', 'teaching overview', 'manage students', 'teacher view'],
+    sampleQuestions: ['what is on the teacher dashboard', 'how do teachers use the dashboard'],
+    response:
+      "The teacher dashboard shows your draft lessons, total students, assignments, and class progress in one place. Use the quick cards to jump into creating work, scheduling, analytics, or managing your learners right away.",
+    followUp: 'Ask me how to register students or create a new gamified lesson if you need a hand.'
+  },
+  {
+    intent: 'student_dashboard',
+    keywords: ['student dashboard', 'my dashboard', 'learner dashboard', 'student home'],
+    sampleQuestions: ['where do i see my progress', 'what does the student dashboard show'],
+    response:
+      'The student dashboard shows your level, points, streak, and badges. Each stat card highlights lessons finished, stars earned, and your current streak so you always know how awesome you are doing!',
+    followUp: 'Need tips on earning more points or unlocking new badges?' 
+  },
+  {
+    intent: 'points_badges',
+    keywords: ['points', 'stars', 'badges', 'rewards', 'trophies'],
+    sampleQuestions: ['how to earn badges', 'how to get more stars'],
+    response:
+      'You earn stars, points, and shiny badges by completing lessons, hitting streaks, and finishing special challenges. Teachers can also reward you for bonus activities, so keep exploring different games!',
+    followUp: 'Want ideas on which activity gives the biggest point boost today?'
+  },
+  {
+    intent: 'register_student',
+    keywords: ['register student', 'add student', 'student signup', 'student registration', 'new learner'],
+    sampleQuestions: ['how do i register a student', 'how to add a learner'],
+    response:
+      'To register a student, open Student Management on the teacher dashboard, click “+ Register New Student”, fill in their full name, grade, and optional age, then submit. You’ll get a friendly code to share if needed.',
+    followUp: 'Need help editing a student later or checking their progress?'
+  },
+  {
+    intent: 'assignments',
+    keywords: ['assignment', 'homework', 'tasks', 'worksheets', 'work'],
+    sampleQuestions: ['how do i create an assignment', 'where are assignments'],
+    response:
+      'Assignments live in the dashboard cards. Pick “Create Work” to build lessons or “Assignments” to monitor submissions and reviews. You can set points, add instructions, and track which students have finished.',
+    followUp: 'Ask me how to see pending reviews or send a reminder to your class.'
+  },
+  {
+    intent: 'analytics_progress',
+    keywords: ['progress', 'analytics', 'reports', 'monitoring', 'track', 'average progress'],
+    sampleQuestions: ['how do i see class progress', 'where are analytics'],
+    response:
+      'Progress tracking is built into the dashboard. Use the analytics card for high-level trends, or open Student Management to see individual streaks, points, and completed lessons grouped by grade.',
+    followUp: 'Want tips on spotting who might need a quick boost or celebration?'
+  },
+  {
+    intent: 'schedule_deadlines',
+    keywords: ['schedule', 'calendar', 'deadlines', 'upcoming', 'reminders'],
+    sampleQuestions: ['how do i plan my schedule', 'where do i see deadlines'],
+    response:
+      'Open the Schedule card to check upcoming deadlines and organize your teaching week. You can line up lessons, view due dates, and make sure students know what is coming next.',
+    followUp: 'Need help balancing lesson releases or spacing out assignments?'
+  },
+  {
+    intent: 'login_help',
+    keywords: ['login', 'sign in', 'password', 'log in', 'cant log in', 'sign-in'],
+    sampleQuestions: ['i cannot log in', 'forgot my password'],
+    response:
+      'If logging in is tricky, double-check your email and password, then try the password reset link if it’s available. Teachers can also reset student access codes from the Student Management panel.',
+    followUp: 'Still stuck? Let a teacher or admin know so they can verify your account details.'
+  },
+  {
+    intent: 'games_fun',
+    keywords: ['game', 'play', 'coding', 'puzzle', 'typing', 'cat game', 'code quest'],
+    sampleQuestions: ['what games can i play', 'tell me about code quest'],
+    response:
+      'There are loads of games! Try Code Quest to guide the kitty with code blocks, Typing Adventures for speedy fingers, or Safe Internet Explorer to learn online safety while playing.',
+    followUp: 'Say the name of a game and I can give you bonus tips or strategies!'
+  },
+  {
+    intent: 'thanks',
+    keywords: ['thank you', 'thanks', 'you rock', 'appreciate'],
+    sampleQuestions: ['thanks bot'],
+    response:
+      'Aww, thank you! Helping you learn is my favorite thing. Keep being curious and amazing!',
+    followUp: 'Let me know what we should explore next together.'
+  },
+  {
+    intent: 'goodbye',
+    keywords: ['bye', 'goodbye', 'see you', 'later'],
+    sampleQuestions: ['bye for now'],
+    response:
+      'Bye for now! Keep shining bright and come back anytime you want to learn or share something new.',
+    followUp: 'I’ll be right here when you need another learning buddy high-five.'
+  }
+]
+
+const fallbackResponses = [
+  "That's a great question! Tell me whether it’s about lessons, games, dashboards, or something else so I can give super-specific help.",
+  "I love your curiosity! Let me know if you want tips for students, teachers, or a particular game, and I’ll zoom right in.",
+  "Hmm, I want to get this perfect. Try asking about progress, badges, schedules, or any feature you see on the dashboard."
+]
+
+const suggestionTopics = ['registering students', 'tracking progress', 'finding new games', 'earning badges', 'planning schedules', 'checking assignments']
+
+const MATCH_THRESHOLD = 1.4
+const questionWords = ['how', 'what', 'where', 'when', 'why', 'who', 'can', 'do', 'does', 'is', 'are', 'will', 'should']
+
+const calculateEntryScore = (entry, normalizedMessage, tokens) => {
+  let score = 0
+
+  entry.keywords.forEach((keyword) => {
+    const trimmedKeyword = keyword.trim()
+    if (!trimmedKeyword) return
+
+    if (normalizedMessage.includes(trimmedKeyword)) {
+      score += trimmedKeyword.split(' ').length > 1 ? 2.2 : 1.2
+      return
+    }
+
+    const keywordTokens = trimmedKeyword.split(' ')
+    if (keywordTokens.every((token) => tokens.includes(token))) {
+      score += keywordTokens.length > 1 ? 1.8 : 1
+      return
+    }
+
+    if (keywordTokens.length === 1 && tokens.some((token) => token.startsWith(keywordTokens[0]))) {
+      score += 0.6
+    }
+  })
+
+  entry.sampleQuestions?.forEach((sample) => {
+    if (normalizedMessage.includes(sample)) {
+      score += 2.5
+    }
+  })
+
+  if (entry.priority) {
+    score += entry.priority
+  }
+
+  return score
+}
+
 const LiveBot = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState([])
@@ -217,58 +380,46 @@ const LiveBot = () => {
     }, 1000)
   }
 
-  const getBotResponse = (message) => {
-    // Simple keyword-based responses (kid-friendly with funny expressions)
-    if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
-      return "Hello there, superstar! 👋 I'm DigiBot and I'm SO excited to help you learn! What awesome thing would you like to explore today?"
+  const getBotResponse = (rawMessage) => {
+    const normalized = normalizeMessage(rawMessage)
+
+    if (!normalized) {
+      return "Could you please say that again using a few more words? I want to make sure I didn't miss anything."
     }
-    if (message.includes('help') || message.includes('stuck')) {
-      return "Oh no, don't worry one bit! 🤗 I'm your helper bot! Try clicking that super cool hint button 💡 or tell me what game you're playing and I'll help you figure it out!"
+
+    const tokens = tokenizeMessage(rawMessage)
+
+    const match = knowledgeBase.reduce(
+      (best, entry) => {
+        const score = calculateEntryScore(entry, normalized, tokens)
+        if (score > best.score) {
+          return { entry, score }
+        }
+        return best
+      },
+      { entry: null, score: 0 }
+    )
+
+    if (match.entry && match.score >= MATCH_THRESHOLD) {
+      const { response, followUp } = match.entry
+      return followUp ? `${response}\n\n${followUp}` : response
     }
-    if (message.includes('game') || message.includes('play')) {
-      return "Ooh, games are THE BEST! 🎮 Have you tried Code Quest? It's super fun - you get to help a cute cat move around by choosing blocks! It's like being a robot commander!"
+
+    if (questionWords.some((word) => normalized.startsWith(word))) {
+      return "I'm thinking it through! Let me know if this is about lessons, dashboards, games, or account help so I can give you the best answer."
     }
-    if (message.includes('cat') || message.includes('🐱')) {
-      return "Meow! 🐱 I love the cat game too! You pick movement blocks like 'Move Right' or 'Move Down' to help the cat find its yummy food! The cat moves nice and slow so you can watch it go - it's so cool!"
-    }
-    if (message.includes('code') || message.includes('coding') || message.includes('program')) {
-      return "Coding is like magic! ✨ You tell the computer what to do using blocks! Start with simple ones like 'Move Up' - put them in order and watch the magic happen! It's like teaching a robot to dance!"
-    }
-    if (message.includes('grade') || message.includes('level')) {
-      return "Your grade is super important! 📚 If you're in Grade 1, 2, or 3, you get the easiest and most fun games! The higher your grade, the more exciting challenges you unlock!"
-    }
-    if (message.includes('points') || message.includes('score') || message.includes('star')) {
-      return "Points and stars are like treasure! ⭐ Every time you learn something new, you earn them! Collect lots and lots - you're doing amazing!"
-    }
-    if (message.includes('thank') || message.includes('thanks')) {
-      return "Aww, you're so welcome! 😊 You're doing such a great job learning! Keep it up, superstar! I'm always here to help you!"
-    }
-    if (message.includes('bye') || message.includes('goodbye')) {
-      return "Bye bye, friend! 👋 Have fun learning! Come back soon and tell me all about what you learned! You're awesome!"
-    }
-    if (message.includes('how') && message.includes('work')) {
-      return "Great question, smarty pants! 🤔 Here's the secret: Click on blocks to add them to your code! Then press 'Run Code' and BOOM - watch the magic happen! It's like putting puzzle pieces together!"
-    }
-    if (message.includes('stuck') || message.includes('difficult')) {
-      return "Hey, it's totally okay to find things tricky! 💪 That's how we get smarter! Try the hint button 💡 or break it into tiny steps - you've got this!"
-    }
-    
-    // Default responses with more personality
-    const defaultResponses = [
-      "Wow, that's really interesting! 🤔 Tell me more about what you're learning - I love hearing about it!",
-      "I'm so happy you asked! 😊 What are you working on right now? I'd love to help!",
-      "Ooh, great question! 🌟 You should try exploring the games and lessons - they're super fun and you'll learn tons!",
-      "Learning is the BEST! 🎉 What awesome thing would you like to try today? I'm here to help!",
-      "I'm your learning buddy! 💡 What game or lesson sounds fun to you? Let's explore together!"
-    ]
-    return defaultResponses[Math.floor(Math.random() * defaultResponses.length)]
+
+    const fallback = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)]
+    const picks = [...suggestionTopics].sort(() => 0.5 - Math.random()).slice(0, 2)
+    const suggestionText = picks.join(' or ')
+    return `${fallback}\n\nTry asking about ${suggestionText}.`
   }
 
   const quickQuestions = [
-    "How do games work?",
-    "What's coding?",
-    "Help with the cat game",
-    "How to earn stars?"
+    'How do I register a student?',
+    'Where do I see my progress?',
+    'Tips for earning more badges',
+    'How do assignments work?'
   ]
 
   // Cleanup: stop speech when component unmounts
