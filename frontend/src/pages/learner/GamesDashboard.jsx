@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import gamifiedApiService from '../../services/gamifiedApiService';
@@ -12,124 +12,85 @@ const GamesDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Memoize ageGroup to prevent unnecessary re-renders
-  const ageGroup = useMemo(() => {
-    return location.state?.ageGroup || localStorage.getItem('selectedAgeGroup');
-  }, [location.state?.ageGroup]);
+  const getNormalizedGrade = () => {
+    const rawGrade = user?.grade || location.state?.grade;
+    if (!rawGrade) return null;
+    const parsed = parseInt(rawGrade.toString().replace('Grade ', '').trim(), 10);
+    if (!Number.isFinite(parsed) || parsed <= 0) return null;
+    return {
+      gradeNum: parsed,
+      gradeLabel: `Grade ${parsed}`
+    };
+  };
 
-  // Track if we've initialized to prevent re-initialization
-  const [initialized, setInitialized] = useState(false);
-
-  useEffect(() => {
-    // Prevent re-running if already initialized
-    if (initialized) return;
-
-    // Read initialContent inside useEffect to avoid dependency issues
-    let initialContent = null;
-    if (location.state?.content) {
-      initialContent = location.state.content;
-    } else {
-      try {
-        const stored = localStorage.getItem('ageGroupContent');
-        initialContent = stored ? JSON.parse(stored) : [];
-      } catch (e) {
-        initialContent = [];
-      }
-    }
-
-    if (initialContent && Array.isArray(initialContent) && initialContent.length > 0) {
-      // Filter only games (exclude puzzles)
-      let gamesOnly = initialContent.filter(item => {
-        const gameTypes = ['interactive', 'quiz', 'simulation', 'creative', 'story'];
-        return gameTypes.includes(item.gameType?.toLowerCase());
-      });
-      
-      // Apply grade-based filtering
-      const userGrade = user?.grade || localStorage.getItem('userGrade');
-      if (userGrade) {
-        gamesOnly = getContentByGrade(gamesOnly, userGrade);
-      }
-      
-      setContent(gamesOnly);
-      setLoading(false);
-      setInitialized(true);
-    } else if (ageGroup) {
-      fetchContent().then(() => setInitialized(true));
-    } else {
-      setError('No age group selected. Please go back and select your age group.');
-      setLoading(false);
-      setInitialized(true);
-    }
-  }, [ageGroup, initialized, location.state?.content]); // Only stable dependencies
-
-  const fetchContent = async () => {
+  const fetchGames = async () => {
     try {
       setLoading(true);
       setError('');
-      
-      // Get current ageGroup value (may have changed)
-      const currentAgeGroup = location.state?.ageGroup || localStorage.getItem('selectedAgeGroup');
-      
-      // First try to get user's grade-specific content
+
+      const normalizedGrade = getNormalizedGrade();
+      let games = [];
+
       try {
         const response = await gamifiedApiService.getMyContent();
-        const contentData = response.data || response;
-        if (Array.isArray(contentData) && contentData.length > 0) {
-          // Filter only games (exclude puzzles)
-          let gamesOnly = contentData.filter(item => {
-            const gameTypes = ['interactive', 'quiz', 'simulation', 'creative', 'story'];
-            return gameTypes.includes(item.gameType?.toLowerCase());
+        const data = response.data || response;
+        if (Array.isArray(data) && data.length > 0) {
+          const filtered = data.filter(item => {
+            const allowed = ['interactive', 'quiz', 'simulation', 'creative', 'story'];
+            return allowed.includes(item.gameType?.toLowerCase());
           });
-          
-          // Apply grade-based filtering
-          const userGrade = response.userGrade || user?.grade || localStorage.getItem('userGrade');
-          if (userGrade) {
-            gamesOnly = getContentByGrade(gamesOnly, userGrade);
-            localStorage.setItem('userGrade', userGrade);
+          if (filtered.length > 0) {
+            games = filtered;
           }
-          
-          setContent(gamesOnly);
-          localStorage.setItem('userContent', JSON.stringify(contentData));
-          return;
-        } else {
-          throw new Error('No content returned');
         }
-      } catch (gradeError) {
-        // Fallback to age group content if grade-specific fails
-        console.log('Grade-specific content not available, using age group content');
-        if (currentAgeGroup) {
-          const response = await gamifiedApiService.getContentByAgeGroup(currentAgeGroup);
-          const contentData = response.data || response;
-          if (Array.isArray(contentData) && contentData.length > 0) {
-            // Filter only games (exclude puzzles)
-            let gamesOnly = contentData.filter(item => {
-              const gameTypes = ['interactive', 'quiz', 'simulation', 'creative', 'story'];
-              return gameTypes.includes(item.gameType?.toLowerCase());
+      } catch (err) {
+        console.warn('[GamesDashboard] getMyContent failed, falling back to grade fetch.', err);
+      }
+
+      if (games.length === 0 && normalizedGrade) {
+        try {
+          const gradeResponse = await gamifiedApiService.getContentByGrade(normalizedGrade.gradeLabel);
+          const gradeData = gradeResponse.data || gradeResponse;
+          if (Array.isArray(gradeData) && gradeData.length > 0) {
+            const filtered = gradeData.filter(item => {
+              const allowed = ['interactive', 'quiz', 'simulation', 'creative', 'story'];
+              return allowed.includes(item.gameType?.toLowerCase());
             });
-            
-            // Apply grade-based filtering if user has a grade
-            const userGrade = user?.grade || localStorage.getItem('userGrade');
-            if (userGrade) {
-              gamesOnly = getContentByGrade(gamesOnly, userGrade);
-            }
-            
-            setContent(gamesOnly);
-            localStorage.setItem('ageGroupContent', JSON.stringify(contentData));
-            return;
-          } else {
-            throw new Error('No age group content available');
+            games = getContentByGrade(filtered, normalizedGrade.gradeNum);
           }
-        } else {
-          throw new Error('No age group selected');
+        } catch (gradeErr) {
+          console.warn('[GamesDashboard] getContentByGrade failed:', gradeErr);
         }
       }
-    } catch (err) {
+
+      if (games.length === 0) {
+        try {
+          const allResponse = await gamifiedApiService.getAllContent();
+          const allData = allResponse.data || allResponse;
+          if (Array.isArray(allData)) {
+            const allowed = ['interactive', 'quiz', 'simulation', 'creative', 'story'];
+            games = allData.filter(item => allowed.includes(item.gameType?.toLowerCase()));
+            if (normalizedGrade) {
+              games = getContentByGrade(games, normalizedGrade.gradeNum);
+            }
+          }
+        } catch (allErr) {
+          console.warn('[GamesDashboard] getAllContent failed:', allErr);
+        }
+      }
+
+      setContent(games);
+    } catch (error) {
       setError('Failed to load games. Please try again.');
-      console.error('Error fetching content:', err);
+      console.error('Error fetching games:', error);
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchGames();
+  }, [user?.grade]);
 
   // Content is already filtered to only games
 
@@ -181,7 +142,7 @@ const GamesDashboard = () => {
           <p>{error}</p>
           <button 
             className="retry-button"
-            onClick={fetchContent}
+            onClick={fetchGames}
           >
             Try Again
           </button>

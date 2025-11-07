@@ -866,7 +866,7 @@
 /* Dark Mode Support */
 @media (prefers-color-scheme: dark) {
   .dashboard-container {
-    background: #1f2937;
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
   }
   
   .stat-card,
@@ -874,46 +874,41 @@
   .recent-activity,
   .lesson-card,
   .filter-section {
-    background: #374151;
-    color: #f9fafb;
+    background: #ffffff;
+    color: #1f2937;
+    border: 1px solid rgba(15, 23, 42, 0.08);
   }
   
   .page-header h1,
   .page-header p {
-    color: white;
+    color: #1f2937;
   }
   
   .stat-content h3,
   .card-content h3,
   .lesson-title {
-    color: #f9fafb;
+    color: #1f2937;
   }
   
   .stat-content p,
   .card-content p,
-  .lesson-description {
-    color: #d1d5db;
-  }
-  
-  .activity-content p {
-    color: #f9fafb;
-  }
-  
+  .lesson-description,
+  .activity-content p,
   .activity-time {
-    color: #9ca3af;
+    color: #475569;
   }
   
   .lesson-progress {
-    background: #4b5563;
+    background: #e2e8f0;
   }
   
   .filter-tab {
-    background: #4b5563;
-    color: #d1d5db;
+    background: #f1f5f9;
+    color: #1f2937;
   }
   
   .filter-tab:hover:not(.active) {
-    background: #6b7280;
+    background: #e2e8f0;
   }
 }
 
