@@ -94,8 +94,8 @@ frontend/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/diglearners/diglearners-platform.git
-   cd diglearners-platform
+   git clone https://github.com/vuwase/DigLearners.git
+   cd DigLearners
    ```
 
 2. **Install dependencies**
@@ -236,6 +236,17 @@ Admin UI has been removed. Admin capabilities (user/content management, analytic
 - Accessibility features
 
 ## 🎮 Recent Features & Improvements
+
+### LiveBot Assistant (2025 Refresh)
+- **Intent-Based Responses**: Expanded knowledge base so DigiBot can answer free-form questions about lessons, dashboards, assignments, badges, and account help.
+- **Smarter Guidance**: Fallback suggestions encourage learners to keep exploring if the bot is unsure.
+- **Updated Quick Actions**: One-click prompts now focus on real classroom tasks like registering students or checking progress.
+- **Unified Styling**: New color palette keeps the chat assistant consistent with refreshed dashboards.
+
+### Teacher & Student Dashboards (2025 Refresh)
+- **Accessible Palette**: Calmer blue gradients and improved contrast for cards, progress meters, and badges.
+- **Consistent Iconography**: Harmonized icon colors across stats, cards, and activity feeds for better readability.
+- **Print-Friendly Tweaks**: Updated print styles ensure exported reports remain legible.
 
 ### Enhanced Teacher Dashboard
 - **Modern UI Design**: Beautiful gradient backgrounds with interactive cards
