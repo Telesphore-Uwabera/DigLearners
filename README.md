@@ -112,6 +112,23 @@ This will start:
 - Backend API server on http://localhost:5000
 - Frontend development server on http://localhost:3000
 
+### Teacher Email Notifications
+
+Teachers receive email alerts when students complete lessons or gamified activities. To enable this:
+
+1. Create a `.env` file inside the `backend/` directory (if it doesn’t exist yet).
+2. Provide Gmail app credentials (generate an App Password from the `uwasevaste@gmail.com` account):
+   ```bash
+   EMAIL_USER=uwasevaste@gmail.com
+   EMAIL_PASSWORD=<gmail app password>
+   EMAIL_FROM=uwasevaste@gmail.com
+   EMAIL_HOST=smtp.gmail.com   # optional override
+   EMAIL_PORT=465              # optional override
+   ```
+3. Restart the backend server (`npm run dev` inside `backend/`).
+
+The notification emails are sent from `uwasevaste@gmail.com` using these settings.
+
 ### Test Login Credentials
 
 - Teacher/Admin access (Teacher UI with admin features if role=admin):
