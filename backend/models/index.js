@@ -3,16 +3,66 @@ const { Sequelize } = require('sequelize');
 const path = require('path');
 
 // Database configuration
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: process.env.NODE_ENV === 'test' ? ':memory:' : path.join(__dirname, '../../data/diglearners.db'),
-  logging: process.env.NODE_ENV === 'development' ? console.log : false,
-  define: {
-    timestamps: true,
-    underscored: true,
-    freezeTableName: true
+const logging = process.env.NODE_ENV === 'development' ? console.log : false;
+const isPostgres = (process.env.DB_DIALECT || '').toLowerCase() === 'postgres';
+const useDatabaseUrl = Boolean(process.env.DATABASE_URL);
+
+const defineOptions = {
+  timestamps: true,
+  underscored: true,
+  freezeTableName: true
+};
+
+const getDialectOptions = () => {
+  if (!isPostgres) {
+    return {};
   }
-});
+
+  const sslRequired = (process.env.DB_SSL || 'true').toLowerCase() === 'true';
+  if (!sslRequired) {
+    return {};
+  }
+
+  return {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  };
+};
+
+let sequelize;
+
+if (useDatabaseUrl) {
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    logging,
+    define: defineOptions,
+    dialectOptions: getDialectOptions()
+  });
+} else if (isPostgres) {
+  sequelize = new Sequelize(
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASSWORD,
+    {
+      host: process.env.DB_HOST || 'localhost',
+      port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 5432,
+      dialect: 'postgres',
+      logging,
+      define: defineOptions,
+      dialectOptions: getDialectOptions()
+    }
+  );
+} else {
+  sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: process.env.NODE_ENV === 'test'
+      ? ':memory:'
+      : path.join(__dirname, '../../data/diglearners.db'),
+    logging,
+    define: defineOptions
+  });
+}
 
 // Import all models
 const User = require('./User')(sequelize);
