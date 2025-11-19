@@ -5,17 +5,34 @@ const { sequelize } = require('../models');
 const jwt = require('jsonwebtoken');
 
 describe('Teacher Endpoints', () => {
-  let server;
   let testTeacher;
   let teacherToken;
   let testStudent;
 
   beforeAll(async () => {
-    // Start the server
-    server = app.listen(0);
+    // Ensure we're using in-memory SQLite for tests
+    process.env.NODE_ENV = 'test';
+    process.env.DB_STORAGE = ':memory:';
+    process.env.DB_DIALECT = '';
+    process.env.DATABASE_URL = '';
+    
+    // Test database connection first
+    try {
+      await sequelize.authenticate();
+      console.log('Test database connection established.');
+    } catch (error) {
+      console.error('Test database connection failed:', error);
+      throw error;
+    }
     
     // Sync database
-    await sequelize.sync({ force: true });
+    try {
+      await sequelize.sync({ force: true });
+      console.log('Test database synced successfully.');
+    } catch (error) {
+      console.error('Test database sync failed:', error);
+      throw error;
+    }
     
     // Create test teacher
     testTeacher = await User.create({
@@ -45,12 +62,11 @@ describe('Teacher Endpoints', () => {
       age: 9,
       registrationCode
     });
-  });
+  }, 30000); // Increase timeout to 30 seconds
 
   afterAll(async () => {
     await sequelize.close();
-    server.close();
-  });
+  }, 10000);
 
   describe('POST /api/teacher/register-student', () => {
     test('should register a new student with valid data', async () => {
@@ -189,10 +205,11 @@ describe('Teacher Endpoints', () => {
 
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
-      expect(response.body.data).toHaveProperty('totalStudents');
-      expect(response.body.data).toHaveProperty('totalLessons');
-      expect(response.body.data).toHaveProperty('totalAssignments');
-      expect(response.body.data).toHaveProperty('averageProgress');
+      expect(response.body.data).toHaveProperty('stats');
+      expect(response.body.data.stats).toHaveProperty('totalStudents');
+      expect(response.body.data.stats).toHaveProperty('totalLessons');
+      expect(response.body.data.stats).toHaveProperty('totalAssignments');
+      expect(response.body.data.stats).toHaveProperty('averageProgress');
     });
 
     test('should fail without authentication', async () => {

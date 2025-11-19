@@ -228,8 +228,10 @@ const initializeDatabase = async () => {
     await sequelize.sync({ force: false });
     console.log('Database synchronized successfully.');
     
-    // Seed initial data
-    await seedInitialData();
+    // Seed initial data only if not in test mode
+    if (process.env.NODE_ENV !== 'test') {
+      await seedInitialData();
+    }
     
   } catch (error) {
     console.error('Unable to connect to the database:', error);
